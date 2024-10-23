@@ -4,7 +4,7 @@ class AppColors {
 
   static const primary = Color(0xff0052cc);
   static const background = Color(0xffffffff);
-  static const secondBackground = Color(0xe5848484);
+  static const secondBackground = Color(0xffededed);
 
   //gradient
   static const gradient1 = Color(0xff0052cc);

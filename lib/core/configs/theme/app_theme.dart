@@ -10,23 +10,23 @@ class AppTheme {
     brightness: Brightness.light,
     fontFamily: 'Almarai',
     snackBarTheme: const SnackBarThemeData(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.secondBackground,
       contentTextStyle: TextStyle(color: Colors.white),
     ),
-    inputDecorationTheme: InputDecorationTheme(   
+    inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.secondBackground ,
+        fillColor: AppColors.secondBackground,
         hintStyle: const TextStyle(
-          color: Color(0xffA7A7A7),
+          color: Color(0xff000000),
           fontWeight: FontWeight.w400,
         ),
         contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none
         )
       ),
@@ -34,7 +34,7 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         elevation: 0,
-        textStyle: const TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
+        textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w700, fontFamily: 'Almarai'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100)
         )
