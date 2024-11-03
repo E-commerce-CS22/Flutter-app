@@ -32,24 +32,23 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        Container(
-          child: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: true,
-              toolbarHeight: height != null ? height! * 0.7 : 105.0,
-              // Adjust height for title centering
-              title: Container(
-                alignment: Alignment.bottomCenter,
-                child: DefaultTextStyle(
-                  style: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  child: title!, // This will apply the style to the title
-                ),
-              )),
+        AppBar(
+          automaticallyImplyLeading: !hideBack, // Use hideBack to control back button visibility
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          toolbarHeight: height != null ? height! * 0.7 : 105.0,
+          title: Container(
+            alignment: Alignment.bottomCenter,
+            child: DefaultTextStyle(
+              style: const TextStyle(
+                color: AppColors.white,
+                fontSize: 36,
+                fontWeight: FontWeight.w700,
+              ),
+              child: title ?? const SizedBox.shrink(),
+            ),
+          ),
         ),
       ],
     );
@@ -62,7 +61,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
 class AppBarClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    double cornerRadius = 20.0; // Adjust for rounded corners
+    double cornerRadius = 20.0;
 
     Path path = Path();
     path.moveTo(0, 0);

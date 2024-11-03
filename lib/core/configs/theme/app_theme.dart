@@ -3,6 +3,12 @@ import 'app_colors.dart';
 
 class AppTheme {
 
+  static const TextStyle blackTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Almarai',
+  );
+
 
   static final appTheme = ThemeData(
     primaryColor: AppColors.primary,
@@ -11,7 +17,7 @@ class AppTheme {
     fontFamily: 'Almarai',
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: AppColors.secondBackground,
-      contentTextStyle: TextStyle(color: Colors.white),
+      contentTextStyle: TextStyle(color: Colors.black),
     ),
     inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -41,4 +47,7 @@ class AppTheme {
       )
     )
   );
+
+
+
 }
