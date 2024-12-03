@@ -3,6 +3,7 @@ import 'package:smartstore/features/authentication/presentation/pages/signup_pag
 import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/button/basic_app_button.dart';
 import '../../../../core/configs/theme/app_colors.dart';
+import '../../../../core/configs/theme/gradient.dart';
 import '../../../home/presentation/pages/home.dart';
 import 'login_page.dart';
 
@@ -20,7 +21,7 @@ class WelcomePage extends StatelessWidget {
             _logo(context),
             const SizedBox(height: 50),
             _welcomeMessage(context),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             _name(context),
             const SizedBox(height: 40),
             _homePageButton(context),
@@ -39,8 +40,8 @@ class WelcomePage extends StatelessWidget {
       alignment: Alignment.center,
       child: const Directionality(
         textDirection: TextDirection.rtl,
-        child: Text(
-          'شعار التطبيق',
+        child: GradientText(
+          text: 'شعار التطبيق',
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.w800,
@@ -56,10 +57,10 @@ class WelcomePage extends StatelessWidget {
       alignment: Alignment.center,
       child: const Directionality(
         textDirection: TextDirection.rtl,
-        child: Text(
-          'مرحباً بكم في',
+        child: GradientText(
+          text: 'مرحباً بكم في',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 40,
             fontWeight: FontWeight.w700,
             color: AppColors.primary,
           ),
@@ -77,7 +78,7 @@ class WelcomePage extends StatelessWidget {
           'smart store',
           style: TextStyle(
             fontSize: 30,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
             color: AppColors.primary,
           ),
         ),
