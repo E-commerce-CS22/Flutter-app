@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/core/configs/theme/app_theme.dart';
+import 'package:smartstore/service_locator.dart';
 
 import 'features/splash/presentation/blocs/splash_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(const MyApp());
 }
 
