@@ -4,14 +4,16 @@ import 'package:smartstore/core/configs/theme/app_colors.dart';
 class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final Color? backgroundColor;
-  final double? height;
+  final double height;
   final bool hideBack;
+  final double fontSize; // New property for font size
 
   const CurvedAppBar({
     this.title,
     this.hideBack = true,
     this.backgroundColor,
-    this.height,
+    this.height = 150.0, // Default height
+    this.fontSize = 36.0, // Default font size
     super.key,
   });
 
@@ -22,7 +24,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
         ClipPath(
           clipper: AppBarClipper(),
           child: Container(
-            height: height ?? 150.0,
+            height: height,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [AppColors.gradient1, AppColors.gradient2],
@@ -37,13 +39,13 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          toolbarHeight: height != null ? height! * 0.7 : 105.0,
+          toolbarHeight: height * 0.7, // Dynamically calculate toolbar height
           title: Container(
             alignment: Alignment.bottomCenter,
             child: DefaultTextStyle(
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.white,
-                fontSize: 36,
+                fontSize: fontSize, // Use the fontSize parameter
                 fontWeight: FontWeight.w700,
                 fontFamily: "Almarai",
               ),
@@ -56,7 +58,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(height ?? 110.0);
+  Size get preferredSize => Size.fromHeight(height - 40); // Dynamically return height
 }
 
 class AppBarClipper extends CustomClipper<Path> {

@@ -1,4 +1,3 @@
-import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/core/configs/assets/app_vectors.dart';
 import 'package:smartstore/core/configs/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class SplashPage extends StatelessWidget {
               return const HomePage();
             } else if (state is UnAuthenticated) {
               // Navigate to the login screen
-              return WelcomePage();;
+              return WelcomePage();
             }
             // Show the splash screen while checking the state
             return Container(

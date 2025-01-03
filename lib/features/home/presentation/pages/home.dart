@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smartstore/features/home/presentation/pages/Cart/cart_page.dart';
+import 'package:smartstore/features/home/presentation/pages/categories/categories_page.dart';
+import 'package:smartstore/features/home/presentation/pages/favorite/favorite_page.dart';
+import 'package:smartstore/features/home/presentation/pages/profile/profile_page.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
+import 'Home/home_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,24 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 4;
 
   // List of pages to display
   final List<Widget> _pages = [
-    const Center(child: Text('Account', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Cart', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('categories', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('favorite', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Home', style: TextStyle(fontSize: 24))),
+    const ProfilePage(), // Updated to use ProfilePage
+    const CartPage(),
+    const CategoriesPage(),
+    const FavoritesPage(),
+    const MainPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CurvedAppBar(
-        title: Text('Home',),
-
-      ),
       backgroundColor: AppColors.white, // Match navigation bar color
       body: _pages[_currentIndex], // Display the current page
       bottomNavigationBar: CurvedNavBar(

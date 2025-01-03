@@ -20,6 +20,7 @@ dependencies:
   dio:
   logger:
   shared_preferences:
+  flutter_localization:
 
 dev_dependencies:
   flutter_test:

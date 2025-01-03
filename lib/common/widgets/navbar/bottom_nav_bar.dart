@@ -20,7 +20,7 @@ class CurvedNavBar extends StatelessWidget {
       buttonBackgroundColor: AppColors.primary, // Active button color
       height: 60, // Increased height to accommodate text
       items: <Widget>[
-        _NavBarItem(icon: Icons.person, label: 'الحساب', isSelected: currentIndex == 0),
+        _NavBarItem(icon: Icons.person, label: 'حسابي', isSelected: currentIndex == 0),
         _NavBarItem(icon: Icons.shopping_cart_outlined, label: 'السلة', isSelected: currentIndex == 1),
         _NavBarItem(icon: Icons.category_outlined, label: 'الفئات', isSelected: currentIndex == 2),
         _NavBarItem(icon: Icons.favorite_outline, label: 'المفضلة', isSelected: currentIndex == 3),

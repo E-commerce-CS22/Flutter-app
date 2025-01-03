@@ -35,4 +35,27 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
 
+  @override
+  Future<Either> logout() async {
+    return await sl<AuthLocalService>().logout();
+  }
+
+  // @override
+  // Future < Either > signin(SigninReqParams signinReq) async {
+  //   Either result = await sl < AuthApiService > ().signin(signinReq);
+  //   return result.fold(
+  //           (error) {
+  //         return Left(error);
+  //       },
+  //           (data) async {
+  //         Response response = data;
+  //         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //         sharedPreferences.setString('token', response.data['token']);
+  //         return Right(response);
+  //       }
+  //   );
+  // }
+// }
+
+
 }
