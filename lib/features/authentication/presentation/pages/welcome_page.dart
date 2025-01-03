@@ -13,23 +13,25 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 140),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _logo(context),
-            const SizedBox(height: 50),
-            _welcomeMessage(context),
-            const SizedBox(height: 15),
-            _name(context),
-            const SizedBox(height: 40),
-            _homePageButton(context),
-            const SizedBox(height: 20),
-            _loginPageButton(context),
-            const SizedBox(height: 20),
-            _signupPageButton(context),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 140),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _logo(context),
+              const SizedBox(height: 50),
+              _welcomeMessage(context),
+              const SizedBox(height: 15),
+              _name(context),
+              const SizedBox(height: 40),
+              _homePageButton(context),
+              const SizedBox(height: 20),
+              _loginPageButton(context),
+              const SizedBox(height: 20),
+              _signupPageButton(context),
+            ],
+          ),
         ),
       ),
     );

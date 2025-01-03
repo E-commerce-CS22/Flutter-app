@@ -4,13 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartstore/core/constants/api_urls.dart';
 import 'package:smartstore/core/network/dio_client.dart';
 import '../../../../service_locator.dart';
-import '../models/signup_req_Params.dart';
+import '../models/signin_req_params.dart';
+import '../models/signup_req_params.dart';
 
 abstract class AuthApiService {
 
   Future<Either> signup(SignupReqParams signupReq);
   // Future<Either> getUser();
-  // Future<Either> signin(SigninReqParams signinReq);
+  Future<Either> signin(SigninReqParams signinReq);
 }
 
 
@@ -56,6 +57,23 @@ class AuthApiServiceImpl extends AuthApiService {
   //     return Left(e.response!.data['message']);
   //   }
   // }
+
+
+  @override
+  Future<Either> signin(SigninReqParams signinReq) async {
+    try {
+
+      var response = await sl<DioClient>().post(
+          ApiUrls.login,
+          data: signinReq.toMap()
+      );
+
+      return Right(response);
+
+    } on DioException catch(e) {
+      return Left(e.response!.data['message']);
+    }
+  }
 
 
 

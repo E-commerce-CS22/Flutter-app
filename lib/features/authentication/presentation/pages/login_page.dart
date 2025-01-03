@@ -1,11 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartstore/common/bloc/button/button_state.dart';
+import 'package:smartstore/common/bloc/button/button_state_cubit.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
+import 'package:smartstore/features/authentication/data/models/signin_req_params.dart';
+import 'package:smartstore/features/authentication/domain/usecases/signin.dart';
 import 'package:smartstore/features/authentication/presentation/pages/signup_page.dart';
 import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/button/basic_app_button.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 import '../../../../core/configs/theme/app_theme.dart';
+import '../../../../service_locator.dart';
+import '../../../home/presentation/pages/home.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -20,27 +27,44 @@ class LoginPage extends StatelessWidget {
           title: Text("تسجيل الدخول"),
           hideBack: true,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _welcomeMessage(context),
-              const SizedBox(height: 5),
-              _description(context),
-              const SizedBox(height: 30),
-              _emailField(context),
-              const SizedBox(height: 20),
-              _passwordField(context),
-              const SizedBox(
-                height: 20,
+        body: BlocProvider(
+          create: (context) => ButtonStateCubit(),
+          child: BlocListener<ButtonStateCubit, ButtonState>(
+            listener: (context, state) {
+              if (state is ButtonSuccessState) {
+                AppNavigator.pushReplacement(context, HomePage());
+              }
+              if (state is ButtonFailureState) {
+                var snackBar = SnackBar(content: Text(state.errorMessage));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            },
+            child: SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _welcomeMessage(context),
+                    const SizedBox(height: 5),
+                    _description(context),
+                    const SizedBox(height: 30),
+                    _emailField(context),
+                    const SizedBox(height: 20),
+                    _passwordField(context),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _continueButton(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _createAccount(context),
+                  ],
+                ),
               ),
-              _continueButton(context),
-              const SizedBox(
-                height: 10,
-              ),
-              _createAccount(context),
-            ],
+            ),
           ),
         ));
   }
@@ -114,11 +138,21 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _continueButton(BuildContext context) {
-    return BasicAppButton(
-        onPressed: () {
-          // AppNavigator.push();
-        },
-        title: 'تسجيل الدخول');
+    return Builder(builder: (context) {
+      return BasicAppButton(
+          onPressed: () {
+            context.read<ButtonStateCubit>().execute(
+                usecase: sl<SigninUseCase>(),
+                params: SigninReqParams(
+                    email: _emailCon.text,
+                    password: _passwordCon.text,
+                )
+            );
+
+            // AppNavigator.push();
+          },
+          title: 'تسجيل الدخول');
+    });
   }
 
   Widget _createAccount(BuildContext context) {

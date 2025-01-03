@@ -6,7 +6,8 @@ import 'package:smartstore/features/authentication/data/datasources/auth_api_ser
 import '../../../../service_locator.dart';
 import '../../domain/repositories/auth.dart';
 import '../datasources/auth_local_service.dart';
-import '../models/signup_req_Params.dart';
+import '../models/signin_req_params.dart';
+import '../models/signup_req_params.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
 
@@ -40,22 +41,20 @@ class AuthRepositoryImpl extends AuthRepository {
     return await sl<AuthLocalService>().logout();
   }
 
-  // @override
-  // Future < Either > signin(SigninReqParams signinReq) async {
-  //   Either result = await sl < AuthApiService > ().signin(signinReq);
-  //   return result.fold(
-  //           (error) {
-  //         return Left(error);
-  //       },
-  //           (data) async {
-  //         Response response = data;
-  //         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //         sharedPreferences.setString('token', response.data['token']);
-  //         return Right(response);
-  //       }
-  //   );
-  // }
-// }
-
-
+  @override
+  Future < Either > signin(SigninReqParams signinReq) async {
+    Either result = await sl < AuthApiService > ().signin(signinReq);
+    return result.fold(
+            (error) {
+          return Left(error);
+        },
+            (data) async {
+          Response response = data;
+          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+          sharedPreferences.setString('token', response.data['token']);
+          return Right(response);
+        }
+    );
+  }
 }
+

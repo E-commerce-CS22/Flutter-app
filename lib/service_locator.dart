@@ -7,6 +7,7 @@ import 'features/authentication/data/repositories/auth.dart';
 import 'features/authentication/domain/repositories/auth.dart';
 import 'features/authentication/domain/usecases/is_logged_in.dart';
 import 'features/authentication/domain/usecases/logout.dart';
+import 'features/authentication/domain/usecases/signin.dart';
 import 'features/authentication/domain/usecases/signup.dart';
 
 
@@ -54,8 +55,8 @@ void setupServiceLocator() {
       LogoutUseCase()
   );
 
-  // sl.registerSingleton<SigninUseCase>(
-  //     SigninUseCase()
-  // );
+  sl.registerSingleton<SigninUseCase>(
+      SigninUseCase()
+  );
 
 }
