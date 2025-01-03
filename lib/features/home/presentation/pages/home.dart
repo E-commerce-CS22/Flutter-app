@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 
@@ -24,6 +25,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CurvedAppBar(
+        title: Text('Home',),
+
+      ),
       backgroundColor: AppColors.white, // Match navigation bar color
       body: _pages[_currentIndex], // Display the current page
       bottomNavigationBar: CurvedNavBar(

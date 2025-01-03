@@ -9,7 +9,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CurvedAppBar({
     this.title,
-    this.hideBack = false,
+    this.hideBack = true,
     this.backgroundColor,
     this.height,
     super.key,
@@ -45,6 +45,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: AppColors.white,
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
+                fontFamily: "Almarai",
               ),
               child: title ?? const SizedBox.shrink(),
             ),
@@ -55,7 +56,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(height ?? 150.0);
+  Size get preferredSize => Size.fromHeight(height ?? 110.0);
 }
 
 class AppBarClipper extends CustomClipper<Path> {

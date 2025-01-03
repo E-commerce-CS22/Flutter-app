@@ -33,6 +33,7 @@ class BasicReactiveButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: null,
       style: ElevatedButton.styleFrom(
+        disabledBackgroundColor: Colors.grey,
         minimumSize: Size.fromHeight(height ?? 50),
       ),
       child: Container(

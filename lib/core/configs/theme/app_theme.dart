@@ -11,7 +11,8 @@ class AppTheme {
 
 
   static final appTheme = ThemeData(
-    primaryColor: AppColors.primary,
+    // primaryColor: AppColors.primary,
+    primaryColor: const Color(0xff0052cc),
     scaffoldBackgroundColor: AppColors.background,
     brightness: Brightness.light,
     fontFamily: 'Almarai',
@@ -22,6 +23,10 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.secondBackground,
+        labelStyle: const TextStyle(
+        color: Color(0xff000000),
+        fontWeight: FontWeight.w400,
+        ),
         hintStyle: const TextStyle(
           color: Color(0xff000000),
           fontWeight: FontWeight.w400,
@@ -45,7 +50,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(100)
         )
       )
-    )
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: AppColors.primary, // Use primary color for CircularProgressIndicator
+  ),
   );
 
 
