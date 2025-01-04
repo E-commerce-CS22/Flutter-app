@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartstore/common/bloc/button/button_state.dart';
+import 'package:smartstore/common/helper/navigator/app_navigator.dart';
+import 'package:smartstore/features/authentication/presentation/pages/welcome_page.dart';
 
 import '../../../../../common/bloc/button/button_state_cubit.dart';
 import '../../../../../common/widgets/appbar/app_bar.dart';
@@ -14,162 +17,56 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl, // Set the text direction to RTL
-      child: Scaffold(
-        appBar: CurvedAppBar(
-          title: const Text('حسابي'),
-          height: 120,
-          fontSize: 30,
+      child: BlocProvider<ButtonStateCubit>(  // Move the BlocProvider here
+        create: (context) => ButtonStateCubit(),
+        child: Scaffold(
+          appBar: const _ProfileAppBar(),
+          body: const _ProfileBody(),
         ),
-        body: SingleChildScrollView(
+      ),
+    );
+  }
+}
+
+class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _ProfileAppBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return CurvedAppBar(
+      title: const Text('حسابي'),
+      height: 120,
+      fontSize: 30,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(120);
+}
+
+class _ProfileBody extends StatelessWidget {
+  const _ProfileBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<ButtonStateCubit, ButtonState>(
+      listener: (context, state) {
+        if (state is ButtonSuccessState) {
+          AppNavigator.pushReplacement(context, WelcomePage());
+        }
+      },
+      child: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              // Profile Section
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    // Profile Image
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey.shade300,
-                      child: const Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'حازم النكبة',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Orders and Favorites Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigate to Orders page
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            left: BorderSide(color: AppColors.primary, width: 1.0), // Adjust border for RTL
-                          ),
-                        ),
-                        child: Column(
-                          children: const [
-                            Icon(Icons.shopping_bag, color: AppColors.primary),
-                            SizedBox(height: 4),
-                            Text('طلباتي', style: TextStyle(color: AppColors.black)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigate to Favorites page
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Column(
-                          children: const [
-                            Icon(Icons.favorite, color: AppColors.primary),
-                            SizedBox(height: 4),
-                            Text('المفضلة', style: TextStyle(color: AppColors.black)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              _buildProfileSection(),
+              const _OrdersAndFavorites(),
               const Divider(thickness: 1.5),
-
-              // My Account Section
-              buildSectionHeader('حسابي'),
-              buildAccountOption(
-                title: 'إعدادات الملف الشخصي',
-                onTap: () {
-                  // Handle Profile Settings
-                },
-              ),
-              buildAccountOption(
-                title: 'عناوين الشحن',
-                subOptions: [
-                  buildSubOption(
-                    title: 'إضافة عنوان',
-                    description: 'عنوان توصيل جديد',
-                    icon: Icons.add_circle_outline,
-                    onTap: () {
-                      // Handle Add Address
-                    },
-                  ),
-                  buildSubOption(
-                    title: 'جانب فلافل اللذيذ',
-                    description: 'جانب مشاوي النور، شارع الجامعة الجديد...',
-                    icon: Icons.more_vert,
-                    onTap: () {
-                      // Handle Edit Address
-                    },
-                  ),
-                ],
-                onTap: () {},
-              ),
+              _buildAccountSettings(),
               const Divider(thickness: 1.5),
-
-              // Store Assistance Section
-              buildSectionHeader('مساعد المتجر'),
-              buildAccountOption(
-                title: 'تواصل معنا',
-                onTap: () {
-                  // Handle Contact Us
-                },
-              ),
-              buildAccountOption(
-                title: 'الاستبدال والاسترجاع',
-                onTap: () {
-                  // Handle Returns
-                },
-              ),
-              buildAccountOption(
-                title: 'سياسة الخصوصية',
-                onTap: () {
-                  // Handle Privacy Policy
-                },
-              ),
-              buildAccountOption(
-                title: 'الشروط والأحكام',
-                onTap: () {
-                  // Handle Terms and Conditions
-                },
-              ),
+              _buildStoreAssistance(),
               const Divider(thickness: 1.5),
-
-              // Logout
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text(
-                  'تسجيل الخروج',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onTap: () {
-                  context.read<ButtonStateCubit>().execute(
-                      usecase: sl<LogoutUseCase>()
-                  );
-
-                  // Handle Logout
-                },
-              ),
+              _buildLogout(context),
             ],
           ),
         ),
@@ -177,8 +74,112 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _buildProfileSection() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.grey.shade300,
+            child: Icon(Icons.person, size: 50, color: Colors.grey),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'حازم النكبة',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccountSettings() {
+    return Column(
+      children: [
+        _buildSectionHeader('حسابي'),
+        _buildAccountOption(
+          title: 'إعدادات الملف الشخصي',
+          onTap: () {
+            // Handle Profile Settings
+          },
+        ),
+        _buildAccountOption(
+          title: 'عناوين الشحن',
+          subOptions: [
+            _buildSubOption(
+              title: 'إضافة عنوان',
+              description: 'عنوان توصيل جديد',
+              icon: Icons.add_circle_outline,
+              onTap: () {
+                // Handle Add Address
+              },
+            ),
+            _buildSubOption(
+              title: 'جانب فلافل اللذيذ',
+              description: 'جانب مشاوي النور، شارع الجامعة الجديد...',
+              icon: Icons.more_vert,
+              onTap: () {
+                // Handle Edit Address
+              },
+            ),
+          ],
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStoreAssistance() {
+    return Column(
+      children: [
+        _buildSectionHeader('مساعد المتجر'),
+        _buildAccountOption(
+          title: 'تواصل معنا',
+          onTap: () {
+            // Handle Contact Us
+          },
+        ),
+        _buildAccountOption(
+          title: 'الاستبدال والاسترجاع',
+          onTap: () {
+            // Handle Returns
+          },
+        ),
+        _buildAccountOption(
+          title: 'سياسة الخصوصية',
+          onTap: () {
+            // Handle Privacy Policy
+          },
+        ),
+        _buildAccountOption(
+          title: 'الشروط والأحكام',
+          onTap: () {
+            // Handle Terms and Conditions
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLogout(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.logout, color: Colors.red),
+      title: const Text(
+        'تسجيل الخروج',
+        style: TextStyle(color: Colors.red),
+      ),
+      onTap: () {
+        context.read<ButtonStateCubit>().execute(
+          usecase: sl<LogoutUseCase>(),
+        );
+        // Handle Logout
+      },
+    );
+  }
+
   // Helper to build section headers
-  Widget buildSectionHeader(String title) {
+  Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Text(
@@ -192,7 +193,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   // Helper to build main account options
-  Widget buildAccountOption({
+  Widget _buildAccountOption({
     required String title,
     List<Widget>? subOptions,
     required VoidCallback onTap,
@@ -210,7 +211,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   // Helper to build sub-options under main options
-  Widget buildSubOption({
+  Widget _buildSubOption({
     required String title,
     required String description,
     required IconData icon,
@@ -223,6 +224,60 @@ class ProfilePage extends StatelessWidget {
         title: Text(title),
         subtitle: Text(description),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+class _OrdersAndFavorites extends StatelessWidget {
+  const _OrdersAndFavorites();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildOption(
+          icon: Icons.shopping_bag,
+          label: 'طلباتي',
+          onTap: () {
+            // Navigate to Orders page
+          },
+        ),
+        _buildOption(
+          icon: Icons.favorite,
+          label: 'المفضلة',
+          onTap: () {
+            // Navigate to Favorites page
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOption({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(color: AppColors.primary, width: 1.0),
+            ),
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: AppColors.primary),
+              const SizedBox(height: 4),
+              Text(label, style: const TextStyle(color: AppColors.black)),
+            ],
+          ),
+        ),
       ),
     );
   }
