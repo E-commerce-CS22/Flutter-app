@@ -19,30 +19,19 @@ class ProfilePage extends StatelessWidget {
       textDirection: TextDirection.rtl, // Set the text direction to RTL
       child: BlocProvider<ButtonStateCubit>(  // Move the BlocProvider here
         create: (context) => ButtonStateCubit(),
-        child: Scaffold(
-          appBar: const _ProfileAppBar(),
-          body: const _ProfileBody(),
+        child: const Scaffold(
+          appBar: CurvedAppBar(
+            title: Text('حسابي'),
+            height: 135,
+            fontSize: 30,
+          ),
+          body: _ProfileBody(),
         ),
       ),
     );
   }
 }
 
-class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _ProfileAppBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return CurvedAppBar(
-      title: const Text('حسابي'),
-      height: 135,
-      fontSize: 30,
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(120);
-}
 
 class _ProfileBody extends StatelessWidget {
   const _ProfileBody();

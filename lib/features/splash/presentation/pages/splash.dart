@@ -7,6 +7,7 @@ import 'package:smartstore/features/home/presentation/pages/home.dart';
 import '../../../../common/bloc/auth/auth_state.dart';
 import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../authentication/presentation/pages/welcome_page.dart';
+
 // import '../blocs/splash_cubit.dart';
 // import '../blocs/splash_state.dart';
 class SplashPage extends StatelessWidget {
@@ -37,7 +38,11 @@ class SplashPage extends StatelessWidget {
                 ),
               ),
               child: Center(
-                child: SvgPicture.asset(AppVectors.appLogo),
+                child: SvgPicture.asset(
+                  AppVectors.appLogo,
+                  height: 200,
+                  width: 200,
+                ),
               ),
             );
           },

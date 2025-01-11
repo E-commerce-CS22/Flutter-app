@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smartstore/core/configs/assets/app_vectors.dart';
 import 'package:smartstore/features/authentication/presentation/pages/signup_page.dart';
 import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/button/basic_app_button.dart';
@@ -15,22 +17,24 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 140),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _logo(context),
-              const SizedBox(height: 50),
-              _welcomeMessage(context),
-              const SizedBox(height: 15),
-              _name(context),
-              const SizedBox(height: 40),
-              _homePageButton(context),
-              const SizedBox(height: 20),
-              _loginPageButton(context),
-              const SizedBox(height: 20),
-              _signupPageButton(context),
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _logo(context),
+                const SizedBox(height: 10),
+                _welcomeMessage(context),
+                const SizedBox(height: 15),
+                _name(context),
+                const SizedBox(height: 40),
+                _homePageButton(context),
+                const SizedBox(height: 20),
+                _loginPageButton(context),
+                const SizedBox(height: 20),
+                _signupPageButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -38,19 +42,12 @@ class WelcomePage extends StatelessWidget {
   }
 
   Widget _logo(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: const Directionality(
-        textDirection: TextDirection.rtl,
-        child: GradientText(
-          text: 'شعار التطبيق',
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w800,
-            color: AppColors.primary,
-          ),
+    return Center(
+      child: SvgPicture.asset(
+        AppVectors.appLogo,
+        height: 200,
+        width: 200,
         ),
-      ),
     );
   }
 
