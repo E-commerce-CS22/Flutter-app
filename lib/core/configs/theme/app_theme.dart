@@ -12,23 +12,23 @@ class AppTheme {
 
   static final appTheme = ThemeData(
     // primaryColor: AppColors.primary,
-    primaryColor: const Color(0xff0052cc),
+    primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.background,
     brightness: Brightness.light,
     fontFamily: 'Almarai',
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: AppColors.secondBackground,
-      contentTextStyle: TextStyle(color: Colors.black),
+      contentTextStyle: TextStyle(color: AppColors.black),
     ),
     inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.secondBackground,
         labelStyle: const TextStyle(
-        color: Color(0xff000000),
+        color: AppColors.black,
         fontWeight: FontWeight.w400,
         ),
         hintStyle: const TextStyle(
-          color: Color(0xff000000),
+          color: AppColors.black,
           fontWeight: FontWeight.w400,
         ),
         contentPadding: const EdgeInsets.all(16),

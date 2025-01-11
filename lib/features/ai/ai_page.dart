@@ -17,20 +17,32 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final Gemini gemini = Gemini.instance;
 
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _textController = TextEditingController();
+
   List<ChatMessage> messages = [];
 
   ChatUser currentUser = ChatUser(id: "0", firstName: "User");
   ChatUser geminiUser = ChatUser(
     id: "1",
-    firstName: "Gemini",
-    profileImage:
-    "https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png",
+    firstName: "",
+    profileImage: "assets/images/ai_logo.png",
   );
 
   @override
   void initState() {
     super.initState();
     _sendWelcomeMessage();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 
   void _sendWelcomeMessage() {
@@ -58,14 +70,18 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildUI() {
     return DashChat(
-      inputOptions: InputOptions(trailing: [
-        IconButton(
-          onPressed: _sendMediaMessage,
-          icon: const Icon(
-            Icons.image,
+      inputOptions: InputOptions(
+        trailing: [
+          IconButton(
+            onPressed: _sendMediaMessage,
+            icon: const Icon(
+              Icons.image,
+            ),
           ),
-        )
-      ]),
+        ],
+        focusNode: _focusNode,
+        textController: _textController,
+      ),
       currentUser: currentUser,
       onSend: _sendMessage,
       messages: messages,
@@ -84,12 +100,10 @@ class _ChatPageState extends State<ChatPage> {
           File(chatMessage.medias!.first.url).readAsBytesSync(),
         ];
       }
-      gemini
-          .streamGenerateContent(
+      gemini.streamGenerateContent(
         question,
         images: images,
-      )
-          .listen((event) {
+      ).listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;
         if (lastMessage != null && lastMessage.user == geminiUser) {
           lastMessage = messages.removeAt(0);
@@ -140,7 +154,7 @@ class _ChatPageState extends State<ChatPage> {
             url: file.path,
             fileName: "",
             type: MediaType.image,
-          )
+          ),
         ],
       );
       _sendMessage(chatMessage);

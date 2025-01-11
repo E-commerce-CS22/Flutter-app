@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
-  static const primary = Color(0xff0052cc);
+  static const primary = Color(0xff076efa);
   static const background = Color(0xffffffff);
   static const secondBackground = Color(0xffededed);
 
   //gradient
-  static const gradient1 = Color(0xff0052cc);
-  static const gradient2 = Color(0xff053988);
+  static const gradient1 = Color(0xff1985e8);
+  static const gradient2 = Color(0xff076efa);
 
 
   //Basics
