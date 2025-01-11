@@ -110,7 +110,7 @@ class LoginPage extends StatelessWidget {
         controller: _emailCon,
         textAlign: TextAlign.right, // Align text to the right
         decoration: const InputDecoration(
-          hintText: 'البريد الإلكتروني',
+          labelText: 'البريد الإلكتروني',
           alignLabelWithHint: true, // Align the hint text properly in RTL
         ),
       ),
@@ -127,7 +127,7 @@ class LoginPage extends StatelessWidget {
         obscureText: true,
         // Hide the input text (important for passwords)
         decoration: const InputDecoration(
-          hintText: 'كلمة السر',
+          labelText: 'كلمة السر',
           alignLabelWithHint: true, // Align the hint text properly in RTL
         ),
         keyboardType: TextInputType.visiblePassword,

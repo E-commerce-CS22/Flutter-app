@@ -35,7 +35,7 @@ class _ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return CurvedAppBar(
       title: const Text('حسابي'),
-      height: 120,
+      height: 135,
       fontSize: 30,
     );
   }
