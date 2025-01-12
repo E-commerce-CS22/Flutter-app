@@ -256,12 +256,12 @@ class _OrdersAndFavorites extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             border: Border(
-              left: BorderSide(color: AppColors.primary, width: 1.0),
+              left: BorderSide(color: AppColors.gradient1, width: 1.0),
             ),
           ),
           child: Column(
             children: [
-              Icon(icon, color: AppColors.primary),
+              Icon(icon, color: AppColors.gradient1),
               const SizedBox(height: 4),
               Text(label, style: const TextStyle(color: AppColors.black)),
             ],

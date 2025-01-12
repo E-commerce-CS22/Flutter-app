@@ -148,7 +148,7 @@ class _ChatPageState extends State<ChatPage> {
       ChatMessage chatMessage = ChatMessage(
         user: currentUser,
         createdAt: DateTime.now(),
-        text: "Describe this picture?", // You can change this as per your need
+        text: "اوصف هذا المنتج..", // You can change this as per your need
         medias: [
           ChatMedia(
             url: file.path,

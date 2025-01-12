@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const ProfilePage(), // Updated to use ProfilePage
     const CartPage(),
-    const CategoriesPage(),
+    const AllCategoriesPage(),
     const FavoritesPage(),
     const MainPage(),
   ];

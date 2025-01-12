@@ -15,7 +15,7 @@ class FavoritesPage extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          'Welcome to the Favorites Page!',
+          'فارغ',
           style: TextStyle(fontSize: 24),
         ),
       ),
