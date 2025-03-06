@@ -4,7 +4,6 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../common/widgets/appbar/app_bar.dart';
 
 class ChatPage extends StatefulWidget {
@@ -22,7 +21,7 @@ class _ChatPageState extends State<ChatPage> {
 
   List<ChatMessage> messages = [];
 
-  ChatUser currentUser = ChatUser(id: "0", firstName: "User");
+  ChatUser currentUser = ChatUser(id: "0", firstName: "المستخدم");
   ChatUser geminiUser = ChatUser(
     id: "1",
     firstName: "",
@@ -49,7 +48,7 @@ class _ChatPageState extends State<ChatPage> {
     ChatMessage welcomeMessage = ChatMessage(
       user: geminiUser,
       createdAt: DateTime.now(),
-      text: "مرحباً! كيف يمكنني مساعدتك اليوم؟", // Arabic for "Hello! How can I assist you today?"
+      text: "مرحباً! كيف يمكنني مساعدتك اليوم؟",
     );
     setState(() {
       messages = [welcomeMessage, ...messages];
@@ -58,13 +57,16 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CurvedAppBar(
-        title: Text('المساعد الذكي'),
-        height: 135,
-        fontSize: 25,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: const CurvedAppBar(
+          title: Text('المساعد الذكي'),
+          height: 135,
+          fontSize: 25,
+        ),
+        body: _buildUI(),
       ),
-      body: _buildUI(),
     );
   }
 
@@ -81,11 +83,42 @@ class _ChatPageState extends State<ChatPage> {
         ],
         focusNode: _focusNode,
         textController: _textController,
+        inputDecoration: InputDecoration(
+          hintText: 'اكتب رسالتك هنا...',
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+        ),
+        inputTextDirection: TextDirection.rtl,
       ),
       currentUser: currentUser,
       onSend: _sendMessage,
       messages: messages,
     );
+  }
+
+  // تصفية الاستجابة من الروابط أو النصوص غير المرغوب فيها
+  String filterResponse(String response) {
+    // استخدام تعبير عادي للتأكد من وجود روابط أو عناوين URL في الاستجابة
+    RegExp regExp = RegExp(r"(https?://[^\s]+)");
+    response = response.replaceAll(regExp, "[رابط محذوف]"); // استبدال الرابط بنص بديل
+
+    // إضافة أي تصفية أخرى حسب الحاجة (مثل إزالة المسافات أو الأسطر الفارغة)
+    return response.trim();
   }
 
   void _sendMessage(ChatMessage chatMessage) {
@@ -110,9 +143,10 @@ class _ChatPageState extends State<ChatPage> {
           String response = "";
           for (var part in event.content?.parts ?? []) {
             if (part.text != null) {
-              response += part.text;
+              response += part.text + " "; // إضافة مسافة بين الأجزاء
             }
           }
+          response = filterResponse(response); // تصفية الاستجابة
           lastMessage.text += response;
           setState(() {
             messages = [lastMessage!, ...messages];
@@ -121,9 +155,10 @@ class _ChatPageState extends State<ChatPage> {
           String response = "";
           for (var part in event.content?.parts ?? []) {
             if (part.text != null) {
-              response += part.text;
+              response += part.text + " "; // إضافة مسافة بين الأجزاء
             }
           }
+          response = filterResponse(response); // تصفية الاستجابة
           ChatMessage message = ChatMessage(
             user: geminiUser,
             createdAt: DateTime.now(),
@@ -148,7 +183,7 @@ class _ChatPageState extends State<ChatPage> {
       ChatMessage chatMessage = ChatMessage(
         user: currentUser,
         createdAt: DateTime.now(),
-        text: "اوصف هذا المنتج..", // You can change this as per your need
+        text: "اوصف هذا المنتج..",
         medias: [
           ChatMedia(
             url: file.path,
