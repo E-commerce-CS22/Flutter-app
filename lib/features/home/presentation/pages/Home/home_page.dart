@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
               currentSlide: currentSlide,
             ),
             const SizedBox(height: 20,),
-            // const Categories(),
+            const Categories(),
           ],
         ),
       ),

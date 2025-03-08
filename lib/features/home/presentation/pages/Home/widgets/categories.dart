@@ -12,6 +12,8 @@ class Categories extends StatelessWidget {
       height: 90,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
+        reverse: true, // عكس ترتيب العناصر
+        itemCount: categories.length,
         itemBuilder: (context, index) {
           return Column(
             children: [
@@ -21,9 +23,8 @@ class Categories extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(
-                      categories[index].image,
-                    ),
+                    image: AssetImage(categories[index].image),
+                    fit: BoxFit.cover, // التأكد من أن الصورة تملأ المساحة
                   ),
                 ),
               ),
@@ -37,8 +38,7 @@ class Categories extends StatelessWidget {
             ],
           );
         },
-        separatorBuilder: (context, index) => const SizedBox(width: 20),
-        itemCount: categories.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 20), // تعديل المسافة هنا
       ),
     );
   }
