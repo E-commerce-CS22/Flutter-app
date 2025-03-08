@@ -1,16 +1,20 @@
-# smartstore
+🚀 Running App
 
-A new Flutter project.
+1️⃣ Requirements
 
-## Getting Started
+Flutter SDK, Dart, Android Studio/vscode, PHP 8+, Composer, Laravel, MySQL"XAMPP"
 
-This project is a starting point for a Flutter application.
+2️⃣ Start Laravel Back-End
 
-A few resources to get you started if this is your first Flutter project:
+composer install  
+cp .env.example .env  
+php artisan key:generate  
+php artisan migrate --seed  
+php artisan serve  
+🔹 API URL: http://127.0.0.1:8000/api
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3️⃣ Run Flutter App
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+cd flutter_app  
+flutter pub get  
+flutter run  
