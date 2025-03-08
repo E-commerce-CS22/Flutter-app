@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/features/ai/ai_page.dart';
+import 'package:smartstore/features/home/presentation/pages/Home/models/category.dart';
+import 'package:smartstore/features/home/presentation/pages/Home/widgets/categories.dart';
+import 'package:smartstore/features/home/presentation/pages/Home/widgets/home_slider.dart';
+import 'package:smartstore/features/home/presentation/pages/Home/widgets/search_box.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int currentSlide = 0; // Move this inside the stateful widget
 
   @override
   Widget build(BuildContext context) {
@@ -17,60 +28,20 @@ class MainPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: const [
-            _SearchBox(),
-            SizedBox(height: 20),
-            _HomeContent(),
+          children: [
+            const SearchBox(),
+            const SizedBox(height: 20),
+            HomeSlider(
+              onChange: (value) {
+                setState(() {
+                  currentSlide = value;
+                });
+              },
+              currentSlide: currentSlide,
+            ),
+            const SizedBox(height: 20,),
+            // const Categories(),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SearchBox extends StatelessWidget {
-  const _SearchBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      textDirection: TextDirection.rtl, // Set text direction to RTL
-      decoration: InputDecoration(
-        filled: true,
-        // fillColor: Colors.grey[200],
-        hintText: 'ابحث عن منتج...', // Arabic for "Search for a product..."
-        hintTextDirection: TextDirection.rtl, // Hint text direction RTL
-        suffixIcon: const Icon(Icons.search, color: Colors.grey), // Move icon to the right
-        prefixIcon: GestureDetector(
-            onTap: (){
-              AppNavigator.push(context, ChatPage());
-            },
-            child: const Icon(Icons.smart_toy_outlined, color: Colors.grey)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      ),
-      onChanged: (value) {
-        // Handle search logic here
-      },
-    );
-  }
-}
-
-
-class _HomeContent extends StatelessWidget {
-  const _HomeContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: Text(
-          'مرحباً بك في الصفحة الرئيسية!', // Arabic for "Welcome to the Home Page!"
-          style: const TextStyle(fontSize: 24),
-          textDirection: TextDirection.rtl, // Content direction RTL
         ),
       ),
     );

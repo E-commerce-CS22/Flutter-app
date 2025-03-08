@@ -9,6 +9,7 @@ import 'package:smartstore/features/authentication/domain/usecases/signin.dart';
 import 'package:smartstore/features/authentication/presentation/pages/signup_page.dart';
 import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/button/basic_app_button.dart';
+import '../../../../common/widgets/button/basic_reactive_button.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 import '../../../../core/configs/theme/app_theme.dart';
 import '../../../../service_locator.dart';
@@ -139,7 +140,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _continueButton(BuildContext context) {
     return Builder(builder: (context) {
-      return BasicAppButton(
+      return BasicReactiveButton(
           onPressed: () {
             context.read<ButtonStateCubit>().execute(
                 usecase: sl<SigninUseCase>(),
