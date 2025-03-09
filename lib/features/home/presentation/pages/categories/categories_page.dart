@@ -12,7 +12,7 @@ class AllCategoriesPage extends StatelessWidget {
       child: Scaffold(
         appBar: const CurvedAppBar(
           title: Text('الفئات'),
-          height: 135,
+          // height: 135,
           fontSize: 30,
         ),
         body: Padding(

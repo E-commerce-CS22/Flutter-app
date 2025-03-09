@@ -27,6 +27,7 @@ class LoginPage extends StatelessWidget {
         appBar: const CurvedAppBar(
           title: Text("تسجيل الدخول"),
           hideBack: true,
+          height: 135,
         ),
         body: BlocProvider(
           create: (context) => ButtonStateCubit(),

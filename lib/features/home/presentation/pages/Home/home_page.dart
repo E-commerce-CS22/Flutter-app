@@ -22,26 +22,28 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: const CurvedAppBar(
         title: Text('الرئيسية'),
-        height: 135,
+        // height: 125,
         fontSize: 30,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SearchBox(),
-            const SizedBox(height: 20),
-            HomeSlider(
-              onChange: (value) {
-                setState(() {
-                  currentSlide = value;
-                });
-              },
-              currentSlide: currentSlide,
-            ),
-            const SizedBox(height: 20,),
-            const Categories(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SearchBox(),
+              const SizedBox(height: 20),
+              HomeSlider(
+                onChange: (value) {
+                  setState(() {
+                    currentSlide = value;
+                  });
+                },
+                currentSlide: currentSlide,
+              ),
+              const SizedBox(height: 20,),
+              const Categories(),
+            ],
+          ),
         ),
       ),
     );

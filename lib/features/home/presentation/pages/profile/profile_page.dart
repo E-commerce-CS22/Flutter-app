@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
         child: const Scaffold(
           appBar: CurvedAppBar(
             title: Text('حسابي'),
-            height: 135,
+            // height: 135,
             fontSize: 30,
           ),
           body: _ProfileBody(),

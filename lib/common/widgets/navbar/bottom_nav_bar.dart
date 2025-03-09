@@ -15,26 +15,46 @@ class CurvedNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      backgroundColor: AppColors.white, // Background behind the bar
-      color: AppColors.primary, // Bar color
-      buttonBackgroundColor: AppColors.primary, // Active button color
-      height: 60, // Increased height to accommodate text
+      backgroundColor: AppColors.white,
+      color: AppColors.primary,
+      buttonBackgroundColor: AppColors.primary,
+      height: 60,
       items: <Widget>[
-        _NavBarItem(icon: Icons.person, label: 'حسابي', isSelected: currentIndex == 0),
-        _NavBarItem(icon: Icons.shopping_cart_outlined, label: 'السلة', isSelected: currentIndex == 1),
-        _NavBarItem(icon: Icons.category_outlined, label: 'الفئات', isSelected: currentIndex == 2),
-        _NavBarItem(icon: Icons.favorite_outline, label: 'المفضلة', isSelected: currentIndex == 3),
-        _NavBarItem(icon: Icons.home, label: 'الرئيسية', isSelected: currentIndex == 4),
+        _NavBarItem(
+          icon: Image.asset('assets/icons/user_2.png', width: 30, height: 30, color: Colors.white,),
+          label: 'حسابي',
+          isSelected: currentIndex == 0,
+        ),
+        _NavBarItem(
+          icon: Image.asset('assets/icons/online-shopping.png', width: 30, height: 30, color: Colors.white,),
+          label: 'السلة',
+          isSelected: currentIndex == 1,
+        ),
+        _NavBarItem(
+          icon: Image.asset('assets/icons/category.png', width: 30, height: 30, color: Colors.white,),
+          label: 'الفئات',
+          isSelected: currentIndex == 2,
+        ),
+        _NavBarItem(
+          icon: Image.asset('assets/icons/heart_2.png', width: 30, height: 30, color: Colors.white,),
+          label: 'المفضلة',
+          isSelected: currentIndex == 3,
+        ),
+        _NavBarItem(
+          icon: Image.asset('assets/icons/home.png', width: 30, height: 30, color: Colors.white,),
+          label: 'الرئيسية',
+          isSelected: currentIndex == 4,
+        ),
       ],
       animationDuration: const Duration(milliseconds: 300),
       index: currentIndex,
-      onTap: onTap, // Callback for when an item is tapped
+      onTap: onTap,
     );
   }
 }
 
 class _NavBarItem extends StatelessWidget {
-  final IconData icon;
+  final Widget icon;
   final String label;
   final bool isSelected;
 
@@ -49,19 +69,14 @@ class _NavBarItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          size: 30,
-          color: AppColors.white,
-        ),
-        // Text will be hidden when the item is selected
+        SizedBox(height: 32, child: icon),
         if (!isSelected) ...[
-          const SizedBox(height: 4), // Space between icon and text
+          const SizedBox(height: 0),
           Text(
             label,
             style: const TextStyle(
               color: AppColors.white,
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: FontWeight.w500,
             ),
           ),

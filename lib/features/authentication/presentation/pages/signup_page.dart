@@ -33,6 +33,8 @@ class SignupPage extends StatelessWidget {
       appBar: const CurvedAppBar(
         title: Text("إنشاء حساب"),
         hideBack: true,
+        height: 135,
+
       ),
       body: BlocProvider(
         create: (context) => ButtonStateCubit(),

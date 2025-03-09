@@ -24,6 +24,8 @@ dependencies:
   flutter_gemini: ^3.0.0
   image_picker: ^1.1.2
   dash_chat_2: ^0.0.21
+  iconsax: ^0.0.8
+  ionicons: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +44,7 @@ flutter:
     - assets/images/
     - assets/temp/
     - assets/temp/beauty.png
+    - assets/icons/
 
 
 

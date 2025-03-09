@@ -12,7 +12,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.hideBack = true,
     this.backgroundColor,
-    this.height = 150.0, // Default height
+    this.height = 125.0, // Default height
     this.fontSize = 36.0, // Default font size
     super.key,
   });
@@ -27,7 +27,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
             height: height,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.gradient1, AppColors.gradient2],
+                colors: [AppColors.gradient2, AppColors.gradient2],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),

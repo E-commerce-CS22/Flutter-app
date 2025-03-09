@@ -22,7 +22,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: CurvedAppBar(
         title: const Text('السلة'),
-        height: 135,
+        // height: 135,
         fontSize: 30,
       ),
       body: Column(

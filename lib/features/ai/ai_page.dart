@@ -62,7 +62,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Scaffold(
         appBar: const CurvedAppBar(
           title: Text('المساعد الذكي'),
-          height: 135,
+          // height: 135,
           fontSize: 25,
         ),
         body: _buildUI(),
