@@ -6,6 +6,7 @@ import 'package:smartstore/features/home/presentation/pages/profile/profile_page
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
+import '../../../cart/presentation/pages/cart_screen.dart';
 import 'Home/home_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   // List of pages to display
   final List<Widget> _pages = [
     const ProfilePage(), // Updated to use ProfilePage
-    const CartPage(),
+    const CartScreen(),
     const AllCategoriesPage(),
     const FavoritesPage(),
     const MainPage(),
