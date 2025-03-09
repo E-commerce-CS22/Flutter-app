@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/core/configs/theme/app_theme.dart';
 import 'package:smartstore/service_locator.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-
 import 'features/ai/consts.dart';
 import 'features/splash/presentation/blocs/splash_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
