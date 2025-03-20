@@ -26,6 +26,7 @@ dependencies:
   dash_chat_2: ^0.0.21
   iconsax: ^0.0.8
   ionicons: ^0.2.2
+  data_connection_checker_tv: ^0.3.5-nullsafety
 
 dev_dependencies:
   flutter_test:
