@@ -15,60 +15,76 @@ import '../../../../core/configs/theme/app_theme.dart';
 import '../../../../service_locator.dart';
 import '../../../home/presentation/pages/home.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  final TextEditingController _emailCon = TextEditingController();
-  final TextEditingController _passwordCon = TextEditingController();
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailCon = TextEditingController();
+  final _passwordCon = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();  // تنظيف عند إلغاء التفاعل مع الصفحة
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CurvedAppBar(
-          title: Text("تسجيل الدخول"),
-          hideBack: true,
-          height: 135,
-        ),
-        body: BlocProvider(
-          create: (context) => ButtonStateCubit(),
-          child: BlocListener<ButtonStateCubit, ButtonState>(
-            listener: (context, state) {
-              if (state is ButtonSuccessState) {
-                AppNavigator.pushReplacement(context, HomePage());
-              }
-              if (state is ButtonFailureState) {
-                var snackBar = SnackBar(content: Text(state.errorMessage));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            },
-            child: SafeArea(
+      appBar: const CurvedAppBar(
+        title: Text("تسجيل الدخول"),
+        hideBack: true,
+        height: 135,
+      ),
+      body: BlocProvider(
+        create: (context) => ButtonStateCubit(),
+        child: BlocListener<ButtonStateCubit, ButtonState>(
+          listener: (context, state) {
+            if (state is ButtonSuccessState) {
+              AppNavigator.pushReplacement(context, HomePage());
+            }
+            if (state is ButtonFailureState) {
+              var snackBar = SnackBar(content: Text(state.errorMessage));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          },
+          child: SafeArea(
+            child: SingleChildScrollView(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _welcomeMessage(context),
-                    const SizedBox(height: 5),
-                    _description(context),
-                    const SizedBox(height: 30),
-                    _emailField(context),
-                    const SizedBox(height: 20),
-                    _passwordField(context),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _continueButton(context),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    _createAccount(context),
-                  ],
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _welcomeMessage(context),
+                      const SizedBox(height: 5),
+                      _description(context),
+                      const SizedBox(height: 30),
+                      _emailField(context),
+                      const SizedBox(height: 20),
+                      _passwordField(context),
+                      const SizedBox(height: 20),
+                      _continueButton(context),
+                      const SizedBox(height: 10),
+                      _createAccount(context),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _welcomeMessage(BuildContext context) {
@@ -107,34 +123,51 @@ class LoginPage extends StatelessWidget {
 
   Widget _emailField(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl, // Set the direction to RTL for Arabic
-      child: TextField(
+      textDirection: TextDirection.rtl,
+      child: TextFormField(
         controller: _emailCon,
-        textAlign: TextAlign.right, // Align text to the right
+        textAlign: TextAlign.right,
+        focusNode: _emailFocusNode,  // ربط الـ FocusNode
+        keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
           labelText: 'البريد الإلكتروني',
-          alignLabelWithHint: true, // Align the hint text properly in RTL
+          alignLabelWithHint: true,
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'البريد الإلكتروني لا يمكن أن يكون فارغاً';
+          }
+          final emailRegExp = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+          if (!emailRegExp.hasMatch(value)) {
+            return 'يرجى إدخال بريد إلكتروني صحيح';
+          }
+          return null;
+        },
       ),
     );
   }
 
   Widget _passwordField(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl, // Set the direction to RTL for Arabic
-      child: TextField(
+      textDirection: TextDirection.rtl,
+      child: TextFormField(
         controller: _passwordCon,
         textAlign: TextAlign.right,
-        // Align text to the right
+        focusNode: _passwordFocusNode,  // ربط الـ FocusNode
         obscureText: true,
-        // Hide the input text (important for passwords)
         decoration: const InputDecoration(
           labelText: 'كلمة السر',
-          alignLabelWithHint: true, // Align the hint text properly in RTL
+          alignLabelWithHint: true,
         ),
-        keyboardType: TextInputType.visiblePassword,
-        // Use the proper keyboard type for passwords
-        textInputAction: TextInputAction.done, // 'Done' action on keyboard
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'كلمة السر لا يمكن أن تكون فارغة';
+          }
+          if (value.length < 6) {
+            return 'يجب أن تكون كلمة السر 6 أحرف على الأقل';
+          }
+          return null;
+        },
       ),
     );
   }
@@ -142,35 +175,42 @@ class LoginPage extends StatelessWidget {
   Widget _continueButton(BuildContext context) {
     return Builder(builder: (context) {
       return BasicReactiveButton(
-          onPressed: () {
-            context.read<ButtonStateCubit>().execute(
-                usecase: sl<SigninUseCase>(),
-                params: SigninReqParams(
-                    email: _emailCon.text,
-                    password: _passwordCon.text,
-                )
-            );
+        onPressed: () {
+          FocusScope.of(context).requestFocus(FocusNode()); // إزالة التركيز من الحقول
 
-            // AppNavigator.push();
-          },
-          title: 'تسجيل الدخول');
+          if (_formKey.currentState?.validate() ?? false) {
+            String email = _emailCon.text.trim();
+            String password = _passwordCon.text.trim();
+
+            context.read<ButtonStateCubit>().execute(
+              usecase: sl<SigninUseCase>(),
+              params: SigninReqParams(
+                email: email,
+                password: password,
+              ),
+            );
+          } else {
+            print("Validation failed");
+          }
+        },
+        title: 'تسجيل الدخول',
+      );
     });
   }
 
   Widget _createAccount(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl, // Set the direction to RTL for Arabic
+      textDirection: TextDirection.rtl,
       child: Center(
         child: RichText(
           text: TextSpan(
             children: [
               const TextSpan(
                 text: "ليس لديك حساب؟ ",
-                // Arabic text for "Don't you have an account?"
                 style: AppTheme.blackTextStyle,
               ),
               TextSpan(
-                text: 'إنشاء حساب', // Arabic text for "Create one"
+                text: 'إنشاء حساب',
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     AppNavigator.push(context, SignupPage());
