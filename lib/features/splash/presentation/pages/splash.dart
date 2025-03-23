@@ -15,38 +15,35 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthStateCubit()..appStarted(),
-      child: Scaffold(
-        body: BlocBuilder<AuthStateCubit, AuthState>(
-          builder: (context, state) {
-            // Handle different states
-            if (state is Authenticated) {
-              // Navigate to the home screen
-              return const HomePage();
-            } else if (state is UnAuthenticated) {
-              // Navigate to the login screen
-              return WelcomePage();
-            }
-            // Show the splash screen while checking the state
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.gradient1, AppColors.gradient2],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
+    return Scaffold(
+      body: BlocBuilder<AuthStateCubit, AuthState>(
+        builder: (context, state) {
+          // Handle different states
+          if (state is Authenticated) {
+            // Navigate to the home screen
+            return const HomePage();
+          } else if (state is UnAuthenticated) {
+            // Navigate to the login screen
+            return WelcomePage();
+          }
+          // Show the splash screen while checking the state
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.gradient1, AppColors.gradient2],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              child: Center(
-                child: SvgPicture.asset(
-                  AppVectors.appLogo,
-                  height: 200,
-                  width: 200,
-                ),
+            ),
+            child: Center(
+              child: SvgPicture.asset(
+                AppVectors.appLogo,
+                height: 200,
+                width: 200,
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

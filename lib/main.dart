@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/core/configs/theme/app_theme.dart';
 import 'package:smartstore/service_locator.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'common/bloc/auth/auth_state_cubit.dart';
 import 'features/ai/consts.dart';
 import 'features/splash/presentation/blocs/splash_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SplashCubit()..appStarted(),
+      create: (context) => AuthStateCubit()..appStarted(),
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: AppTheme.appTheme,
