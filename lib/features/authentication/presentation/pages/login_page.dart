@@ -7,6 +7,7 @@ import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/features/authentication/data/models/signin_req_params.dart';
 import 'package:smartstore/features/authentication/domain/usecases/signin.dart';
 import 'package:smartstore/features/authentication/presentation/pages/signup_page.dart';
+import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/button/basic_app_button.dart';
 import '../../../../common/widgets/button/basic_reactive_button.dart';
@@ -49,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocListener<ButtonStateCubit, ButtonState>(
           listener: (context, state) {
             if (state is ButtonSuccessState) {
+
+              context.read<AuthStateCubit>().appStarted();
               AppNavigator.pushReplacement(context, HomePage());
             }
             if (state is ButtonFailureState) {

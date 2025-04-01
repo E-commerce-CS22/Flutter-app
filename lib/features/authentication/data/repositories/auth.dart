@@ -1,7 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartstore/core/constants/api_urls.dart';
+import 'package:smartstore/core/network/dio_client.dart';
 import 'package:smartstore/features/authentication/data/datasources/auth_api_service.dart';
+import 'package:smartstore/features/authentication/data/models/user.dart';
 
 import '../../../../service_locator.dart';
 import '../../domain/repositories/auth.dart';
@@ -56,5 +59,25 @@ class AuthRepositoryImpl extends AuthRepository {
         }
     );
   }
+
+  @override
+  Future<Either> getUser() async {
+    Either result = await sl<AuthApiService>().getUser();
+    return result.fold(
+            (error){
+      return Left(error);
+    },
+        (data){
+              Response response = data;
+              var userModel = UserModel.fromMap(response.data);
+              var userEntity = userModel.toEntity();
+              return Right(userEntity);
+        }
+        );
+
+
+  }
+
+
 }
 

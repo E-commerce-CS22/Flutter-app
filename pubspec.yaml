@@ -27,6 +27,8 @@ dependencies:
   iconsax: ^0.0.8
   ionicons: ^0.2.2
   data_connection_checker_tv: ^0.3.5-nullsafety
+  connectivity_plus: ^5.0.2
+
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,15 @@ class ApiUrls {
   static const register = baseURL + 'api/customer/register';
   static const login = baseURL + 'api/login';
   static const logout = baseURL + 'api/customer/logout';
+  static const  userProfile = baseURL + 'api/customer/profile';
 
 
+
+}
+
+
+class ApiKey {
+
+  static String first_name = "first_name";
 
 }

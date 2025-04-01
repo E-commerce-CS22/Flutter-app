@@ -1,3 +1,5 @@
+import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
+
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
 
@@ -58,5 +60,10 @@ void setupServiceLocator() {
   sl.registerSingleton<SigninUseCase>(
       SigninUseCase()
   );
+
+  sl.registerSingleton<GetUserUseCase>(
+      GetUserUseCase()
+  );
+
 
 }
