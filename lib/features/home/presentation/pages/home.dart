@@ -4,6 +4,7 @@ import 'package:smartstore/features/home/presentation/pages/Cart/cart_page.dart'
 import 'package:smartstore/features/home/presentation/pages/categories/categories_page.dart';
 import 'package:smartstore/features/home/presentation/pages/favorite/favorite_page.dart';
 import 'package:smartstore/features/home/presentation/pages/profile/profile_page.dart';
+import '../../../../common/pages/access_denied.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
@@ -12,6 +13,7 @@ import '../../../profile/presentation/profile_page.dart';
 import 'Home/home_page.dart';
 import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/auth/auth_state.dart';
+// import '../../../../common/pages/unauthenticated_page.dart'; // استيراد صفحة المستخدم غير المسجل
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,40 +25,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 4;
 
-  // List of pages to display
-  final List<Widget> _pages = [
-    const ProfilePage(), // Profile page is the first page
-    const CartScreen(),
-    const AllCategoriesPage(),
-    const FavoritesPage(),
-    const MainPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white, // Match navigation bar color
+      backgroundColor: AppColors.white,
       body: BlocProvider(
         create: (context) => AuthStateCubit()..appStarted(),
         child: BlocBuilder<AuthStateCubit, AuthState>(
           builder: (context, state) {
-            // Check if user is authenticated
+            // التحقق من حالة المصادقة
             if (state is Authenticated) {
-              // If authenticated, allow access to ProfilePage
-              return _pages[_currentIndex];
+              // إذا كان المستخدم مسجلاً، انتقل للصفحة المطلوبة
+              return _getPage(_currentIndex);
             } else if (state is UnAuthenticated) {
-              // If not authenticated, prevent access to ProfilePage
-              if (_currentIndex == 0) {
-                // If user tries to go to ProfilePage, show a message or navigate to login
-                return const Center(
-                  child: Text("Please log in to access your profile."),
-                );
+              // إذا لم يكن المستخدم مسجلاً، عرض صفحة التحذير عند الوصول إلى الصفحات المحمية
+              if (_currentIndex == 0 || _currentIndex == 1 || _currentIndex == 3) {
+                return UnauthenticatedPage(); // توجيه المستخدم إلى صفحة "غير مسجل"
               } else {
-                // Otherwise, allow access to other pages
-                return _pages[_currentIndex];
+                return _getPage(_currentIndex); // السماح بالدخول للصفحات الأخرى
               }
             }
-            // Show loading screen or splash while checking auth state
             return const Center(child: CircularProgressIndicator());
           },
         ),
@@ -65,10 +53,28 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
-            _currentIndex = index; // Update the current page index
+            _currentIndex = index;
           });
         },
       ),
     );
+  }
+
+  // إرجاع الصفحة المطلوبة بناءً على الفهرس
+  Widget _getPage(int index) {
+    switch (index) {
+      case 0:
+        return const ProfilePage();
+      case 1:
+        return const CartScreen();
+      case 2:
+        return const AllCategoriesPage();
+      case 3:
+        return const FavoritesPage();
+      case 4:
+        return const MainPage();
+      default:
+        return const MainPage();
+    }
   }
 }
