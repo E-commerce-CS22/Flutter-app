@@ -6,6 +6,7 @@ class ApiUrls {
   static const login = baseURL + 'api/login';
   static const logout = baseURL + 'api/customer/logout';
   static const  userProfile = baseURL + 'api/customer/profile';
+  static const categories = baseURL + 'api/categories';
 
 
 

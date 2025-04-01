@@ -5,6 +5,8 @@ import 'package:smartstore/core/configs/theme/app_colors.dart';
 import '../../features/authentication/presentation/pages/login_page.dart';
 
 class UnauthenticatedPage extends StatelessWidget {
+  const UnauthenticatedPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +50,7 @@ class UnauthenticatedPage extends StatelessWidget {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
-                  AppNavigator.push(context, LoginPage());
+                  AppNavigator.push(context, const LoginPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,

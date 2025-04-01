@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartstore/features/home/presentation/pages/Cart/cart_page.dart';
-import 'package:smartstore/features/home/presentation/pages/categories/categories_page.dart';
 import 'package:smartstore/features/home/presentation/pages/favorite/favorite_page.dart';
-import 'package:smartstore/features/home/presentation/pages/profile/profile_page.dart';
 import '../../../../common/pages/access_denied.dart';
-import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 import '../../../cart/presentation/pages/cart_screen.dart';
+import '../../../categories/presentation/pages/category_screen.dart';
 import '../../../profile/presentation/profile_page.dart';
 import 'Home/home_page.dart';
 import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/auth/auth_state.dart';
-// import '../../../../common/pages/unauthenticated_page.dart'; // استيراد صفحة المستخدم غير المسجل
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

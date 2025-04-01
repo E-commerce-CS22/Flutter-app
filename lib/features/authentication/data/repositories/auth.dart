@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartstore/core/constants/api_urls.dart';
-import 'package:smartstore/core/network/dio_client.dart';
 import 'package:smartstore/features/authentication/data/datasources/auth_api_service.dart';
 import 'package:smartstore/features/authentication/data/models/user.dart';
 
@@ -71,6 +69,7 @@ class AuthRepositoryImpl extends AuthRepository {
               Response response = data;
               var userModel = UserModel.fromMap(response.data);
               var userEntity = userModel.toEntity();
+
               return Right(userEntity);
         }
         );
