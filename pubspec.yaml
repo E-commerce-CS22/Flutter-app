@@ -28,6 +28,8 @@ dependencies:
   ionicons: ^0.2.2
   data_connection_checker_tv: ^0.3.5-nullsafety
   connectivity_plus: ^5.0.2
+  shimmer: ^3.0.0
+  skeletonizer: ^0.4.0
 
 
 dev_dependencies:

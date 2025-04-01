@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smartstore/common/bloc/button/button_state.dart';
 import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/features/authentication/domain/entities/user.dart';
@@ -63,7 +64,7 @@ class _ProfileBody extends StatelessWidget {
       child: BlocBuilder<UserDisplayCubit, UserDisplayState>(
         builder: (context, state) {
           if (state is UserLoading) {
-            return const CircularProgressIndicator();
+            return _buildShimmerLoader();
           }
           if (state is UserLoaded) {
             return Column(
@@ -74,7 +75,7 @@ class _ProfileBody extends StatelessWidget {
                   child: const Icon(Icons.person, size: 50, color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
-                _firstName(state.userEntity), // ✅ عرض first_name
+                _firstName(state.userEntity),
               ],
             );
           }
@@ -90,9 +91,37 @@ class _ProfileBody extends StatelessWidget {
     );
   }
 
+  Widget _buildShimmerLoader() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Column(
+        children: [
+          Container(
+            width: 100,
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: 120,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _firstName(UserEntity user) {
     return Text(
-      '${user.first_name} ${user.last_name}', // ✅ عرض first_name
+      '${user.first_name} ${user.last_name}',
       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
