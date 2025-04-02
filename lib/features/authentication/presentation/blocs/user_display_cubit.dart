@@ -11,6 +11,10 @@ class UserDisplayCubit extends Cubit<UserDisplayState> {
     result.fold((error) {
       emit(LoadUserFailure(errorMessage: error));
     }, (data) {
+      print("Data Type: ${data.runtimeType}"); // طباعة نوع البيانات
+      print("Data: $data"); // طباعة البيانات نفسها
+
+
       emit(UserLoaded(userEntity: data));
     });
   }

@@ -7,6 +7,7 @@ import '../../../../core/configs/theme/app_colors.dart';
 import '../../../cart/presentation/pages/cart_screen.dart';
 import '../../../categories/presentation/pages/categories_page.dart';
 import '../../../profile/presentation/profile_page.dart';
+import '../../../wishlist/presentaion/pages/wishlist_screen.dart';
 import 'Home/home_page.dart';
 import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/auth/auth_state.dart';
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       case 2:
         return const AllCategoriesPage();
       case 3:
-        return const FavoritesPage();
+        return const WishlistScreen();
       case 4:
         return const MainPage();
       default:

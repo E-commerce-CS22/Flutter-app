@@ -42,6 +42,7 @@ class AuthApiServiceImpl extends AuthApiService {
     try {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       var token = sharedPreferences.getString('token');
+      print(token);
       var response = await sl<DioClient>().get(
           ApiUrls.userProfile,
           options: Options(
