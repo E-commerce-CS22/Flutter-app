@@ -58,5 +58,5 @@ void setupServiceLocator() {
   // cubit
 
 
-  sl.registerLazySingleton<CategoryCubit>(() => CategoryCubit());
+  // sl.registerLazySingleton<CategoryCubit>(() => CategoryCubit());
 }

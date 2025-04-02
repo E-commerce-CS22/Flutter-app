@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/core/configs/theme/app_colors.dart';
-// import 'package:smartstore/features/categories/presentation/bloc/category_cubit.dart';
-// import 'package:smartstore/features/categories/presentation/bloc/category_state.dart';
-import 'package:smartstore/service_locator.dart';
 
 import '../blocs/category_cubit.dart';
 import '../blocs/category_state.dart';
@@ -15,7 +12,7 @@ class AllCategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<CategoryCubit>()..displayCategories(),
+      create: (context) => CategoryCubit()..displayCategories(),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -23,15 +20,17 @@ class AllCategoriesPage extends StatelessWidget {
             title: Text('الفئات'),
             fontSize: 30,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _shopByCategories(),
-                const SizedBox(height: 10),
-                Expanded(child: _categoriesList()),
-              ],
+          body: SingleChildScrollView(  // Wrap the whole body in a SingleChildScrollView
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _shopByCategories(),
+                  const SizedBox(height: 10),
+                  _categoriesList(),
+                ],
+              ),
             ),
           ),
         ),
@@ -56,7 +55,8 @@ class AllCategoriesPage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (state is CategoryLoaded) {
           return ListView.separated(
-            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),  // Prevent scrolling in ListView
+            shrinkWrap: true,  // Allow ListView to occupy its own height
             itemBuilder: (context, index) {
               var category = state.categories[index];
               return Container(

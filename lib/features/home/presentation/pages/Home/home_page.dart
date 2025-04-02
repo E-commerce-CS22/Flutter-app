@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               const SearchBox(),

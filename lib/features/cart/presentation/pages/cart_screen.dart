@@ -1,10 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-// import 'package:shop_example/models/cart_item.dart';
-// import 'package:shop_example/widgets/cart_tile.dart';
-// import 'package:shop_example/widgets/check_out_box.dart';
-
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
 import '../models/cart_item.dart';
