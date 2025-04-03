@@ -1,18 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
-import '../../../home/presentation/pages/Home/models/constants.dart';
-import '../models/cart_item.dart';
+import '../../../../home/presentation/pages/Home/models/constants.dart';
+import '../../domain/entities/cart_entity.dart';
+import '../blocs/cart_cubit.dart';
+// import '../../models/cart_item_entity.dart';  // تأكد من أن `CartItemEntity` تم استيراده بشكل صحيح.
+
 
 class CartTile extends StatelessWidget {
-  final CartItem item;
-  final Function() onRemove;
-  final Function() onAdd;
+  final CartItemEntity item; // تم تغيير النوع إلى CartItemEntity
+  // final Function() onRemove;
+  // final Function() onAdd;
+
   const CartTile({
     super.key,
     required this.item,
-    required this.onRemove,
-    required this.onAdd,
+    // required this.onRemove,
+    // required this.onAdd,
   });
 
   @override
@@ -33,13 +38,11 @@ class CartTile extends StatelessWidget {
                 height: 85,
                 width: 85,
                 decoration: BoxDecoration(
-                  color: kcontentColor,
+                  color: kcontentColor, // تلوين الخلفية مؤقتًا
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: const EdgeInsets.all(10),
-                child: Image.asset(
-                  item.product.image,
-                ),
+                child: const Center(child: Icon(Icons.image, size: 40)), // صورة فارغة مؤقتًا
               ),
               const SizedBox(width: 10), // تقليل المسافة بين الصورة والنص
               Expanded(
@@ -50,26 +53,16 @@ class CartTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center, // يجعل النص في المنتصف أفقيًا
                     children: [
                       Text(
-                        item.product.title,
+                        item.name, // تم استخدام name بدلاً من title
                         textAlign: TextAlign.center, // يضمن أن النص لا ينحرف كثيرًا
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        item.product.category,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
                       const SizedBox(height: 10),
                       Text(
-                        "${item.product.price} ريال",
+                        "${item.price} ريال", // تم استخدام price
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -90,7 +83,10 @@ class CartTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  // استدعاء دالة الحذف من CartCubit عند الضغط على زر الحذف
+                  context.read<CartCubit>().deleteItemFromCart(item.id);
+                },
                 icon: const Icon(
                   Ionicons.trash_outline,
                   color: Colors.red,
@@ -107,34 +103,34 @@ class CartTile extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Row(
-                  textDirection: TextDirection.rtl, // جعل الأزرار متناسقة مع العربية
-                  children: [
-                    IconButton(
-                      onPressed: onAdd,
-                      iconSize: 18,
-                      icon: const Icon(
-                        Ionicons.add_outline,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      item.quantity.toString(),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: onRemove,
-                      iconSize: 18,
-                      icon: const Icon(
-                        Ionicons.remove_outline,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
+                // child: Row(
+                //   textDirection: TextDirection.rtl, // جعل الأزرار متناسقة مع العربية
+                //   children: [
+                //     IconButton(
+                //       onPressed: onAdd,
+                //       iconSize: 18,
+                //       icon: const Icon(
+                //         Ionicons.add_outline,
+                //         color: Colors.black,
+                //       ),
+                //     ),
+                //     Text(
+                //       item.quantity.toString(), // تم استخدام quantity
+                //       style: const TextStyle(
+                //         color: Colors.black,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //     IconButton(
+                //       onPressed: onRemove,
+                //       iconSize: 18,
+                //       icon: const Icon(
+                //         Ionicons.remove_outline,
+                //         color: Colors.black,
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ),
             ],
           ),

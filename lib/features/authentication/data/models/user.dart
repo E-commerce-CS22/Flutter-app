@@ -22,17 +22,21 @@ class UserModel {
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    var data = map['data'] ?? {}; // استخراج بيانات user داخل data
+      var data = map['data'] ?? {}; // استخراج بيانات user داخل data
+    var customerData = data['customer_data'] ??
+        {}; // استخراج بيانات العميل داخل customer_data
 
     return UserModel(
       email: data['email'] as String,
       username: data['username'] as String,
-      firstName: data['first_name'] as String,
-      lastName: data['last_name'] as String,
-      phone: data['phone'] as String,
-      address: data['address'] as String,
-      city: data['city'] as String,
-      postalCode: data['postal_code'] as String,
+      firstName: customerData['first_name'] as String,
+      lastName: customerData['last_name'] as String,
+      phone: customerData['phone'] as String,
+      address: customerData['address'] as String,
+      city: customerData['city'] as String,
+      postalCode: customerData.containsKey('postal_code')
+          ? customerData['postal_code'] as String
+          : '',
     );
   }
 }

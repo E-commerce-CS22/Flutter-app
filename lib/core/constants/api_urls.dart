@@ -7,6 +7,8 @@ class ApiUrls {
   static const logout = baseURL + 'api/customer/logout';
   static const  userProfile = baseURL + 'api/customer/profile';
   static const categories = baseURL + 'api/categories';
+  static const cart = baseURL + 'api/carts/products';
+  static const deleteCartItem = baseURL + 'api/carts/products';
 
 
 

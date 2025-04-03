@@ -64,6 +64,8 @@ class _HomePageState extends State<HomePage> {
         return const ProfilePage();
       case 1:
         return const CartScreen();
+      // return CartPage();
+
       case 2:
         return const AllCategoriesPage();
       case 3:
