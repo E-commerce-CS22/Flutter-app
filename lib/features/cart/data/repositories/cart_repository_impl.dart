@@ -14,7 +14,7 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<Either<Failure, List<CartItemEntity>>> getCartItems() async {
     try {
-      final response = await _cartApiService.getCartItems();
+      final response = await sl<CartApiService>().getCartItems();
       return response.fold(
             (error) => Left(Failure(errMessage: error)),
             (data) {
@@ -36,7 +36,9 @@ class CartRepositoryImpl extends CartRepository {
   Future<Either<Failure, void>> deleteCartItem(params) async {
     try {
       // استدعاء API لحذف العنصر من السلة
-      final response = await _cartApiService.deleteCartItem(params);
+      final response = await sl<CartApiService>().deleteCartItem(params);
+
+      // final response = await _cartApiService.deleteCartItem(params);
 
       // تحقق من النتيجة
       return response.fold(
@@ -51,7 +53,14 @@ class CartRepositoryImpl extends CartRepository {
   }
 
 
-
+  @override
+  Future<Either<Failure, void>> updateCartItemQuantity(int id, int quantity) {
+    return _cartApiService.updateCartItemQuantity(id, quantity).then((response) =>
+        response.fold(
+              (error) => Left(Failure(errMessage: error)), // في حال الخطأ نعيد Failure
+              (_) => Right(null), // في حال النجاح نعيد Right(null) بدلًا من Right فقط
+        ));
+  }
 
 
 }

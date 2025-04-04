@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smartstore/features/cart/presentation/domain/usecases/delete_cart_item_use_case.dart';
 import '../../../../../service_locator.dart';
 import '../../../domain/entities/wishlist_entity.dart';
 import '../../../domain/usecases/delete_wishlist_item_use_case.dart';

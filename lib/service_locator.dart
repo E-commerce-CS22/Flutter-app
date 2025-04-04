@@ -1,8 +1,4 @@
 import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
-import 'package:smartstore/features/cart/presentation/data/datasources/cart_remote_data_source.dart';
-import 'package:smartstore/features/cart/presentation/data/repositories/cart_repository_impl.dart';
-import 'package:smartstore/features/cart/presentation/domain/repositories/cart_repository.dart';
-import 'package:smartstore/features/cart/presentation/domain/usecases/get_cart_use_case.dart';
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/data/datasources/auth_api_service.dart';
@@ -13,7 +9,12 @@ import 'features/authentication/domain/usecases/is_logged_in.dart';
 import 'features/authentication/domain/usecases/logout.dart';
 import 'features/authentication/domain/usecases/signin.dart';
 import 'features/authentication/domain/usecases/signup.dart';
-import 'features/cart/presentation/domain/usecases/delete_cart_item_use_case.dart';
+import 'features/cart/data/datasources/cart_remote_data_source.dart';
+import 'features/cart/data/repositories/cart_repository_impl.dart';
+import 'features/cart/domain/repositories/cart_repository.dart';
+import 'features/cart/domain/usecases/delete_cart_item_use_case.dart';
+import 'features/cart/domain/usecases/get_cart_use_case.dart';
+import 'features/cart/domain/usecases/update_cart_item_quantity_use_case.dart';
 import 'features/categories/data/datasources/category_remote_data_source.dart';
 import 'features/categories/data/repositories/category_repository_impl.dart';
 import 'features/categories/domain/repositories/category_repository.dart';
@@ -56,6 +57,8 @@ void setupServiceLocator() {
 
 
 
+
+
   // Usecases
   sl.registerSingleton<SignupUseCase>(SignupUseCase());
 
@@ -80,6 +83,10 @@ void setupServiceLocator() {
   sl.registerSingleton<GetWishlistItemsUseCase>(GetWishlistItemsUseCase());
 
   sl.registerSingleton<DeleteWishlistItemUseCase>(DeleteWishlistItemUseCase());
+
+
+  sl.registerSingleton<UpdateCartItemQuantityUseCase>(UpdateCartItemQuantityUseCase());
+
 
 
 

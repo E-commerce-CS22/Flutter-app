@@ -41,14 +41,14 @@ class CartScreen extends StatelessWidget {
                 itemCount: state.cartItems.length,
                 itemBuilder: (context, index) => CartTile(
                   item: state.cartItems[index],
-                  // onRemove: () {
-                  //   if (state.cartItems[index].quantity != 1) {
-                  //     context.read<CartCubit>().updateQuantity(state.cartItems[index].id, -1);
-                  //   }
-                  // },
-                  // onAdd: () {
-                  //   context.read<CartCubit>().updateQuantity(state.cartItems[index].id, 1);
-                  // },
+                  onRemove: () {
+                    if (state.cartItems[index].quantity != 1) {
+                      context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity -1);
+                    }
+                  },
+                  onAdd: () {
+                    context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity + 1);
+                  },
                 ),
                 separatorBuilder: (context, index) => const SizedBox(height: 20),
               );

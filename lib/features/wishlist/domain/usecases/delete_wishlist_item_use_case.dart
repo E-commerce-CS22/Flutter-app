@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:smartstore/core/errors/failure.dart';
 import 'package:smartstore/core/usecase/usecase.dart';
-import 'package:smartstore/features/cart/presentation/domain/repositories/cart_repository.dart';
 
 import '../../../../../service_locator.dart';
 import '../repositories/wishlist_repository.dart';

@@ -11,6 +11,7 @@ import '../../../../../core/errors/failure.dart';  // تأكد من استيرا
 abstract class CartApiService {
   Future<Either<String, List<CartItemModel>>> getCartItems();
   Future<Either<Failure, void>> deleteCartItem(int id); // إضافة المعامل id
+  Future<Either<String, void>> updateCartItemQuantity(int id, int quantity);
 }
 
 class CartApiServiceImpl extends CartApiService {
@@ -62,6 +63,28 @@ class CartApiServiceImpl extends CartApiService {
       return Right(null); // ✅ تم الحذف بنجاح
     } catch (e) {
       return Left(Failure(errMessage: 'حدث خطأ أثناء حذف العنصر')); // ❌ خطأ عام
+    }
+  }
+
+  Future<Either<String, void>> updateCartItemQuantity(int id, int quantity) async {
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString('token');
+
+      var response = await sl<DioClient>().patch(
+        '${ApiUrls.cart}/$id',
+        data: {"quantity": quantity},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      // ✅ التحقق من الاستجابة إذا كانت `1` نجاح أو `0` فشل
+      if (response.data == 1) {
+        return Right(null); // ✅ نجاح
+      } else {
+        return Left('فشل في تعديل الكمية'); // ❌ فشل
+      }
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'حدث خطأ غير متوقع');
     }
   }
 

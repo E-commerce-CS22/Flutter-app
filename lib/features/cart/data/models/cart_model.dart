@@ -1,4 +1,4 @@
-import 'package:smartstore/features/cart/presentation/domain/entities/cart_entity.dart';
+import '../../domain/entities/cart_entity.dart';
 
 class CartItemModel {
   final int id;
@@ -31,6 +31,27 @@ class CartItemModel {
   String toString() {
     return 'CartItemModel(id: $id, name: $name, price: $price, quantity: $quantity)';
   }
+
+  // // ✅ إضافة دالة copyWith
+  // CartItemModel copyWith({
+  //   int? id,
+  //   String? name,
+  //   String? description,
+  //   String? price,
+  //   int? quantity,
+  // }) {
+  //   return CartItemModel(
+  //     id: id ?? this.id,
+  //     name: name ?? this.name,
+  //     description: description ?? this.description,
+  //     price: price ?? this.price,
+  //     quantity: quantity ?? this.quantity,
+  //   );
+  // }
+
+
+
+
 }
 
 
@@ -44,3 +65,4 @@ extension CartXModel on CartItemModel{
         quantity: quantity);
   }
 }
+

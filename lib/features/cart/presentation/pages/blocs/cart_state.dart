@@ -33,3 +33,11 @@ class CartItemDeleted extends CartState {
   final int itemId;
   const CartItemDeleted(this.itemId);
 }
+
+
+class CartItemUpdatedState extends CartState {
+  final int itemId;
+  final int newQuantity;
+
+  CartItemUpdatedState({required this.itemId, required this.newQuantity});
+}

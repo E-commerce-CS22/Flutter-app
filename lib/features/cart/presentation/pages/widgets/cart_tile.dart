@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import '../../../../home/presentation/pages/Home/models/constants.dart';
-import '../../domain/entities/cart_entity.dart';
+import '../../../domain/entities/cart_entity.dart';
 import '../blocs/cart_cubit.dart';
 // import '../../models/cart_item_entity.dart';  // تأكد من أن `CartItemEntity` تم استيراده بشكل صحيح.
 
 
 class CartTile extends StatelessWidget {
   final CartItemEntity item; // تم تغيير النوع إلى CartItemEntity
-  // final Function() onRemove;
-  // final Function() onAdd;
+  final Function() onRemove;
+  final Function() onAdd;
 
   const CartTile({
     super.key,
     required this.item,
-    // required this.onRemove,
-    // required this.onAdd,
+    required this.onRemove,
+    required this.onAdd,
   });
 
   @override
@@ -106,34 +106,34 @@ class CartTile extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                // child: Row(
-                //   textDirection: TextDirection.rtl, // جعل الأزرار متناسقة مع العربية
-                //   children: [
-                //     IconButton(
-                //       onPressed: onAdd,
-                //       iconSize: 18,
-                //       icon: const Icon(
-                //         Ionicons.add_outline,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //     Text(
-                //       item.quantity.toString(), // تم استخدام quantity
-                //       style: const TextStyle(
-                //         color: Colors.black,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //     IconButton(
-                //       onPressed: onRemove,
-                //       iconSize: 18,
-                //       icon: const Icon(
-                //         Ionicons.remove_outline,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                child: Row(
+                  textDirection: TextDirection.rtl, // جعل الأزرار متناسقة مع العربية
+                  children: [
+                    IconButton(
+                      onPressed: onAdd,
+                      iconSize: 18,
+                      icon: const Icon(
+                        Ionicons.add_outline,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      item.quantity.toString(), // تم استخدام quantity
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: onRemove,
+                      iconSize: 18,
+                      icon: const Icon(
+                        Ionicons.remove_outline,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
