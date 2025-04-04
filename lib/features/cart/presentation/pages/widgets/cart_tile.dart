@@ -61,12 +61,15 @@ class CartTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        "${item.price} ريال", // تم استخدام price
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          "${item.price} ريال", // تم استخدام price
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],

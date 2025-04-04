@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:smartstore/features/wishlist/domain/entities/wishlist_entity.dart';
+import 'package:smartstore/features/wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
 import '../../../cart/presentation/models/cart_item.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
 // import '../models/cart_item.dart';
 
 class WishlistTile extends StatelessWidget {
-  final CartItem item;
+  final WishlistItemEntity item;
   final Function() onRemove;
   const WishlistTile({
     super.key,
@@ -36,9 +39,7 @@ class WishlistTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: const EdgeInsets.all(10),
-                child: Image.asset(
-                  item.product.image,
-                ),
+            child: const Center(child: Icon(Icons.image, size: 40)), // صورة فارغة مؤقتًا
               ),
               const SizedBox(width: 10), // تقليل المسافة بين الصورة والنص
               Expanded(
@@ -49,7 +50,7 @@ class WishlistTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center, // يجعل النص في المنتصف أفقيًا
                     children: [
                       Text(
-                        item.product.title,
+                        item.name,
                         textAlign: TextAlign.center, // يضمن أن النص لا ينحرف كثيرًا
                         style: const TextStyle(
                           fontSize: 16,
@@ -67,12 +68,15 @@ class WishlistTile extends StatelessWidget {
                       //   ),
                       // ),
                       const SizedBox(height: 10),
-                      Text(
-                        "${item.product.price} ريال",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          "${item.price} ريال",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -89,7 +93,10 @@ class WishlistTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<WishlistCubit>().deleteItemFromWishlist(item.id);
+
+                },
                 icon: const Icon(
                   Ionicons.trash_outline,
                   color: Colors.red,

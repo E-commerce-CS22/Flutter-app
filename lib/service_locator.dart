@@ -3,10 +3,8 @@ import 'package:smartstore/features/cart/presentation/data/datasources/cart_remo
 import 'package:smartstore/features/cart/presentation/data/repositories/cart_repository_impl.dart';
 import 'package:smartstore/features/cart/presentation/domain/repositories/cart_repository.dart';
 import 'package:smartstore/features/cart/presentation/domain/usecases/get_cart_use_case.dart';
-
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
-
 import 'features/authentication/data/datasources/auth_api_service.dart';
 import 'features/authentication/data/datasources/auth_local_service.dart';
 import 'features/authentication/data/repositories/auth.dart';
@@ -20,7 +18,11 @@ import 'features/categories/data/datasources/category_remote_data_source.dart';
 import 'features/categories/data/repositories/category_repository_impl.dart';
 import 'features/categories/domain/repositories/category_repository.dart';
 import 'features/categories/domain/usecases/get_categories_use_case.dart';
-import 'features/categories/presentation/blocs/category_cubit.dart';
+import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
+import 'features/wishlist/data/repositories/wishlist_repository_impl.dart';
+import 'features/wishlist/domain/repositories/wishlist_repository.dart';
+import 'features/wishlist/domain/usecases/delete_wishlist_item_use_case.dart';
+import 'features/wishlist/domain/usecases/get_wishlist_use_case.dart';
 
 final sl = GetIt.instance;
 
@@ -37,6 +39,10 @@ void setupServiceLocator() {
 
   sl.registerSingleton<CartApiService>(CartApiServiceImpl());
 
+  sl.registerSingleton<WishlistApiService>(WishlistApiServiceImpl());
+
+
+
   // Repositories
 
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
@@ -44,6 +50,10 @@ void setupServiceLocator() {
   sl.registerSingleton<CategoryRepository>(CategoryRepositoryImpl());
 
   sl.registerSingleton<CartRepository>(CartRepositoryImpl());
+
+  sl.registerSingleton<WishlistRepository>(WishlistRepositoryImpl());
+
+
 
 
   // Usecases
@@ -64,6 +74,12 @@ void setupServiceLocator() {
   sl.registerSingleton<GetCartItemsUseCase>(GetCartItemsUseCase());
 
   sl.registerSingleton<DeleteCartItemUseCase>(DeleteCartItemUseCase());
+
+
+
+  sl.registerSingleton<GetWishlistItemsUseCase>(GetWishlistItemsUseCase());
+
+  sl.registerSingleton<DeleteWishlistItemUseCase>(DeleteWishlistItemUseCase());
 
 
 

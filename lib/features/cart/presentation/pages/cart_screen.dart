@@ -64,38 +64,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
-
-// class CartPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => CartCubit()..getCartItems(),
-//       child: Scaffold(
-//         appBar: AppBar(title: Text('Cart')),
-//         body: BlocBuilder<CartCubit, CartState>(
-//           builder: (context, state) {
-//             print("🔄 UI state: $state");
-//             if (state is CartLoading) {
-//               return Center(child: CircularProgressIndicator());
-//             } else if (state is CartLoaded) {
-//               return ListView.builder(
-//                 itemCount: state.cartItems.length,
-//                 itemBuilder: (context, index) {
-//                   return ListTile(
-//                     title: Text(state.cartItems[index].name),
-//                     subtitle: Text(state.cartItems[index].description),
-//                     trailing: Text('Price: \$${state.cartItems[index].price}'),
-//                   );
-//                 },
-//               );
-//             } else if (state is CartError) {
-//               return Center(child: Text('Error: ${state.message}'));
-//             }
-//             return Container(); // حالة ابتدائية فارغة
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
