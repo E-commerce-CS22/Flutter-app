@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartstore/core/configs/theme/app_colors.dart';
-// import '../../../home/presentation/pages/Home/models/constants.dart';
 import '../../models/cart_item.dart';
-// import '../models/cart_item.dart';
 
 class CheckOutBox extends StatelessWidget {
   final List<CartItem> items;

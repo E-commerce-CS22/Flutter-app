@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
-import 'package:smartstore/features/ai/ai_page.dart';
-import 'package:smartstore/features/home/presentation/pages/Home/models/category.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/categories.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/home_slider.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/product_card.dart';

@@ -9,7 +9,7 @@ class UpdateCartItemQuantityUseCase implements UseCase3<void, UpdateCartItemQuan
 
   @override
   Future<Either<Failure, void>> call(UpdateCartItemQuantityParams params) async {
-    return sl<CartRepository>().updateCartItemQuantity(params.id, params.quantity);
+    return await sl<CartRepository>().updateCartItemQuantity(params.id, params.quantity);
     // return repository.updateCartItemQuantity(params.id, params.quantity);
   }
 }

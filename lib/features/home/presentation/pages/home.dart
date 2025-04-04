@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartstore/features/home/presentation/pages/favorite/favorite_page.dart';
 import '../../../../common/pages/access_denied.dart';
 import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';

@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/features/cart/presentation/pages/widgets/cart_tile.dart';
-import 'package:smartstore/features/cart/presentation/pages/widgets/check_out_box.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
-import '../models/cart_item.dart';
 import 'blocs/cart_cubit.dart'; // إضافة ملف الـ cubit
 
 class CartScreen extends StatelessWidget {

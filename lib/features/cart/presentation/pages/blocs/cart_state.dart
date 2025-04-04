@@ -35,6 +35,18 @@ class CartItemDeleted extends CartState {
 }
 
 
+class CartItemAddedState extends CartState {
+  final int productId;
+  final int quantity;
+
+  CartItemAddedState({required this.productId, required this.quantity});
+
+  @override
+  List<Object> get props => [productId, quantity];
+}
+
+
+
 class CartItemUpdatedState extends CartState {
   final int itemId;
   final int newQuantity;

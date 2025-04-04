@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smartstore/features/wishlist/domain/entities/wishlist_entity.dart';
 import 'package:smartstore/features/wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
-import '../../../cart/presentation/models/cart_item.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
-// import '../models/cart_item.dart';
 
 class WishlistTile extends StatelessWidget {
   final WishlistItemEntity item;

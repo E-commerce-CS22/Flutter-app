@@ -53,7 +53,7 @@ class WishlistApiServiceImpl extends WishlistApiService {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       var token = sharedPreferences.getString('token');
 
-      var response = await sl<DioClient>().delete(
+      await sl<DioClient>().delete(
         '${ApiUrls.wishlist}/$id',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );

@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartstore/core/constants/api_urls.dart';
 import 'package:smartstore/core/network/dio_client.dart';
-import '../../../../../core/errors/expentions.dart';
 import '../../../../../service_locator.dart';
 import '../models/cart_model.dart';
 import '../../../../../core/errors/failure.dart';  // تأكد من استيراد Failure
@@ -12,6 +11,7 @@ abstract class CartApiService {
   Future<Either<String, List<CartItemModel>>> getCartItems();
   Future<Either<Failure, void>> deleteCartItem(int id); // إضافة المعامل id
   Future<Either<String, void>> updateCartItemQuantity(int id, int quantity);
+  Future<Either<String, void>> addProductToCart(int productId, int quantity);
 }
 
 class CartApiServiceImpl extends CartApiService {
@@ -87,5 +87,34 @@ class CartApiServiceImpl extends CartApiService {
       return Left(e.response?.data['message'] ?? 'حدث خطأ غير متوقع');
     }
   }
+
+
+  // add product to cart
+
+  @override
+  Future<Either<String, void>> addProductToCart(int productId, int quantity) async {
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString('token');
+
+      var response = await sl<DioClient>().post(
+        ApiUrls.cart,
+        data: {"product_id": productId, "quantity": quantity},
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+
+      // ✅ التحقق مما إذا كانت الاستجابة تحتوي على "message" (أي خطأ)
+      if (response.data is Map<String, dynamic> && response.data.containsKey('original')) {
+        return Left(response.data['original']['message'] ?? 'حدث خطأ غير متوقع');
+      }
+
+      return Right(null); // ✅ نجاح العملية
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'حدث خطأ غير متوقع');
+    }
+  }
+
 
 }

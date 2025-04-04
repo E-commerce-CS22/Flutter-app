@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../service_locator.dart';
 import '../../../data/models/cart_model.dart';
 import '../../../domain/entities/cart_entity.dart';
+import '../../../domain/usecases/add_product_to_cart_use_case.dart';
 import '../../../domain/usecases/delete_cart_item_use_case.dart';
 import '../../../domain/usecases/get_cart_use_case.dart';
 import '../../../domain/usecases/update_cart_item_quantity_use_case.dart';
@@ -69,6 +70,20 @@ class CartCubit extends Cubit<CartState> {
         );
       });
     }
+  }
+
+
+  Future<void> addProductToCart(int productId, int quantity) async {
+    emit(CartLoading());  // ⏳ إظهار التحميل
+
+    final result = await sl<AddProductToCartUseCase>().call(
+      AddProductToCartParams(productId: productId, quantity: quantity),
+    );
+
+    result.fold(
+          (failure) => emit(CartError(failure.errMessage)),  // ❌ في حالة الفشل
+          (_) => emit(CartItemAddedState(productId: productId, quantity: quantity)),  // ✅ في حالة النجاح
+    );
   }
 
 }

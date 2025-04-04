@@ -14,7 +14,6 @@ class WishlistItemModel {
   });
 
   factory WishlistItemModel.fromMap(Map<String, dynamic> map) {
-    var pivot = map['pivot'] ?? {};
 
     return WishlistItemModel(
       id: map['id'] as int,

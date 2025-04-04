@@ -9,7 +9,6 @@ import '../models/cart_model.dart';
 
 
 class CartRepositoryImpl extends CartRepository {
-  final CartApiService _cartApiService = sl<CartApiService>();
 
   @override
   Future<Either<Failure, List<CartItemEntity>>> getCartItems() async {
@@ -54,13 +53,25 @@ class CartRepositoryImpl extends CartRepository {
 
 
   @override
-  Future<Either<Failure, void>> updateCartItemQuantity(int id, int quantity) {
-    return _cartApiService.updateCartItemQuantity(id, quantity).then((response) =>
-        response.fold(
+  Future<Either<Failure, void>> updateCartItemQuantity(int id, int quantity) async{
+
+    final response = await sl<CartApiService>().updateCartItemQuantity(id, quantity);
+    // return _cartApiService.updateCartItemQuantity(id, quantity).then((response) =>
+        return response.fold(
               (error) => Left(Failure(errMessage: error)), // في حال الخطأ نعيد Failure
               (_) => Right(null), // في حال النجاح نعيد Right(null) بدلًا من Right فقط
-        ));
+        );
   }
 
+
+
+  @override
+  Future<Either<Failure, void>> addProductToCart(int productId, int quantity) async {
+    final response = await sl<CartApiService>().addProductToCart(productId, quantity);
+    return response.fold(
+            (error) => Left(Failure(errMessage: error)),
+            (_) => Right(null),
+      );
+  }
 
 }
