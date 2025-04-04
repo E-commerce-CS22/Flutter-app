@@ -33,3 +33,13 @@ class WishlistItemDeleted extends WishlistState {
   final int itemId;
   const WishlistItemDeleted(this.itemId);
 }
+
+
+class WishlistItemAddedState extends WishlistState {
+  final int productId;
+
+  WishlistItemAddedState({required this.productId});
+
+  @override
+  List<Object> get props => [productId];
+}

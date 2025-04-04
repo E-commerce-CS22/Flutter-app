@@ -10,6 +10,7 @@ import '../../../../../core/errors/failure.dart';  // تأكد من استيرا
 abstract class WishlistApiService {
   Future<Either<String, List<WishlistItemModel>>> getWishlistItems();
   Future<Either<Failure, void>> deleteWishlistItem(int id); // إضافة المعامل id
+  Future<Either<String, void>> addProductToWishlist(int productId);
 }
 
 class WishlistApiServiceImpl extends WishlistApiService {
@@ -63,5 +64,28 @@ class WishlistApiServiceImpl extends WishlistApiService {
       return Left(Failure(errMessage: 'حدث خطأ أثناء حذف العنصر')); // ❌ خطأ عام
     }
   }
+
+  @override
+  Future<Either<String, void>> addProductToWishlist(int productId) async {
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var token = sharedPreferences.getString('token');
+
+      var response = await sl<DioClient>().post(
+        '${ApiUrls.wishlist}/$productId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if (response.data is Map && response.data.containsKey('original')) {
+        return Left(response.data['original']['message']);
+      }
+
+      return Right(null);
+    } on DioException catch (e) {
+      return Left(e.response?.data['message'] ?? 'حدث خطأ غير متوقع');
+    }
+  }
+
+
 
 }

@@ -8,9 +8,6 @@ class ApiUrls {
   static const  userProfile = baseURL + 'api/customer/profile';
   static const categories = baseURL + 'api/categories';
   static const cart = baseURL + 'api/carts/products';
-  // static const addItemsToCart = baseURL + 'api/carts/products';
-  static const deleteCartItem = baseURL + 'api/carts/products';
-  // static const updateQuantity = baseURL + 'api/carts/products';
   static const wishlist = baseURL + 'api/wishlists/products';
 
 

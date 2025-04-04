@@ -9,12 +9,11 @@ import '../models/wishlist_model.dart';
 
 
 class WishlistRepositoryImpl extends WishlistRepository {
-  final WishlistApiService _wishlistApiService = sl<WishlistApiService>();
 
   @override
   Future<Either<Failure, List<WishlistItemEntity>>> getWishlistItems() async {
     try {
-      final response = await _wishlistApiService.getWishlistItems();
+      final response = await sl<WishlistApiService>().getWishlistItems();
       return response.fold(
             (error) => Left(Failure(errMessage: error)),
             (data) {
@@ -36,8 +35,8 @@ class WishlistRepositoryImpl extends WishlistRepository {
   Future<Either<Failure, void>> deleteWishlistItem(params) async {
     try {
       // استدعاء API لحذف العنصر من السلة
-      final response = await _wishlistApiService.deleteWishlistItem(params);
-
+      // final response = await _wishlistApiService.deleteWishlistItem(params);
+      final response = await sl<WishlistApiService>().deleteWishlistItem(params);
       // تحقق من النتيجة
       return response.fold(
             (error) {
@@ -48,6 +47,17 @@ class WishlistRepositoryImpl extends WishlistRepository {
     } catch (e) {
       return Left(Failure(errMessage: e.toString())); // ✅ إصلاح الخطأ هنا أيضًا
     }
+  }
+
+
+  @override
+  Future<Either<Failure, void>> addProductToWishlist(int productId) async {
+    // final response = await _wishlistApiService.addProductToWishlist(productId);
+    final response = await sl<WishlistApiService>().addProductToWishlist(productId);
+    return response.fold(
+          (error) => Left(Failure(errMessage: error)),
+          (_) => Right(null),
+    );
   }
 
 }

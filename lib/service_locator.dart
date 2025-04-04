@@ -1,5 +1,6 @@
 import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
 import 'package:smartstore/features/cart/domain/usecases/add_product_to_cart_use_case.dart';
+import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/data/datasources/auth_api_service.dart';
@@ -90,6 +91,7 @@ void setupServiceLocator() {
 
   sl.registerSingleton<AddProductToCartUseCase>(AddProductToCartUseCase());
 
+  sl.registerSingleton<AddProductToWishlistUseCase>(AddProductToWishlistUseCase());
 
 
 
