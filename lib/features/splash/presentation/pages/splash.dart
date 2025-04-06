@@ -19,43 +19,34 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  bool _isCheckingInternet = true;
-  bool _isDisposed = false; // متغير لمعرفة هل تم إلغاء الصفحة
+  bool _isCheckingInternet = true; // لمنع BlocListener من العمل قبل انتهاء الفحص
 
   @override
   void initState() {
     super.initState();
-    _checkInternetConnection();
+    _handleSplashLogic();
   }
 
-  @override
-  void dispose() {
-    _isDisposed = true; // تحديث الحالة عند إلغاء الصفحة
-    super.dispose();
-  }
-
-  Future<void> _checkInternetConnection() async {
+  Future<void> _handleSplashLogic() async {
     await Future.delayed(const Duration(seconds: 2)); // مدة الـ Splash
 
     var connectivityResult = await Connectivity().checkConnectivity();
 
-    if (_isDisposed) return; // إيقاف التنفيذ إذا تم إلغاء الصفحة
+    if (!mounted) return; // التأكد من أن الصفحة لا تزال نشطة
 
     if (connectivityResult == ConnectivityResult.none) {
-      if (mounted) {
-        AppNavigator.pushReplacement(
-          context,
-          NoInternetPage(onRetry: () {
-            AppNavigator.pushReplacement(context, const SplashPage());
-          }),
-        );
-      }
+      // في حالة عدم وجود إنترنت، انتقل إلى صفحة "لا يوجد اتصال"
+      AppNavigator.pushReplacement(
+        context,
+        NoInternetPage(onRetry: () {
+          AppNavigator.pushReplacement(context, const SplashPage());
+        }),
+      );
     } else {
-      if (mounted) {
-        setState(() {
-          _isCheckingInternet = false; // السماح لـ BlocListener بالعمل
-        });
-      }
+      // إذا كان هناك إنترنت، اسمح لـ BlocListener بالعمل
+      setState(() {
+        _isCheckingInternet = false;
+      });
     }
   }
 
@@ -63,17 +54,13 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isCheckingInternet
-          ? _buildSplashScreen()
+          ? _buildSplashScreen() // عرض شاشة التحميل أثناء الفحص
           : BlocListener<AuthStateCubit, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            if (mounted) {
-              AppNavigator.pushReplacement(context, const HomePage());
-            }
+            AppNavigator.pushReplacement(context, const HomePage());
           } else if (state is UnAuthenticated) {
-            if (mounted) {
-              AppNavigator.pushReplacement(context, WelcomePage());
-            }
+            AppNavigator.pushReplacement(context, WelcomePage());
           }
         },
         child: _buildSplashScreen(),

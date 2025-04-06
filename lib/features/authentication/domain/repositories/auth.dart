@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:smartstore/core/errors/failure.dart';
 import '../../data/models/signin_req_params.dart';
 import '../../data/models/signup_req_params.dart';
 
@@ -8,5 +9,5 @@ abstract class AuthRepository {
   Future<Either> signin(SigninReqParams signinReq);
   Future<bool> isLoggedIn();
   Future<Either> getUser();
-  Future<Either> logout();
+  Future<Either<Failure , bool>> logout();
 }

@@ -48,7 +48,7 @@ extension UserXModel on UserModel {
       username: username,
       first_name: firstName,
       last_name: lastName,
-      adress: address,
+      address: address,
       city: city,
       phone: phone,
     );

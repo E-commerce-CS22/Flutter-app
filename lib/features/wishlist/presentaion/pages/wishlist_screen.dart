@@ -12,47 +12,42 @@ class WishlistScreen extends StatelessWidget {
 
 
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      WishlistCubit()
-        ..getCartItems(),
-      child: Scaffold(
-        backgroundColor: kcontentColor,
-        appBar: const CurvedAppBar(
-          title: Text('المفضلة'),
-          // height: 135,
-          fontSize: 30,
-        ),
-        body: BlocBuilder<WishlistCubit, WishlistState>(
-          builder: (context, state) {
-            if (state is WishlistLoading){
-              return const Center(child: CircularProgressIndicator()); // عرض مؤشر التحميل
+    return Scaffold(
+      backgroundColor: kcontentColor,
+      appBar: const CurvedAppBar(
+        title: Text('المفضلة'),
+        // height: 135,
+        fontSize: 30,
+      ),
+      body: BlocBuilder<WishlistCubit, WishlistState>(
+        builder: (context, state) {
+          if (state is WishlistLoading){
+            return const Center(child: CircularProgressIndicator()); // عرض مؤشر التحميل
 
-            } else if (state is WishlistLoaded){
-              return ListView.separated(
-                padding: const EdgeInsets.all(20),
-                itemBuilder: (context, index) =>
-                    WishlistTile(
-                      item: state.wishlistItems[index],
-                      onRemove: () {
-                        if (cartItems[index].quantity != 1) {
-                          (() {
-                            cartItems[index].quantity--;
-                          });
-                        }
-                      },
-                    ),
-                separatorBuilder: (context, index) => const SizedBox(height: 20),
-                itemCount: state.wishlistItems.length,
-              );
-            } else if (state is WishlistError){
-              return Center(child: Text('Error: ${state.message}'));
-            }else if (state is WishlistItemDeleted){
-              context.read<WishlistCubit>().getCartItems();
-            }
-            return const SizedBox(); // حالة فارغة قبل تحميل البيانات
-          },
-        ),
+          } else if (state is WishlistLoaded){
+            return ListView.separated(
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) =>
+                  WishlistTile(
+                    item: state.wishlistItems[index],
+                    onRemove: () {
+                      if (cartItems[index].quantity != 1) {
+                        (() {
+                          cartItems[index].quantity--;
+                        });
+                      }
+                    },
+                  ),
+              separatorBuilder: (context, index) => const SizedBox(height: 20),
+              itemCount: state.wishlistItems.length,
+            );
+          } else if (state is WishlistError){
+            return Center(child: Text('Error: ${state.message}'));
+          }else if (state is WishlistItemDeleted){
+            context.read<WishlistCubit>().getCartItems();
+          }
+          return const SizedBox(); // حالة فارغة قبل تحميل البيانات
+        },
       ),
     );
   }

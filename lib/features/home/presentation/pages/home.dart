@@ -23,48 +23,43 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      body: BlocProvider(
-        create: (context) => AuthStateCubit()..appStarted(),
-        child: BlocBuilder<AuthStateCubit, AuthState>(
+    return BlocListener<AuthStateCubit, AuthState>(
+      listener: (context, state) {
+        if (state is UnAuthenticated) {
+          // عند تسجيل الخروج، الانتقال إلى صفحة الترحيب
+          Navigator.pushReplacementNamed(context, '/welcome');
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        body: BlocBuilder<AuthStateCubit, AuthState>(
           builder: (context, state) {
-            // التحقق من حالة المصادقة
-            if (state is Authenticated) {
-              // إذا كان المستخدم مسجلاً، انتقل للصفحة المطلوبة
-              return _getPage(_currentIndex);
-            } else if (state is UnAuthenticated) {
-              // إذا لم يكن المستخدم مسجلاً، عرض صفحة التحذير عند الوصول إلى الصفحات المحمية
-              if (_currentIndex == 0 || _currentIndex == 1 || _currentIndex == 3) {
-                return UnauthenticatedPage(); // توجيه المستخدم إلى صفحة "غير مسجل"
-              } else {
-                return _getPage(_currentIndex); // السماح بالدخول للصفحات الأخرى
-              }
-            }
-            return const Center(child: CircularProgressIndicator());
+            return _getPage(_currentIndex, state);
           },
         ),
-      ),
-      bottomNavigationBar: CurvedNavBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        bottomNavigationBar: CurvedNavBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
 
-  // إرجاع الصفحة المطلوبة بناءً على الفهرس
-  Widget _getPage(int index) {
+  // إرجاع الصفحة المطلوبة بناءً على الفهرس وحالة المصادقة
+  Widget _getPage(int index, AuthState state) {
+    if (state is UnAuthenticated && (index == 0 || index == 1 || index == 3)) {
+      return UnauthenticatedPage(); // توجيه المستخدم إلى صفحة "أنت لست مسجلًا"
+    }
+
     switch (index) {
       case 0:
         return const ProfilePage();
       case 1:
         return const CartScreen();
-      // return CartPage();
-
       case 2:
         return const AllCategoriesPage();
       case 3:

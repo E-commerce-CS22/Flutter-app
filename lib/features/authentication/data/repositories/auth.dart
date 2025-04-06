@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartstore/core/errors/failure.dart';
 import 'package:smartstore/features/authentication/data/datasources/auth_api_service.dart';
 import 'package:smartstore/features/authentication/data/models/user.dart';
 
@@ -38,8 +39,14 @@ class AuthRepositoryImpl extends AuthRepository {
 
 
   @override
-  Future<Either> logout() async {
-    return await sl<AuthLocalService>().logout();
+  Future<Either<Failure, bool>> logout() async {
+    try {
+      // استدعاء logout من AuthLocalService
+      return await sl<AuthLocalService>().logout();
+    } catch (e) {
+      // في حالة حدوث خطأ غير متوقع، نعيد failure
+      return Left(ServerFailure(errMessage: 'حدث خطأ أثناء تسجيل الخروج.'));
+    }
   }
 
   @override

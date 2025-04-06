@@ -11,26 +11,23 @@ class AllCategoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoryCubit()..displayCategories(),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: const CurvedAppBar(
-            title: Text('الفئات'),
-            fontSize: 30,
-          ),
-          body: SingleChildScrollView(  // Wrap the whole body in a SingleChildScrollView
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _shopByCategories(),
-                  const SizedBox(height: 10),
-                  _categoriesList(),
-                ],
-              ),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: const CurvedAppBar(
+          title: Text('الفئات'),
+          fontSize: 30,
+        ),
+        body: SingleChildScrollView(  // Wrap the whole body in a SingleChildScrollView
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _shopByCategories(),
+                const SizedBox(height: 10),
+                _categoriesList(),
+              ],
             ),
           ),
         ),

@@ -5,14 +5,14 @@ class UserEntity {
   final String last_name;
   final String phone;
   final String city;
-  final String adress;
+  final String address;
 
   UserEntity({
     required this.email,
     required this.username,
     required this.first_name,
     required this.last_name,
-    required this.adress,
+    required this.address,
     required this.city,
     required this.phone
   });
