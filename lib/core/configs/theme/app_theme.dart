@@ -20,6 +20,7 @@ class AppTheme {
       backgroundColor: AppColors.secondBackground,
       contentTextStyle: TextStyle(color: AppColors.black),
     ),
+
     inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.secondBackground,
@@ -45,7 +46,7 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         elevation: 0,
-        textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w700, fontFamily: 'Almarai'),
+        textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w700, fontFamily: 'Almarai' , color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100)
         )

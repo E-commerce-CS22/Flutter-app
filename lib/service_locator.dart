@@ -1,5 +1,7 @@
 import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
 import 'package:smartstore/features/cart/domain/usecases/add_product_to_cart_use_case.dart';
+import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
+import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
 import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +23,8 @@ import 'features/categories/data/datasources/category_remote_data_source.dart';
 import 'features/categories/data/repositories/category_repository_impl.dart';
 import 'features/categories/domain/repositories/category_repository.dart';
 import 'features/categories/domain/usecases/get_categories_use_case.dart';
+import 'features/profile/data/datasources/UserRemoteDataSource.dart';
+import 'features/profile/domain/repositories/user_info_repository.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
 import 'features/wishlist/data/repositories/wishlist_repository_impl.dart';
 import 'features/wishlist/domain/repositories/wishlist_repository.dart';
@@ -44,6 +48,8 @@ void setupServiceLocator() {
 
   sl.registerSingleton<WishlistApiService>(WishlistApiServiceImpl());
 
+  sl.registerSingleton<UserRemoteDataSource>(UserRemoteDataSourceImpl());
+
 
 
   // Repositories
@@ -55,6 +61,8 @@ void setupServiceLocator() {
   sl.registerSingleton<CartRepository>(CartRepositoryImpl());
 
   sl.registerSingleton<WishlistRepository>(WishlistRepositoryImpl());
+  
+  sl.registerSingleton<UserRepository>(UserRepositoryImpl());
 
 
 
@@ -93,8 +101,7 @@ void setupServiceLocator() {
 
   sl.registerSingleton<AddProductToWishlistUseCase>(AddProductToWishlistUseCase());
 
-
-
+  sl.registerSingleton<UpdateProfileUseCase>(UpdateProfileUseCase());
 
   // cubit
 

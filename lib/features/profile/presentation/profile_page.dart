@@ -12,8 +12,7 @@ import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/button/button_state.dart';
 import '../../../../common/bloc/button/button_state_cubit.dart';
 import '../../../../core/configs/theme/app_colors.dart';
-import '../../../../service_locator.dart';
-import '../../authentication/domain/usecases/logout.dart';
+import 'edit_user_info_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -139,47 +138,52 @@ class _ProfileBody extends StatelessWidget {
 
 
   Widget _buildAccountSettings() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeaderWithIcon('بيانات الحساب'),
-        BlocBuilder<UserDisplayCubit, UserDisplayState>(
-          builder: (context, state) {
-            if (state is UserLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is UserLoaded) {
-              final user = state.userEntity;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    _buildUserInfoRow('الاسم', "${user.first_name} ${user.last_name}"),
-                    _buildUserInfoRow('البريد الإلكتروني', user.email),
-                    _buildUserInfoRow('اسم المستخدم', user.username),
-                    _buildUserInfoRow('رقم الهاتف', user.phone),
-                    _buildUserInfoRow('المدينة', user.city),
-                    _buildUserInfoRow('العنوان', user.address),
-                  ],
-                ),
-              );
-            } else if (state is LoadUserFailure) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'حدث خطأ أثناء تحميل البيانات: ${state.errorMessage}',
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ],
+    return Builder(
+      builder: (context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionHeaderWithIcon('بيانات الحساب', context),
+            BlocBuilder<UserDisplayCubit, UserDisplayState>(
+              builder: (context, state) {
+                if (state is UserLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is UserLoaded) {
+                  final user = state.userEntity;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        _buildUserInfoRow('الاسم', "${user.first_name} ${user.last_name}"),
+                        _buildUserInfoRow('البريد الإلكتروني', user.email),
+                        _buildUserInfoRow('اسم المستخدم', user.username),
+                        _buildUserInfoRow('رقم الهاتف', user.phone),
+                        _buildUserInfoRow('المدينة', user.city),
+                        _buildUserInfoRow('العنوان', user.address),
+                      ],
+                    ),
+                  );
+                } else if (state is LoadUserFailure) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'حدث خطأ أثناء تحميل البيانات: ${state.errorMessage}',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildSectionHeaderWithIcon(String title) {
+
+  Widget _buildSectionHeaderWithIcon(String title, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
       child: Row(
@@ -195,19 +199,21 @@ class _ProfileBody extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // Add your edit functionality here
+              AppNavigator.push(context, EditProfilePage());
             },
             child: Image.asset(
               'assets/icons/edit.png', // مسار الصورة
               width: 25,
               height: 25,
-              color: AppColors.primary, // إذا كنت تريد تغيير لون الصورة
+              color: AppColors.primary,
             ),
           ),
         ],
       ),
     );
   }
+
+
 
 
   Widget _buildUserInfoRow(String label, String? value) {
