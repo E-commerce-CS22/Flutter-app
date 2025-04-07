@@ -4,6 +4,7 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smartstore/core/configs/theme/app_colors.dart';
 import '../../common/widgets/appbar/app_bar.dart';
 
 class ChatPage extends StatefulWidget {
@@ -15,16 +16,16 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final Gemini gemini = Gemini.instance;
-
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textController = TextEditingController();
 
-  List<ChatMessage> messages = [];
+  List<ChatMessage> _messages = [];
+  bool _isSending = false; // حالة إرسال الرسالة
 
   ChatUser currentUser = ChatUser(id: "0", firstName: "المستخدم");
   ChatUser geminiUser = ChatUser(
     id: "1",
-    firstName: "",
+    firstName: "المساعد الذكي",
     profileImage: "assets/images/ai_logo.png",
   );
 
@@ -51,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
       text: "مرحباً! كيف يمكنني مساعدتك اليوم؟",
     );
     setState(() {
-      messages = [welcomeMessage, ...messages];
+      _messages = [welcomeMessage, ..._messages];
     });
   }
 
@@ -62,7 +63,6 @@ class _ChatPageState extends State<ChatPage> {
       child: Scaffold(
         appBar: const CurvedAppBar(
           title: Text('المساعد الذكي'),
-          // height: 135,
           fontSize: 25,
         ),
         body: _buildUI(),
@@ -71,114 +71,129 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildUI() {
-    return DashChat(
-      inputOptions: InputOptions(
-        trailing: [
-          IconButton(
-            onPressed: _sendMediaMessage,
-            icon: const Icon(
-              Icons.image,
+    return Stack(
+      children: [
+        DashChat(
+          inputOptions: InputOptions(
+            sendButtonBuilder: (onSend) {
+              return IconButton(
+                onPressed: _isSending ? null : onSend,
+                icon: Icon(
+                  Icons.send,
+                  color: _isSending ? Colors.grey : Theme.of(context).primaryColor,
+                ),
+              );
+            },
+            trailing: [
+              IconButton(
+                onPressed: _isSending ? null : _sendMediaMessage,
+                icon: Icon(
+                  Icons.image,
+                  color: _isSending ? Colors.grey : Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+            focusNode: _focusNode,
+            textController: _textController,
+            inputDecoration: InputDecoration(
+              hintText: 'اكتب رسالتك هنا...',
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+            ),
+            inputTextDirection: TextDirection.rtl,
+          ),
+          currentUser: currentUser,
+          onSend: _sendMessage,
+          messages: _messages,
+        ),
+        if (_isSending)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 60.0),
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.grey.shade200,
+                valueColor: AlwaysStoppedAnimation(AppColors.grey),
+              ),
             ),
           ),
-        ],
-        focusNode: _focusNode,
-        textController: _textController,
-        inputDecoration: InputDecoration(
-          hintText: 'اكتب رسالتك هنا...',
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
-          ),
-          contentPadding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-        ),
-        inputTextDirection: TextDirection.rtl,
-      ),
-      currentUser: currentUser,
-      onSend: _sendMessage,
-      messages: messages,
+      ],
     );
   }
 
   // تصفية الاستجابة من الروابط أو النصوص غير المرغوب فيها
   String filterResponse(String response) {
-    // استخدام تعبير عادي للتأكد من وجود روابط أو عناوين URL في الاستجابة
+    // تصفية الروابط
     RegExp regExp = RegExp(r"(https?://[^\s]+)");
-    response = response.replaceAll(regExp, "[رابط محذوف]"); // استبدال الرابط بنص بديل
-
-    // إضافة أي تصفية أخرى حسب الحاجة (مثل إزالة المسافات أو الأسطر الفارغة)
-    return response.trim();
+    response = response.replaceAll(regExp, "[رابط محذوف]");
+    // إزالة المسافات الزائدة بين الكلمات
+    return response.trim().replaceAll(RegExp(r'\s{2,}'), ' ');
   }
 
-  void _sendMessage(ChatMessage chatMessage) {
+  // إرسال الرسالة
+  void _sendMessage(ChatMessage chatMessage) async {
+    if (_isSending) return; // تجنب إرسال الرسالة إذا كانت هناك رسالة قيد الإرسال
+
     setState(() {
-      messages = [chatMessage, ...messages];
+      _isSending = true;
+      _messages = [chatMessage, ..._messages];
     });
+
     try {
-      String question = chatMessage.text;
-      List<Uint8List>? images;
-      if (chatMessage.medias?.isNotEmpty ?? false) {
-        images = [
-          File(chatMessage.medias!.first.url).readAsBytesSync(),
-        ];
-      }
-      gemini.streamGenerateContent(
-        question,
-        images: images,
-      ).listen((event) {
-        ChatMessage? lastMessage = messages.firstOrNull;
-        if (lastMessage != null && lastMessage.user == geminiUser) {
-          lastMessage = messages.removeAt(0);
-          String response = "";
-          for (var part in event.content?.parts ?? []) {
-            if (part.text != null) {
-              response += part.text + " "; // إضافة مسافة بين الأجزاء
-            }
-          }
-          response = filterResponse(response); // تصفية الاستجابة
-          lastMessage.text += response;
-          setState(() {
-            messages = [lastMessage!, ...messages];
-          });
-        } else {
-          String response = "";
-          for (var part in event.content?.parts ?? []) {
-            if (part.text != null) {
-              response += part.text + " "; // إضافة مسافة بين الأجزاء
-            }
-          }
-          response = filterResponse(response); // تصفية الاستجابة
-          ChatMessage message = ChatMessage(
+      final result = await gemini.text(chatMessage.text);
+
+      setState(() {
+        _isSending = false;
+        if (result?.output != null) {
+          final geminiResponseMessage = ChatMessage(
             user: geminiUser,
             createdAt: DateTime.now(),
-            text: response,
+            text: filterResponse(result!.output!),
+            medias: chatMessage.medias,
           );
-          setState(() {
-            messages = [message, ...messages];
-          });
+          _messages = [geminiResponseMessage, ..._messages];
+        } else {
+          final errorMessage = ChatMessage(
+            user: geminiUser,
+            createdAt: DateTime.now(),
+            text: "حدث خطأ أثناء الحصول على الرد.",
+          );
+          _messages = [errorMessage, ..._messages];
         }
       });
     } catch (e) {
-      print(e);
+      setState(() {
+        _isSending = false;
+        final errorMessage = ChatMessage(
+          user: geminiUser,
+          createdAt: DateTime.now(),
+          text: "حدث خطأ غير متوقع: $e",
+        );
+        _messages = [errorMessage, ..._messages.where((m) => m.user != geminiUser).toList()];
+      });
+      print("Send Message Error: $e");
     }
   }
 
+  // إرسال الرسائل مع الوسائط
   void _sendMediaMessage() async {
     ImagePicker picker = ImagePicker();
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
       ChatMessage chatMessage = ChatMessage(
         user: currentUser,
@@ -187,7 +202,7 @@ class _ChatPageState extends State<ChatPage> {
         medias: [
           ChatMedia(
             url: file.path,
-            fileName: "",
+            fileName: file.name,
             type: MediaType.image,
           ),
         ],

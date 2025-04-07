@@ -16,7 +16,9 @@ void main() {
   setupServiceLocator();
 
   // تهيئة Gemini API
-  Gemini.init(apiKey: GEMINI_API_KEY);
+  Gemini.init(
+    apiKey: GEMINI_API_KEY,
+  );
 
   runApp(const MyApp());
 }
@@ -32,8 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => UserDisplayCubit()..displayUser()),
         BlocProvider(create: (context) => CategoryCubit()..displayCategories()),
         BlocProvider(create: (context) => CartCubit()..getCartItems()),
-        BlocProvider(create: (context) =>WishlistCubit()..getCartItems())
-
+        BlocProvider(create: (context) => WishlistCubit()..getCartItems())
       ],
       child: MaterialApp(
         title: 'Smart Store',

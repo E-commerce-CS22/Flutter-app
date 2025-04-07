@@ -20,8 +20,17 @@ class EditProfilePage extends StatelessWidget {
         child: BlocListener<UserUpdateCubit, UserUpdateState>(
           listener: (context, state) {
             if (state is UserUpdateSuccess) {
+              context.read<UserDisplayCubit>().displayUser();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم تحديث البيانات بنجاح')),
+                SnackBar(
+                  content: const Text('تم تحديث البيانات بنجاح'),
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20)
+                ),
               );
               Navigator.pop(context); // أو أي عملية تنقل
             } else if (state is UserUpdateError) {
@@ -30,9 +39,11 @@ class EditProfilePage extends StatelessWidget {
               );
             }
           },
-          child: Scaffold(  // تم إضافة Scaffold هنا
-            appBar: AppBar(
-              title: const Text('تعديل البيانات'),
+          child: Scaffold(
+            // تم إضافة Scaffold هنا
+            appBar: CurvedAppBar(
+              title: Text('تعديل البيانات'),
+              fontSize: 30,
             ),
             body: const _EditProfileBody(),
           ),
@@ -150,7 +161,7 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
             labelText: label,
             border: const OutlineInputBorder(),
             contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
@@ -199,22 +210,30 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
 
               if (updatedFields.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('لم يتم تعديل أي بيانات')),
+                  SnackBar(
+                    content: const Text('لم يتم تعديل أي بيانات'),
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+                  ),
                 );
                 return;
               }
 
               context.read<UserUpdateCubit>().updateUserProfile(
-                UpdateProfileParams(
-                  firstName: updatedFields['first_name'],
-                  lastName: updatedFields['last_name'],
-                  email: updatedFields['email'],
-                  username: updatedFields['username'],
-                  phone: updatedFields['phone'],
-                  city: updatedFields['city'],
-                  address: updatedFields['address'],
-                ),
-              );
+                    UpdateProfileParams(
+                      firstName: updatedFields['first_name'],
+                      lastName: updatedFields['last_name'],
+                      email: updatedFields['email'],
+                      username: updatedFields['username'],
+                      phone: updatedFields['phone'],
+                      city: updatedFields['city'],
+                      address: updatedFields['address'],
+                    ),
+                  );
             }
           }
         },
