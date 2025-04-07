@@ -1,5 +1,7 @@
 import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
 import 'package:smartstore/features/cart/domain/usecases/add_product_to_cart_use_case.dart';
+import 'package:smartstore/features/orders/data/repositories/orders_repository_impl.dart';
+import 'package:smartstore/features/orders/domain/usecases/orders_use_case.dart';
 import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
 import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
 import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
@@ -23,6 +25,8 @@ import 'features/categories/data/datasources/category_remote_data_source.dart';
 import 'features/categories/data/repositories/category_repository_impl.dart';
 import 'features/categories/domain/repositories/category_repository.dart';
 import 'features/categories/domain/usecases/get_categories_use_case.dart';
+import 'features/orders/data/datasources/orders_remote_data_source.dart';
+import 'features/orders/domain/repositories/orders_repository.dart';
 import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
@@ -50,6 +54,8 @@ void setupServiceLocator() {
 
   sl.registerSingleton<UserRemoteDataSource>(UserRemoteDataSourceImpl());
 
+  sl.registerSingleton<OrdersApiService>(OrdersApiServiceImpl());
+
 
 
   // Repositories
@@ -63,6 +69,8 @@ void setupServiceLocator() {
   sl.registerSingleton<WishlistRepository>(WishlistRepositoryImpl());
   
   sl.registerSingleton<UserRepository>(UserRepositoryImpl());
+
+  sl.registerSingleton<OrdersRepository>(OrdersRepositoryImpl());
 
 
 
@@ -102,6 +110,8 @@ void setupServiceLocator() {
   sl.registerSingleton<AddProductToWishlistUseCase>(AddProductToWishlistUseCase());
 
   sl.registerSingleton<UpdateProfileUseCase>(UpdateProfileUseCase());
+
+  sl.registerSingleton<GetOrdersUseCase>(GetOrdersUseCase());
 
   // cubit
 

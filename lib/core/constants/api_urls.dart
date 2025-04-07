@@ -10,6 +10,7 @@ class ApiUrls {
   static const cart = baseURL + 'api/carts/products';
   static const wishlist = baseURL + 'api/wishlists/products';
   static const updateUserInfo = baseURL + 'api/customer/profile';
+  static const orders = baseURL + 'api/customer/orders';
 
 
 

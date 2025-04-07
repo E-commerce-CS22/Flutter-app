@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartstore/common/bloc/auth/auth_state.dart';
 import 'package:smartstore/common/helper/navigator/app_navigator.dart';
-import 'package:smartstore/features/authentication/domain/entities/user.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_cubit.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_state.dart';
 import 'package:smartstore/features/authentication/presentation/pages/welcome_page.dart';
@@ -12,6 +11,7 @@ import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/button/button_state.dart';
 import '../../../../common/bloc/button/button_state_cubit.dart';
 import '../../../../core/configs/theme/app_colors.dart';
+import '../../orders/presentation/pages/orders_screen.dart';
 import 'edit_user_info_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -328,7 +328,9 @@ class _OrdersAndFavorites extends StatelessWidget {
         _buildOption(
           imagePath: 'assets/icons/orders.png',
           label: 'حاله طلباتي',
-          onTap: () {},
+          onTap: () {
+            AppNavigator.push(context, OrdersPage());
+          },
         ),
         _buildOption(
           imagePath: 'assets/icons/password.png',
