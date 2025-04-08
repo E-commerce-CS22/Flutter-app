@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../domain/entities/orders_state_entity.dart';
 import 'order_item_model.dart';
 
 class OrderEntityModel {
@@ -26,6 +27,21 @@ class OrderEntityModel {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  OrderEntity toEntity() {
+    return OrderEntity(
+      id: id,
+      totalAmount: totalAmount,
+      status: status,
+      paymentMethod: paymentMethod,
+      shippingAddress: shippingAddress,
+      notes: notes,
+      trackingNumber: trackingNumber,
+      items: items.map((item) => item.toEntity()).toList(),  // تحويل العناصر إلى Entity
+      createdAt: DateTime.parse(createdAt),
+      updatedAt: DateTime.parse(updatedAt),
+    );
+  }
 
   factory OrderEntityModel.fromJson(Map<String, dynamic> json) {
     return OrderEntityModel(

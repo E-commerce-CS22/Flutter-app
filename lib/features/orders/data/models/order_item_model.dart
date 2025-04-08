@@ -1,6 +1,8 @@
 import 'package:smartstore/features/orders/data/models/product_model.dart';
 import 'package:smartstore/features/orders/data/models/product_variant_model.dart';
 
+import '../../domain/entities/orders_state_entity.dart';
+
 class OrderItemEntityModel {
   final int id;
   final int productId;
@@ -23,6 +25,22 @@ class OrderItemEntityModel {
     required this.subtotal,
     required this.discountAmount,
   });
+
+
+  // دالة لتحويل الـ Model إلى Entity
+  OrderItemEntity toEntity() {
+    return OrderItemEntity(
+      id: id,
+      productId: productId,
+      product: product.toEntity(), // تحويل الـ Product إلى Entity
+      productVariantId: productVariantId,
+      productVariant: productVariant.toEntity(), // تحويل الـ ProductVariant إلى Entity
+      quantity: quantity,
+      unitPrice: unitPrice,
+      subtotal: subtotal,
+      discountAmount: discountAmount,
+    );
+  }
 
   factory OrderItemEntityModel.fromJson(Map<String, dynamic> json) {
     return OrderItemEntityModel(

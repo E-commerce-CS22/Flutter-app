@@ -1,3 +1,5 @@
+import 'package:smartstore/features/orders/domain/entities/orders_state_entity.dart';
+
 class ProductVariantEntityModel {
   final int id;
   final int productId;
@@ -17,6 +19,19 @@ class ProductVariantEntityModel {
     required this.variantTitle,
   });
 
+
+  ProductVariantEntity toEntity() {
+    return ProductVariantEntity(
+        id: id,
+        productId: productId,
+        price: price,
+        extraPrice: extraPrice,
+        stock: stock,
+        isDefault: isDefault,
+        variantTitle: variantTitle,
+    );
+  }
+
   factory ProductVariantEntityModel.fromJson(Map<String, dynamic> json) {
     return ProductVariantEntityModel(
       id: json['id'],
@@ -28,6 +43,9 @@ class ProductVariantEntityModel {
       variantTitle: json['variant_title'],
     );
   }
+
+
+
 
   Map<String, dynamic> toJson() {
     return {

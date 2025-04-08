@@ -66,7 +66,7 @@ class ProductVariantEntity {
   final int id;
   final int productId;
   final double price;
-  final double extraPrice;
+  final int extraPrice;
   final int stock;
   final bool isDefault;
   final String variantTitle;

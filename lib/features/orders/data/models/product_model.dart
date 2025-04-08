@@ -1,3 +1,5 @@
+import '../../domain/entities/orders_state_entity.dart';
+
 class ProductEntityModel {
   final int id;
   final String name;
@@ -10,6 +12,16 @@ class ProductEntityModel {
     required this.description,
     required this.price,
   });
+
+  // دالة لتحويل الـ Model إلى Entity
+  ProductEntity toEntity() {
+    return ProductEntity(
+        id: id,
+        name: name,
+        description: description,
+        price: price,
+    );
+  }
 
   factory ProductEntityModel.fromJson(Map<String, dynamic> json) {
     return ProductEntityModel(

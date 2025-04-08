@@ -27,6 +27,7 @@ import 'features/categories/domain/repositories/category_repository.dart';
 import 'features/categories/domain/usecases/get_categories_use_case.dart';
 import 'features/orders/data/datasources/orders_remote_data_source.dart';
 import 'features/orders/domain/repositories/orders_repository.dart';
+import 'features/orders/domain/usecases/specific_order_use_case.dart';
 import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
@@ -112,6 +113,9 @@ void setupServiceLocator() {
   sl.registerSingleton<UpdateProfileUseCase>(UpdateProfileUseCase());
 
   sl.registerSingleton<GetOrdersUseCase>(GetOrdersUseCase());
+
+  sl.registerSingleton<GetSpecificOrderUseCase>(GetSpecificOrderUseCase());
+
 
   // cubit
 

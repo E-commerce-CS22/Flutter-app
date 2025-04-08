@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/orders_cubit.dart';
 import '../blocs/orders_state.dart';
+import 'specific_order_page.dart';
+import '../blocs/specific_order_cubit.dart'; // ضروري
 
 class OrdersPage extends StatelessWidget {
   @override
@@ -28,6 +30,17 @@ class OrdersPage extends StatelessWidget {
                     title: Text('طلب رقم ${order.id}'),
                     subtitle: Text('المبلغ الإجمالي: ${order.totalAmount}'),
                     trailing: Text(order.status),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider(
+                            create: (_) => OrderCubit(),
+                            child: SpecificOrderPage(orderId: order.id),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               );
