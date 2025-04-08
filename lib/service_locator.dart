@@ -1,6 +1,7 @@
 import 'package:smartstore/features/authentication/domain/usecases/get_user.dart';
 import 'package:smartstore/features/cart/domain/usecases/add_product_to_cart_use_case.dart';
 import 'package:smartstore/features/orders/data/repositories/orders_repository_impl.dart';
+import 'package:smartstore/features/orders/domain/usecases/create_new_order_use_case.dart';
 import 'package:smartstore/features/orders/domain/usecases/orders_use_case.dart';
 import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
 import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
@@ -118,6 +119,8 @@ void setupServiceLocator() {
   sl.registerSingleton<GetSpecificOrderUseCase>(GetSpecificOrderUseCase());
 
   sl.registerSingleton<CancelOrderUseCase>(CancelOrderUseCase());
+
+  sl.registerSingleton<CreateOrderUseCase>(CreateOrderUseCase());
 
 
   // cubit
