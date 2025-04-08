@@ -12,7 +12,9 @@ class OrderLoaded extends OrderState {
   OrderLoaded(this.order);
 }
 
-class OrdersError extends OrderState {
+class OrderError extends OrderState {
   final String message;
-  OrdersError(this.message);
+  OrderError(this.message);
 }
+
+

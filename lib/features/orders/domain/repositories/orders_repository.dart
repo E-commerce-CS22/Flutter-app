@@ -6,5 +6,6 @@ import '../entities/orders_state_entity.dart';
 abstract class OrdersRepository {
   Future<Either<Failure, List<OrderEntity>>> getOrders();
   Future<Either<Failure, List<OrderEntity>>> getSpecificOrder(int orderId);
+  Future<Either<Failure, bool>> cancelOrder(int orderId);
 
 }

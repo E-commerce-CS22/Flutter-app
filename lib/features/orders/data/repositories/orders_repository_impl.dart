@@ -48,4 +48,15 @@ class OrdersRepositoryImpl extends OrdersRepository {
       return Left(Failure(errMessage: e.toString())); // إذا حدث استثناء
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> cancelOrder(int orderId) async {
+      // محاولة إلغاء الطلب عبر الـ API
+      return await sl<OrdersApiService>().cancelOrder(orderId);
+
+  }
+
+
+
 }
+
