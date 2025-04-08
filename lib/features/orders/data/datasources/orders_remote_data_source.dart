@@ -5,13 +5,14 @@ import '../../../../../core/errors/failure.dart';
 import '../../../../../core/network/dio_client.dart';
 import '../../../../../core/constants/api_urls.dart';
 import '../../../../../service_locator.dart';
+import '../../domain/entities/Create_Order_Params.dart';
 import '../models/order_model.dart';
 
 abstract class OrdersApiService {
   Future<Either<Failure, List<OrderEntityModel>>> getOrders();
   Future<Either<Failure, List<OrderEntityModel>>> getSpecificOrder(int orderId);
   Future<Either<Failure, bool>> cancelOrder(int orderId);
-
+  Future<Either<Failure, bool>> createOrder(CreateOrderParams params);
 
 
   }
@@ -130,5 +131,35 @@ class OrdersApiServiceImpl extends OrdersApiService {
   }
   }
 
+
+
+  @override
+  Future<Either<Failure, bool>> createOrder(CreateOrderParams params) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      final response = await sl<DioClient>().post(
+        ApiUrls.orders,
+        data: params.toJson(),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+          validateStatus: (status) => true, // حتى نتعامل مع كل الحالات
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        return Right(true);
+      } else {
+        String message = response.data['message'] ?? 'فشل في إنشاء الطلب';
+        return Left(Failure(errMessage: message));
+      }
+    } catch (e) {
+      return Left(Failure(errMessage: 'خطأ أثناء إنشاء الطلب: $e'));
+    }
+  }
 
 }

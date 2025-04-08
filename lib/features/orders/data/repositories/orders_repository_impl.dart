@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:smartstore/core/errors/failure.dart';
 import 'package:smartstore/features/orders/domain/repositories/orders_repository.dart';
 import 'package:smartstore/service_locator.dart';
+import '../../domain/entities/Create_Order_Params.dart';
 import '../../domain/entities/orders_state_entity.dart';
 import '../datasources/orders_remote_data_source.dart';
 import '../models/order_model.dart';
@@ -54,6 +55,11 @@ class OrdersRepositoryImpl extends OrdersRepository {
       // محاولة إلغاء الطلب عبر الـ API
       return await sl<OrdersApiService>().cancelOrder(orderId);
 
+  }
+
+  @override
+  Future<Either<Failure, bool>> createOrder(CreateOrderParams params) async{
+    return await sl<OrdersApiService>().createOrder(params);
   }
 
 
