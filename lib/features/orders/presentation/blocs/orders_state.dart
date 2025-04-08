@@ -1,4 +1,3 @@
-import '../../data/models/order_model.dart';
 import '../../domain/entities/orders_state_entity.dart';
 
 abstract class OrdersState {}

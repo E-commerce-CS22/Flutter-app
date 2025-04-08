@@ -5,7 +5,6 @@ import 'package:smartstore/service_locator.dart';
 import '../../domain/entities/Create_Order_Params.dart';
 import '../../domain/entities/orders_state_entity.dart';
 import '../datasources/orders_remote_data_source.dart';
-import '../models/order_model.dart';
 
 class OrdersRepositoryImpl extends OrdersRepository {
   @override

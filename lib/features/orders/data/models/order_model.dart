@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../domain/entities/orders_state_entity.dart';
 import 'order_item_model.dart';
 

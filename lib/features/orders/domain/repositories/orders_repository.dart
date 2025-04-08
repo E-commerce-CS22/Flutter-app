@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
-import '../../data/models/order_model.dart';
 import '../entities/Create_Order_Params.dart';
 import '../entities/orders_state_entity.dart';
 

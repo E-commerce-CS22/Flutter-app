@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import '../../../domain/entities/cart_entity.dart';
 import '../../models/cart_item.dart';
 
 class CheckOutBox extends StatelessWidget {
-  final List<CartItem> items;
+  final List<CartItemEntity> items; // تعديل النوع هنا ليقبل قائمة
+
   const CheckOutBox({
     super.key,
-    required this.items,
+    required this.items, // تغيير إلى قائمة
   });
 
   @override
   Widget build(BuildContext context) {
+    double total = items.fold(0, (sum, item) => sum + (item.price * item.quantity)); // حساب الإجمالي
+
     return Container(
       height: 160,
       width: double.infinity,
@@ -37,16 +41,13 @@ class CheckOutBox extends StatelessWidget {
                 ),
               ),
               Text(
-                "${items.length > 1 ? items.map<double>((e) => e.quantity * e.product.price).reduce((value1, value2) => value1 + value2) : items[0].product.price * items[0].quantity} ريال",
+                "$total ريال",
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
                 textDirection: TextDirection.rtl, // تحديد اتجاه النص من اليمين إلى اليسار
               ),
-
-
-
             ],
           ),
           const SizedBox(height: 20),

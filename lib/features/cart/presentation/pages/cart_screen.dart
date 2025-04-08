@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/features/cart/presentation/pages/widgets/cart_tile.dart';
+import 'package:smartstore/features/cart/presentation/pages/widgets/check_out_box.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
 import 'blocs/cart_cubit.dart'; // إضافة ملف الـ cubit
@@ -17,16 +18,16 @@ class CartScreen extends StatelessWidget {
         title: Text('السلة'),
         fontSize: 30,
       ),
-      // bottomSheet: BlocBuilder<CartCubit, CartState>(
-      //   builder: (context, state) {
-      //     if (state is CartLoaded) {
-      //       return CheckOutBox(
-      //         items: state.cartItems,
-      //       );
-      //     }
-      //     return SizedBox(); // عرض مساحة فارغة إذا لم يتم تحميل البيانات
-      //   },
-      // ),
+      bottomSheet: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is CartLoaded) {
+            return CheckOutBox(
+              items: state.cartItems,
+            );
+          }
+          return SizedBox(); // عرض مساحة فارغة إذا لم يتم تحميل البيانات
+        },
+      ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           if (state is CartLoading) {
