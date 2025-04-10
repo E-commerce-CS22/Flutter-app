@@ -5,6 +5,7 @@ import '../../../../common/widgets/navbar/bottom_nav_bar.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 import '../../../cart/presentation/pages/cart_screen.dart';
 import '../../../categories/presentation/pages/categories_page.dart';
+import '../../../products/presentation/pages/product_details_screen.dart';
 import '../../../profile/presentation/profile_page.dart';
 import '../../../wishlist/presentaion/pages/wishlist_screen.dart';
 import 'Home/home_page.dart';
@@ -61,7 +62,8 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const CartScreen();
       case 2:
-        return const AllCategoriesPage();
+        // return const AllCategoriesPage();
+        return const ProductDetailsPage();
       case 3:
         return const WishlistScreen();
       case 4:

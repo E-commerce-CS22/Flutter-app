@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../domain/entities/cart_entity.dart';
-import '../../models/cart_item.dart';
-
 class CheckOutBox extends StatelessWidget {
   final List<CartItemEntity> items; // تعديل النوع هنا ليقبل قائمة
 

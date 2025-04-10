@@ -11,6 +11,7 @@ class ApiUrls {
   static const wishlist = baseURL + 'api/wishlists/products';
   static const updateUserInfo = baseURL + 'api/customer/profile';
   static const orders = baseURL + 'api/customer/orders';
+  static const product = baseURL + 'api/products';
 
 
 

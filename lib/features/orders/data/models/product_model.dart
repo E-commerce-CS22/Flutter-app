@@ -1,6 +1,6 @@
 import '../../domain/entities/orders_state_entity.dart';
 
-class ProductEntityModel {
+class   ProductEntityModel {
   final int id;
   final String name;
   final String description;
