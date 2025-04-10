@@ -9,6 +9,7 @@ import 'features/authentication/presentation/blocs/user_display_cubit.dart';
 import 'features/cart/presentation/pages/blocs/cart_cubit.dart';
 import 'features/categories/presentation/blocs/category_cubit.dart';
 import 'features/orders/presentation/blocs/cancel_order_cubit.dart';
+import 'features/products_by_category/presentation/blocs/get_product_by_cateogry_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
 import 'features/wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
 
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CategoryCubit()..displayCategories()),
         BlocProvider(create: (context) => CartCubit()..getCartItems()),
         BlocProvider(create: (context) => WishlistCubit()..getCartItems()),
-        BlocProvider(create: (context) =>  CancelOrderCubit())
+        BlocProvider(create: (context) =>  CancelOrderCubit()),
+        BlocProvider(create: (context) => ProductsByCategoryCubit()),
 
       ],
       child: MaterialApp(

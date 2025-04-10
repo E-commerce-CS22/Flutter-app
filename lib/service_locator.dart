@@ -5,6 +5,7 @@ import 'package:smartstore/features/orders/domain/usecases/create_new_order_use_
 import 'package:smartstore/features/orders/domain/usecases/orders_use_case.dart';
 import 'package:smartstore/features/products/domain/repositories/product_details_repository.dart';
 import 'package:smartstore/features/products/domain/usecases/product_details_use_case.dart';
+import 'package:smartstore/features/products_by_category/data/data_scources/product_details_data_scource.dart';
 import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
 import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
 import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
@@ -34,6 +35,9 @@ import 'features/orders/domain/usecases/cancel_order_use_case.dart';
 import 'features/orders/domain/usecases/specific_order_use_case.dart';
 import 'features/products/data/datascources/product_details_data_scource.dart';
 import 'features/products/data/repositories/product_details_repository_impl.dart';
+import 'features/products_by_category/data/repositories/products_by_category_repository_impl.dart';
+import 'features/products_by_category/domain/repositories/products_by_category.dart';
+import 'features/products_by_category/domain/usecases/Get_product_by_category_use_case.dart';
 import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
@@ -66,6 +70,7 @@ void setupServiceLocator() {
 
   sl.registerSingleton<ProductsApiService>(ProductsApiServiceImpl());
 
+  sl.registerSingleton<ProductsByCategoryApiService>(ProductsByCategoryApiServiceImpl());
 
 
   // Repositories
@@ -84,7 +89,9 @@ void setupServiceLocator() {
 
   sl.registerSingleton<ProductDetailsRepository>(ProductDetailsRepositoryImpl());
 
+  sl.registerSingleton<ProductsByCategoryRepository>(ProductsByCategoryRepositoryImpl());
 
+  sl.registerSingleton<GetProductByCategoryUseCase>(GetProductByCategoryUseCase());
 
 
 
