@@ -8,6 +8,7 @@ import 'package:smartstore/features/products/domain/usecases/product_details_use
 import 'package:smartstore/features/products_by_category/data/data_scources/product_details_data_scource.dart';
 import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
 import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
+import 'package:smartstore/features/search/data/data_sources/search_data_scource.dart';
 import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
@@ -40,6 +41,8 @@ import 'features/products_by_category/domain/repositories/products_by_category.d
 import 'features/products_by_category/domain/usecases/Get_product_by_category_use_case.dart';
 import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
+import 'features/search/data/repositories/search_repository_impl.dart';
+import 'features/search/domain/repositories/search_repository.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
 import 'features/wishlist/data/repositories/wishlist_repository_impl.dart';
 import 'features/wishlist/domain/repositories/wishlist_repository.dart';
@@ -67,10 +70,12 @@ void setupServiceLocator() {
 
   sl.registerSingleton<OrdersApiService>(OrdersApiServiceImpl());
 
-
   sl.registerSingleton<ProductsApiService>(ProductsApiServiceImpl());
 
   sl.registerSingleton<ProductsByCategoryApiService>(ProductsByCategoryApiServiceImpl());
+
+  sl.registerSingleton<SearchApiService>(SearchApiServiceImpl());
+
 
 
   // Repositories
@@ -91,7 +96,7 @@ void setupServiceLocator() {
 
   sl.registerSingleton<ProductsByCategoryRepository>(ProductsByCategoryRepositoryImpl());
 
-  sl.registerSingleton<GetProductByCategoryUseCase>(GetProductByCategoryUseCase());
+  sl.registerSingleton<SearchRepository>(SearchRepositoryImpl());
 
 
 
@@ -142,6 +147,7 @@ void setupServiceLocator() {
   sl.registerSingleton<GetProductDetailsUseCase>(GetProductDetailsUseCase());
 
 
+  sl.registerSingleton<GetProductByCategoryUseCase>(GetProductByCategoryUseCase());
 
 
   // cubit
