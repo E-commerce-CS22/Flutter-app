@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/add_to_cart.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/appbar.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/image_slider.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/information.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/product_desc.dart';
+import '../../../../core/configs/theme/app_colors.dart';
+import '../../../cart/presentation/pages/blocs/cart_cubit.dart';
+import '../../../cart/presentation/pages/cart_screen.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
 import '../../domain/entities/product_details_entity.dart';
 import '../bloc/get_product_details_cubit.dart';
@@ -30,19 +34,96 @@ class _ProductScreenState extends State<ProductScreen> {
       create: (context) => ProductDetailsCubit()..fetchProductDetails(widget.productId),
       child: Scaffold(
         backgroundColor: kcontentColor,
-        floatingActionButton: AddToCart(
-          currentNumber: currentNumber,
-          onAdd: () {
-            setState(() {
-              currentNumber++;
-            });
-          },
-          onRemove: () {
-            if (currentNumber > 1) {
-              setState(() {
-                currentNumber--;
-              });
+
+        floatingActionButton: BlocConsumer<CartCubit, CartState>(
+          listener: (context, state) {
+            if (state is CartItemAddedState) {
+              context.read<CartCubit>().getCartItems(); // إعادة تحميل السلة بعد الإضافة
+
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: const Text(
+                    'تمت الإضافة بنجاح',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  content: const Text(
+                    'هل تريد الانتقال إلى السلة؟',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'لا',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // إغلاق الحوار أولاً
+                        AppNavigator.push(context, const CartScreen());
+                      },
+                      child: const Text(
+                        'نعم',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
+            if (state is CartError){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.message.isNotEmpty ? state.message : 'حدث خطأ أثناء إضافة المنتج للسلة',
+                  ),
+                  backgroundColor: Colors.grey[200],
+                  duration: const Duration(seconds: 3),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+
+            }
+          },
+          builder: (context, state) {
+            return AddToCart(
+              currentNumber: currentNumber,
+              onAdd: () {
+                setState(() {
+                  currentNumber++;
+                });
+              },
+              onRemove: () {
+                if (currentNumber > 1) {
+                  setState(() {
+                    currentNumber--;
+                  });
+                }
+              },
+              onPressed: () {
+                context.read<CartCubit>().addProductToCart(widget.productId, currentNumber);
+              },
+            );
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

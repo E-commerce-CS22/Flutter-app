@@ -6,7 +6,7 @@ class AddToCart extends StatelessWidget {
   final Function() onAdd;
   final Function() onRemove;
   final int currentNumber;
-  final VoidCallback? onPressed;
+  final Function()? onPressed;
 
 
   const AddToCart({
