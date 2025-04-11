@@ -7,7 +7,7 @@ class CreateOrderParams {
   final String shippingMethod;
   final String? notes;
 
-  CreateOrderParams({
+    CreateOrderParams({
     required this.items,
     required this.shippingAddress,
     required this.paymentMethod,

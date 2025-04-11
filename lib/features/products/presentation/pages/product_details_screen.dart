@@ -3,14 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/features/products/presentation/bloc/get_product_details_cubit.dart';
 import 'package:smartstore/features/products/presentation/bloc/get_product_details_state.dart';
 
+import '../../../orders/presentation/blocs/create_order_bloc/create_order_cubit.dart';
+
 class ProductDetailsPage extends StatelessWidget {
-  const ProductDetailsPage({super.key});
+  final int productId;
+
+  const ProductDetailsPage({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProductDetailsCubit()..fetchProductDetails(1), // تحميل منتج رقم 1
-      child: Scaffold(
+    return MultiBlocProvider(
+  providers: [
+    BlocProvider(
+      create: (_) => ProductDetailsCubit()..fetchProductDetails(productId), // تحميل تفاصيل المنتج باستخدام المعرف
+),
+    BlocProvider(
+      create: (context) => CreateOrderCubit(),
+    ),
+  ],
+  child: Scaffold(
         appBar: AppBar(
           title: const Text('تفاصيل المنتج'),
         ),
@@ -60,6 +71,6 @@ class ProductDetailsPage extends StatelessWidget {
           },
         ),
       ),
-    );
+);
   }
 }

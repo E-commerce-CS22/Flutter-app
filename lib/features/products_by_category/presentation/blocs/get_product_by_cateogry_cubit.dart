@@ -12,7 +12,9 @@ class ProductsByCategoryCubit extends Cubit<ProductsByCategoryState> {
     emit(ProductsByCategoryLoading());
 
     final result = await sl<GetProductByCategoryUseCase>()
-        .call(GetProductsByCategoryParams(categoryId: categoryId, page: page));
+        // .call(GetProductsByCategoryParams(categoryId: categoryId, page: page, perPage: perPage));
+    .call(GetProductsByCategoryParams(categoryId: categoryId, page: page));
+
 
     result.fold(
             (failure) => emit(ProductsByCategoryError(failure.errMessage)),

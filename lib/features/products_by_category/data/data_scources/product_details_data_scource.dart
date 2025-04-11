@@ -16,7 +16,9 @@ class ProductsByCategoryApiServiceImpl extends ProductsByCategoryApiService {
   Future<Either<Failure, ProductsByCategoryModel>> getProductsByCategory(GetProductsByCategoryParams params) async {
     try {
       final response = await sl<DioClient>().get(
+          // "${ApiUrls.categories}/${params.categoryId}${ApiUrls.productsByCategory}?page=${params,.page}&per_page=${params.perPage}"
           "${ApiUrls.categories}/${params.categoryId}${ApiUrls.productsByCategory}?page=${params.page}"
+
       );
 
       final data = response.data;

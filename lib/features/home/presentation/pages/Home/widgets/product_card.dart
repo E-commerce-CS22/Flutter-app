@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-// import 'package:shop_example/screens/product_screen.dart';
-
 import '../../../products/product_screen.dart';
 import '../models/constants.dart';
 import '../models/product.dart';
@@ -23,7 +21,8 @@ class ProductCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: double.infinity,
+            width: 180,
+            height: 220,
             decoration: BoxDecoration(
               color: kcontentColor,
               borderRadius: BorderRadius.circular(20),

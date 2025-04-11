@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/core/configs/theme/app_colors.dart';
-
 import '../../../products_by_category/presentation/pages/products_by_category_screen.dart';
 import '../blocs/category_cubit.dart';
 import '../blocs/category_state.dart';
@@ -64,7 +63,7 @@ class AllCategoriesPage extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) =>
                           ProductsByCategoryScreen(
-                            categoryId: category.id,
+                            categoryId: category.id, categoryName: category.name,
                           ),
                     ),
                   );
