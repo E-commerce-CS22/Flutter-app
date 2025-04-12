@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ionicons/ionicons.dart';
+import '../../../../wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
 
 class ProductCard extends StatelessWidget {
+  final int productId;
   final String? imageUrl;
   final String name;
   final double price;
@@ -8,6 +12,7 @@ class ProductCard extends StatelessWidget {
 
   const ProductCard({
     super.key,
+    required this.productId,
     required this.name,
     required this.price,
     this.imageUrl,
@@ -85,6 +90,7 @@ class ProductCard extends StatelessWidget {
               ],
             ),
           ),
+          // أيقونة القلب مع أنميشن
           Positioned(
             top: 0,
             left: 0,
@@ -98,10 +104,41 @@ class ProductCard extends StatelessWidget {
                   bottomRight: Radius.circular(10),
                 ),
               ),
-              child: const Icon(
-                Icons.favorite_border,
-                color: Colors.white,
-                size: 18,
+              child: Center(
+                child: BlocBuilder<WishlistCubit, WishlistState>(
+                  builder: (context, state) {
+                    bool isInWishlist = false;
+
+                    if (state is WishlistLoaded) {
+                      isInWishlist = state.wishlistItems.any((item) => item.id == productId);
+                    }
+
+                    return GestureDetector(
+                      onTap: () {
+                        // تحديث فقط لهذا المنتج
+                        if (state is WishlistLoaded) {
+                          if (isInWishlist) {
+                            context.read<WishlistCubit>().deleteItemFromWishlist(productId);
+                          } else {
+                            context.read<WishlistCubit>().addProductToWishlist(productId);
+                          }
+                          context.read<WishlistCubit>().getWishlists();
+                        }
+                      },
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) =>
+                            ScaleTransition(scale: animation, child: child),
+                        child: Icon(
+                          isInWishlist ? Ionicons.heart : Ionicons.heart_outline,
+                          key: ValueKey<bool>(isInWishlist),
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),
