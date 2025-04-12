@@ -13,7 +13,7 @@ class WishlistCubit extends Cubit<WishlistState> {
 
   WishlistCubit() : super(WishlistInitial());
 
-  Future<void> getCartItems() async {
+  Future<void> getWishlists() async {
     emit(WishlistLoading());
     final result = await sl<GetWishlistItemsUseCase>().call();
     result.fold(

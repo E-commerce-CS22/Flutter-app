@@ -44,7 +44,7 @@ class WishlistScreen extends StatelessWidget {
           } else if (state is WishlistError){
             return Center(child: Text('Error: ${state.message}'));
           }else if (state is WishlistItemDeleted){
-            context.read<WishlistCubit>().getCartItems();
+            context.read<WishlistCubit>().getWishlists();
           }
           return const SizedBox(); // حالة فارغة قبل تحميل البيانات
         },

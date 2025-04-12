@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => UserDisplayCubit()..displayUser()),
         BlocProvider(create: (context) => CategoryCubit()..displayCategories()),
         BlocProvider(create: (context) => CartCubit()..getCartItems()),
-        BlocProvider(create: (context) => WishlistCubit()..getCartItems()),
+        BlocProvider(create: (context) => WishlistCubit()..getWishlists()),
         BlocProvider(create: (context) =>  CancelOrderCubit()),
         BlocProvider(create: (context) => ProductsByCategoryCubit()),
 

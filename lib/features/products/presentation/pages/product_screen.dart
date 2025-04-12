@@ -147,7 +147,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const ProductAppBar(),
+                      ProductAppBar(productId: product.id),
                       ImageSlider(
                         onChange: (index) {
                           setState(() {
