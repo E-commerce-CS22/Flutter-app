@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartstore/common/bloc/auth/auth_state.dart';
 import 'package:smartstore/common/helper/navigator/app_navigator.dart';
+import 'package:smartstore/core/constants/api_urls.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_cubit.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_state.dart';
 import 'package:smartstore/features/authentication/presentation/pages/welcome_page.dart';
@@ -82,13 +83,22 @@ class _ProfileBody extends StatelessWidget {
           if (state is UserLoading) return _buildShimmerLoader();
           if (state is UserLoaded) {
             final user = state.userEntity;
+            print('${StaticUrls.imagePreUrl}${user.profile}');
             return Column(
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey.shade300,
-                  child: const Icon(Icons.person, size: 50, color: Colors.grey),
+              CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.grey.shade300,
+              child: ClipOval(
+                child: Image.network(
+                  '${StaticUrls.imagePreUrl}${user.profile}',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
                 ),
+              ),
+            ),
+
                 const SizedBox(height: 8),
                 Text(
                   '${user.first_name} ${user.last_name}',

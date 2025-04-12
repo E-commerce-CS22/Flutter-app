@@ -15,38 +15,35 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: BlocProvider(
-        create: (_) => UserUpdateCubit(),
-        child: BlocListener<UserUpdateCubit, UserUpdateState>(
-          listener: (context, state) {
-            if (state is UserUpdateSuccess) {
-              context.read<UserDisplayCubit>().displayUser();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('تم تحديث البيانات بنجاح'),
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  behavior: SnackBarBehavior.floating,
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20)
+      child: BlocListener<UserUpdateCubit, UserUpdateState>(
+        listener: (context, state) {
+          if (state is UserUpdateSuccess) {
+            context.read<UserDisplayCubit>().displayUser();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('تم تحديث البيانات بنجاح'),
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              );
-              Navigator.pop(context); // أو أي عملية تنقل
-            } else if (state is UserUpdateError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errMessage)),
-              );
-            }
-          },
-          child: Scaffold(
-            // تم إضافة Scaffold هنا
-            appBar: CurvedAppBar(
-              title: Text('تعديل البيانات'),
-              fontSize: 30,
-            ),
-            body: const _EditProfileBody(),
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20)
+              ),
+            );
+            Navigator.pop(context); // أو أي عملية تنقل
+          } else if (state is UserUpdateError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errMessage)),
+            );
+          }
+        },
+        child: const Scaffold(
+          // تم إضافة Scaffold هنا
+          appBar: CurvedAppBar(
+            title: Text('تعديل البيانات'),
+            fontSize: 30,
           ),
+          body: _EditProfileBody(),
         ),
       ),
     );
@@ -159,7 +156,6 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
           textAlign: TextAlign.left,
           decoration: InputDecoration(
             labelText: label,
-            border: const OutlineInputBorder(),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),

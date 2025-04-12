@@ -6,6 +6,7 @@ class UserEntity {
   final String phone;
   final String city;
   final String address;
+  final String? profile;
 
   UserEntity({
     required this.email,
@@ -14,6 +15,7 @@ class UserEntity {
     required this.last_name,
     required this.address,
     required this.city,
-    required this.phone
+    required this.phone,
+    this.profile,
   });
 }

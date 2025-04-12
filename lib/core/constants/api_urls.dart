@@ -25,3 +25,11 @@ class ApiKey {
   static String first_name = "first_name";
 
 }
+
+
+class StaticUrls {
+
+  static const imagePreUrl = '${ApiUrls.baseURL}storage/';
+
+
+}

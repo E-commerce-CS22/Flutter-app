@@ -9,6 +9,7 @@ class UserModel {
   final String address;
   final String city;
   final String postalCode;
+  final String? profile;
 
   UserModel({
     required this.email,
@@ -19,6 +20,7 @@ class UserModel {
     required this.address,
     required this.city,
     required this.postalCode,
+    this.profile
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -29,6 +31,7 @@ class UserModel {
     return UserModel(
       email: data['email'] as String,
       username: data['username'] as String,
+      profile: data['profile'] as String,
       firstName: customerData['first_name'] as String,
       lastName: customerData['last_name'] as String,
       phone: customerData['phone'] as String,
@@ -46,6 +49,7 @@ extension UserXModel on UserModel {
     return UserEntity(
       email: email,
       username: username,
+      profile: profile,
       first_name: firstName,
       last_name: lastName,
       address: address,
