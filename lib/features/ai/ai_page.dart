@@ -84,15 +84,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               );
             },
-            trailing: [
-              IconButton(
-                onPressed: _isSending ? null : _sendMediaMessage,
-                icon: Icon(
-                  Icons.image,
-                  color: _isSending ? Colors.grey : Theme.of(context).primaryColor,
-                ),
-              ),
-            ],
+            trailing: [], // تم حذف زر إرفاق الصورة
             focusNode: _focusNode,
             textController: _textController,
             inputDecoration: InputDecoration(
@@ -164,7 +156,6 @@ class _ChatPageState extends State<ChatPage> {
             user: geminiUser,
             createdAt: DateTime.now(),
             text: filterResponse(result!.output!),
-            medias: chatMessage.medias,
           );
           _messages = [geminiResponseMessage, ..._messages];
         } else {
@@ -190,24 +181,5 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  // إرسال الرسائل مع الوسائط
-  void _sendMediaMessage() async {
-    ImagePicker picker = ImagePicker();
-    XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      ChatMessage chatMessage = ChatMessage(
-        user: currentUser,
-        createdAt: DateTime.now(),
-        text: "اوصف هذا المنتج..",
-        medias: [
-          ChatMedia(
-            url: file.path,
-            fileName: file.name,
-            type: MediaType.image,
-          ),
-        ],
-      );
-      _sendMessage(chatMessage);
-    }
-  }
+// تم حذف دالة _sendMediaMessage بالكامل
 }
