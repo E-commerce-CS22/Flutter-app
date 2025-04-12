@@ -9,6 +9,7 @@ import 'package:smartstore/features/products_by_category/data/data_scources/prod
 import 'package:smartstore/features/profile/data/repositories/user_info_repository_impl.dart';
 import 'package:smartstore/features/profile/domain/usecases/update_customer_info_use_case.dart';
 import 'package:smartstore/features/search/data/data_sources/search_data_scource.dart';
+import 'package:smartstore/features/search/domain/usecases/search_use_case.dart';
 import 'package:smartstore/features/wishlist/domain/usecases/add_product_to_wishlist_use_case.dart';
 import 'core/network/dio_client.dart';
 import 'package:get_it/get_it.dart';
@@ -148,6 +149,8 @@ void setupServiceLocator() {
 
 
   sl.registerSingleton<GetProductByCategoryUseCase>(GetProductByCategoryUseCase());
+
+  sl.registerSingleton<SearchUseCase>(SearchUseCase());
 
 
   // cubit
