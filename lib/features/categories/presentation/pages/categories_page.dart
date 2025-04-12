@@ -51,9 +51,16 @@ class AllCategoriesPage extends StatelessWidget {
         if (state is CategoryLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is CategoryLoaded) {
-          return ListView.separated(
+          return GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // عدد الأعمدة
+              crossAxisSpacing: 10, // المسافة الأفقية بين المربعات
+              mainAxisSpacing: 10, // المسافة الرأسية بين المربعات
+              childAspectRatio: 1.2, // نسبة العرض إلى الارتفاع للمربع (يمكن تعديلها)
+            ),
+            itemCount: state.categories.length,
             itemBuilder: (context, index) {
               var category = state.categories[index];
               return GestureDetector(
@@ -61,47 +68,56 @@ class AllCategoriesPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ProductsByCategoryScreen(
-                            categoryId: category.id, categoryName: category.name,
-                          ),
+                      builder: (context) => ProductsByCategoryScreen(
+                        categoryId: category.id,
+                        categoryName: category.name,
+                      ),
                     ),
                   );
                 },
                 child: Container(
-                  height: 70,
-                  padding: const EdgeInsets.all(12),
+                  height: 180, // طول ثابت للكرت
                   decoration: BoxDecoration(
                     color: AppColors.secondBackground,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
-                    textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          image: category.image != null
-                              ? DecorationImage(
-                            image: NetworkImage(category.image!),
+                      // 🖼️ الصورة
+                      Expanded(
+                        flex: 2,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                          child: category.image != null
+                              ? Image.network(
+                            category.image!,
+                            width: double.infinity,
                             fit: BoxFit.cover,
                           )
-                              : null,
+                              : Container(
+                            color: Colors.grey.shade200,
+                            child: const Center(
+                              child: Icon(Icons.image_not_supported, color: Colors.grey),
+                            ),
+                          ),
                         ),
-                        child: category.image == null
-                            ? const Icon(
-                            Icons.image_not_supported, color: Colors.grey)
-                            : null,
                       ),
-                      const SizedBox(width: 15),
-                      Text(
-                        category.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                      // 📝 النص
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            category.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ],
@@ -109,17 +125,15 @@ class AllCategoriesPage extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemCount: state.categories.length,
           );
         } else if (state is LoadCategoryFailure) {
-          return Center(child: Text('خطأ: ${state.errorMessage}',
-              style: const TextStyle(color: Colors.red)));
+          return Center(
+              child: Text('خطأ: ${state.errorMessage}',
+                  style: const TextStyle(color: Colors.red)));
         } else {
           return const Center(child: Text('لا توجد بيانات متاحة'));
         }
       },
     );
   }
-
 }
