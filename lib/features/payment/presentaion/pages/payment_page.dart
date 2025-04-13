@@ -13,6 +13,7 @@ class PaymentPage extends StatefulWidget {
   final double total;
   final List<CartItemEntity> items;
 
+
   const PaymentPage({
     super.key,
     required this.total,
@@ -70,6 +71,8 @@ class _PaymentPageState extends State<PaymentPage> {
               ShippingAddressField(controller: _addressController),
               const SizedBox(height: 16),
               NotesField(controller: _notesController),
+              const SizedBox(height: 24),
+              InvoiceTable(items: widget.items),
               const SizedBox(height: 24),
               AmountSummary(total: widget.total,),
               const SizedBox(height: 24),
@@ -194,15 +197,128 @@ class AmountSummary extends StatelessWidget {
   }
 }
 
+class InvoiceTable extends StatelessWidget {
+  final List<CartItemEntity> items;
+
+  const InvoiceTable({super.key, required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    const TextStyle headerStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 12,
+    );
+    const TextStyle cellStyle = TextStyle(
+      fontSize: 11,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'تفاصيل الطلب',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Table(
+            border: TableBorder.symmetric(
+              inside: BorderSide(color: Colors.grey.shade300),
+            ),
+            columnWidths: const {
+              0: FlexColumnWidth(3),
+              1: FlexColumnWidth(1.5),
+              2: FlexColumnWidth(1.1),
+              3: FlexColumnWidth(2),
+            },
+            children: [
+              // Header Row
+              const TableRow(
+                decoration: BoxDecoration(color: Color(0xfff7f7f7)),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Text('المنتج', style: headerStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Text('السعر', style: headerStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Text('الكمية', style: headerStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Text('الإجمالي', style: headerStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
+                ],
+              ),
+              // Data Rows
+              ...items.map(
+                    (item) => TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text(
+                        item.name,
+                        style: cellStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text(
+                        '${item.price}',
+                        style: cellStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text(
+                        '${item.quantity}',
+                        style: cellStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text(
+                        '${item.price * item.quantity}',
+                        style: cellStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
 class PaymentMethodCard extends StatelessWidget {
-  final IconData icon;
+  final String imagePath; // المسار للصورة
   final String text;
   final bool isSelected;
   final VoidCallback onTap;
 
   const PaymentMethodCard({
     Key? key,
-    required this.icon,
+    required this.imagePath,
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -217,9 +333,17 @@ class PaymentMethodCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        child: ListTile(
-          leading: Icon(icon, color: AppColors.primary),
-          title: Text(text),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: ListTile(
+            leading: Image.asset(
+              imagePath,
+              width: 40,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+            title: Text(text),
+          ),
         ),
       ),
     );
@@ -245,14 +369,14 @@ class PaymentMethodsSection extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         PaymentMethodCard(
-          icon: Icons.money,
+          imagePath: 'assets/images/cash.png', // استبدل بالمسار الصحيح
           text: 'الدفع عند الاستلام',
           isSelected: selectedMethod == 'cash_on_delivery',
           onTap: () => onSelect('cash_on_delivery'),
         ),
         const SizedBox(height: 8),
         PaymentMethodCard(
-          icon: Icons.account_balance_wallet,
+          imagePath: 'assets/images/jawali.png', // استبدل بالمسار الصحيح
           text: 'الدفع بواسطة محفظة جوالي',
           isSelected: selectedMethod == 'jawali_wallet',
           onTap: () => onSelect('jawali_wallet'),
