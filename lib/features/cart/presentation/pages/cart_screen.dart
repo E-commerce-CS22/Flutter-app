@@ -5,6 +5,7 @@ import 'package:smartstore/features/cart/presentation/pages/widgets/cart_tile.da
 import 'package:smartstore/features/cart/presentation/pages/widgets/check_out_box.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
+import '../../../products/presentation/pages/product_screen.dart';
 import 'blocs/cart_cubit.dart'; // إضافة ملف الـ cubit
 
 class CartScreen extends StatelessWidget {
@@ -47,6 +48,15 @@ class CartScreen extends StatelessWidget {
                     },
                     onAdd: () {
                       context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity + 1);
+                    },
+
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductScreen(productId: state.cartItems[index].id),
+                        ),
+                      );
                     },
                   );
                 } else {

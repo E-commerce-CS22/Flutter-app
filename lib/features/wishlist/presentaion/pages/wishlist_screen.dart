@@ -5,6 +5,7 @@ import 'package:smartstore/features/wishlist/presentaion/pages/blocs/wishlist_cu
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../cart/presentation/models/cart_item.dart';
 import '../../../home/presentation/pages/Home/models/constants.dart';
+import '../../../products/presentation/pages/product_screen.dart';
 import '../widgets/wishlist_tile.dart';
 
 class WishlistScreen extends StatelessWidget {
@@ -36,6 +37,14 @@ class WishlistScreen extends StatelessWidget {
                           cartItems[index].quantity--;
                         });
                       }
+                    },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductScreen(productId: state.wishlistItems[index].id),
+                        ),
+                      );
                     },
                   ),
               separatorBuilder: (context, index) => const SizedBox(height: 20),
