@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/core/configs/theme/app_colors.dart';
+import 'package:smartstore/features/home/presentation/pages/home.dart';
 import '../../../authentication/presentation/blocs/user_display_cubit.dart';
 import '../../../authentication/presentation/blocs/user_display_state.dart';
 import '../../../cart/domain/entities/cart_entity.dart';
+import '../../../cart/presentation/pages/blocs/cart_cubit.dart';
 import '../../../orders/domain/entities/Create_Order_Params.dart';
 import '../../../orders/domain/entities/Order_item_params.dart';
 import '../../../orders/presentation/blocs/create_order_bloc/create_order_cubit.dart';
+import '../../../orders/presentation/blocs/create_order_bloc/create_order_state.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
@@ -63,7 +67,73 @@ class _PaymentPageState extends State<PaymentPage> {
           title: Text('الدفع'),
           fontSize: 30,
         ),
-        body: SingleChildScrollView(
+        body: BlocListener<CreateOrderCubit, CreateOrderState>(
+          listener: (context, state) {
+            if (state is CreateOrderLoading) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const Center(child: CircularProgressIndicator()),
+              );
+            } else if (state is CreateOrderSuccess) {
+              Navigator.pop(context); // لإغلاق اللودينق
+
+              for (final item in formattedItems) {
+                context.read<CartCubit>().deleteItemFromCart(item.productId);
+              }
+
+              showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.check_circle, size: 60, color: AppColors.primary),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'شكرًا لك على الشراء',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'استمر في التسوق لاكتشاف منتجات وعروض حصرية مميزة.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () {
+                            AppNavigator.pushReplacement(context, HomePage());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                          ),
+                          child:  const Text('مواصلة التسوق', style: TextStyle(color: AppColors.white),),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else if (state is CreateOrderError) {
+              Navigator.pop(context); // لإغلاق اللودينق
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('❌ فشل في إنشاء الطلب: ${state.message}')),
+              );
+            }
+          },
+  child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,6 +164,18 @@ class _PaymentPageState extends State<PaymentPage> {
               const SizedBox(height: 24),
               ConfirmButton(
                 onPressed: () {
+                  if (_selectedPaymentMethod == 'jawali_wallet') {
+                    if (_phoneController.text.trim().isEmpty || _codeController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('يرجى تعبئة رقم الجوال وكود الشراء قبل تأكيد الطلب'),
+                          backgroundColor: Colors.grey,
+                        ),
+                      );
+                      return; // لا تكمل الطلب
+                    }
+                  }
+
                   final orderParams = CreateOrderParams(
                     items: _getFormattedItems(widget.items),
                     shippingAddress: _addressController.text,
@@ -103,14 +185,12 @@ class _PaymentPageState extends State<PaymentPage> {
                   );
 
                   context.read<CreateOrderCubit>().createOrder(orderParams);
-
-
-
                 },
               )
             ],
           ),
         ),
+),
       ),
     );
   }
@@ -415,6 +495,7 @@ class JawaliFields extends StatelessWidget {
         const SizedBox(height: 6),
         TextField(
           controller: codeController,
+          keyboardType: TextInputType.phone,
           obscureText: true,
           decoration: const InputDecoration(hintText: 'أدخل كود الشراء'),
         ),
