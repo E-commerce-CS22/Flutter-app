@@ -79,7 +79,7 @@ class _SplashPageState extends State<SplashPage> {
       ),
       child: Center(
         child: SvgPicture.asset(
-          AppVectors.appLogo,
+          AppVectors.appLogo2,
           height: 200,
           width: 200,
         ),
