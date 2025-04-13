@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/features/products_by_category/presentation/pages/widgets/product_card.dart';
-import '../../../products/presentation/pages/product_details_screen.dart';
 import '../../../products/presentation/pages/product_screen.dart';
+import '../../../wishlist/presentaion/pages/blocs/add_to_wishlist/add_to_wishlist_cubit.dart';
 import '../blocs/get_product_by_category_state.dart';
 import '../blocs/get_product_by_cateogry_cubit.dart';
 
@@ -20,14 +20,17 @@ class ProductsByCategoryScreen extends StatefulWidget {
   });
 
   @override
-  State<ProductsByCategoryScreen> createState() => _ProductsByCategoryScreenState();
+  State<ProductsByCategoryScreen> createState() =>
+      _ProductsByCategoryScreenState();
 }
 
 class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductsByCategoryCubit>().fetchProductsByCategory(widget.categoryId, widget.pageId);
+    context
+        .read<ProductsByCategoryCubit>()
+        .fetchProductsByCategory(widget.categoryId, widget.pageId);
   }
 
   @override
@@ -57,18 +60,23 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
               itemBuilder: (context, index) {
                 final product = state.products.products.products[index];
 
-                return ProductCard(
-                  name: product.name,
-                  price: product.price,
-                  imageUrl: product.primaryImage,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductScreen(productId: product.id),
-                      ),
-                    );
-                  },
+                return BlocProvider(
+                  create: (context) => ProductWishlistCubit(),
+                  child: ProductCard(
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    imageUrl: product.primaryImage,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProductScreen(productId: product.id),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );
@@ -78,7 +86,9 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<ProductsByCategoryCubit>().fetchProductsByCategory(widget.categoryId, widget.pageId);
+          context
+              .read<ProductsByCategoryCubit>()
+              .fetchProductsByCategory(widget.categoryId, widget.pageId);
         },
         child: const Icon(Icons.refresh),
       ),

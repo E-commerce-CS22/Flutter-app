@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartstore/common/helper/navigator/app_navigator.dart';
+import '../../../../payment/presentaion/pages/payment_page.dart';
 import '../../../domain/entities/cart_entity.dart';
 class CheckOutBox extends StatelessWidget {
   final List<CartItemEntity> items; // تعديل النوع هنا ليقبل قائمة
@@ -50,7 +52,9 @@ class CheckOutBox extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              AppNavigator.push(context, PaymentPage(total: total, items: items,));
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blueAccent, // لون أزرق غامق لمظهر أنيق
               minimumSize: const Size(double.infinity, 55),

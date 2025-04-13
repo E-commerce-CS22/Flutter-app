@@ -25,7 +25,7 @@ class CartScreen extends StatelessWidget {
               items: state.cartItems,
             );
           }
-          return SizedBox(); // عرض مساحة فارغة إذا لم يتم تحميل البيانات
+          return const SizedBox(); // عرض مساحة فارغة إذا لم يتم تحميل البيانات
         },
       ),
       body: BlocBuilder<CartCubit, CartState>(
@@ -35,23 +35,30 @@ class CartScreen extends StatelessWidget {
           } else if (state is CartLoaded) {
             return ListView.separated(
               padding: const EdgeInsets.all(20),
-              itemCount: state.cartItems.length,
-              itemBuilder: (context, index) => CartTile(
-                item: state.cartItems[index],
-                onRemove: () {
-                  if (state.cartItems[index].quantity != 1) {
-                    context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity -1);
-                  }
-                },
-                onAdd: () {
-                  context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity + 1);
-                },
-              ),
-              separatorBuilder: (context, index) => const SizedBox(height: 20),
+              itemCount: state.cartItems.length + 1, // زيادة عدد العناصر بمقدار 1 لإضافة الـ SizedBox
+              itemBuilder: (context, index) {
+                if (index < state.cartItems.length) {
+                  return CartTile(
+                    item: state.cartItems[index],
+                    onRemove: () {
+                      if (state.cartItems[index].quantity != 1) {
+                        context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity - 1);
+                      }
+                    },
+                    onAdd: () {
+                      context.read<CartCubit>().updateCartItemQuantity(state.cartItems[index].id, state.cartItems[index].quantity + 1);
+                    },
+                  );
+                } else {
+                  // إضافة SizedBox في نهاية القائمة
+                  return SizedBox(height: 130); // يمكنك تعديل هذا الارتفاع حسب الحاجة
+                }
+              },
+              separatorBuilder: (context, index) => index < state.cartItems.length ? const SizedBox(height: 20) : const SizedBox.shrink(),
             );
           } else if (state is CartError) {
             return Center(child: Text('Error: ${state.message}'));
-          } else if (state is CartItemDeleted){
+          } else if (state is CartItemDeleted) {
             context.read<CartCubit>().getCartItems(); // إعادة تحميل السلة بعد الحذف
           }
           return const SizedBox(); // حالة فارغة قبل تحميل البيانات

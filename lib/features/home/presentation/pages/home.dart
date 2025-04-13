@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         return const AllCategoriesPage();
         // return ProductsByCategoryScreen();
       case 3:
-        return const WishlistScreen();
+        return  WishlistScreen();
       case 4:
         return const MainPage();
       default:
