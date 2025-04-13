@@ -2,9 +2,10 @@ class ProductEntity {
   final int id;
   final String name;
   final String description;
-  final String price;
+  final double price;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String? image;
 
   const ProductEntity({
     required this.id,
@@ -13,5 +14,6 @@ class ProductEntity {
     required this.price,
     required this.createdAt,
     required this.updatedAt,
+    this.image,
   });
 }

@@ -8,6 +8,7 @@ class ProductModel extends ProductEntity {
     required super.price,
     required super.createdAt,
     required super.updatedAt,
+    required super.image,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -15,9 +16,10 @@ class ProductModel extends ProductEntity {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      price: json['price'],
+      price: double.parse(json['price'].toString()),
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
+      image: json['image'],
     );
   }
 
