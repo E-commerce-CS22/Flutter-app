@@ -38,12 +38,12 @@ class ProfilePage extends StatelessWidget {
                 AppNavigator.pushReplacement(context, WelcomePage());
               }
             },
-            child: Scaffold(
-              appBar: const CurvedAppBar(
+            child: const Scaffold(
+              appBar: CurvedAppBar(
                 title: Text('حسابي'),
                 fontSize: 30,
               ),
-              body: const _ProfileBody(),
+              body: _ProfileBody(),
             ),
           ),
         ),
@@ -81,24 +81,45 @@ class _ProfileBody extends StatelessWidget {
       child: BlocBuilder<UserDisplayCubit, UserDisplayState>(
         builder: (context, state) {
           if (state is UserLoading) return _buildShimmerLoader();
+
           if (state is UserLoaded) {
             final user = state.userEntity;
-            print('${StaticUrls.imagePreUrl}${user.profile}');
+            final profileUrl = '${StaticUrls.imagePreUrl}${user.profile}';
+
+            // شرط لفحص الرابط
+            final isInvalidImage = user.profile == null ||
+                user.profile!.isEmpty ||
+                profileUrl.contains('example.com');
+
             return Column(
               children: [
-              CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.grey.shade300,
-              child: ClipOval(
-                child: Image.network(
-                  '${StaticUrls.imagePreUrl}${user.profile}',
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey.shade300,
+                  child: ClipOval(
+                    child: isInvalidImage
+                        ? Image.asset(
+                      'assets/images/profile.png', // ✅ صورة محلية بديلة
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.network(
+                      profileUrl,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/default_profile.png',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-
                 const SizedBox(height: 8),
                 Text(
                   '${user.first_name} ${user.last_name}',
@@ -107,9 +128,11 @@ class _ProfileBody extends StatelessWidget {
               ],
             );
           }
+
           if (state is LoadUserFailure) {
             return Text(state.errorMessage, style: const TextStyle(color: Colors.red));
           }
+
           return Container();
         },
       ),
@@ -337,7 +360,7 @@ class _OrdersAndFavorites extends StatelessWidget {
       children: [
         _buildOption(
           imagePath: 'assets/icons/orders.png',
-          label: 'حاله طلباتي',
+          label: 'سجل الطلبات',
           onTap: () {
             AppNavigator.push(context, OrdersPage());
           },

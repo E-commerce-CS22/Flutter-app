@@ -9,7 +9,7 @@ class UserModel {
   final String address;
   final String city;
   final String postalCode;
-  final String? profile;
+  final String profile;
 
   UserModel({
     required this.email,
@@ -20,7 +20,7 @@ class UserModel {
     required this.address,
     required this.city,
     required this.postalCode,
-    this.profile
+    required this.profile
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {

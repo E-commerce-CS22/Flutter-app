@@ -43,6 +43,7 @@ class _ProductScreenState extends State<ProductScreen> {
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
+                  backgroundColor: AppColors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
