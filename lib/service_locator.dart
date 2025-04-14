@@ -44,6 +44,10 @@ import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
 import 'features/search/data/repositories/search_repository_impl.dart';
 import 'features/search/domain/repositories/search_repository.dart';
+import 'features/sliders/data/data_scource/sliders_data_scource.dart';
+import 'features/sliders/data/repositories/sliders_repositories_impl.dart';
+import 'features/sliders/domain/repositories/sliders_repositories.dart';
+import 'features/sliders/domain/usecases/sliders_use_case.dart';
 import 'features/wishlist/data/datasources/wishlist_remote_data_source.dart';
 import 'features/wishlist/data/repositories/wishlist_repository_impl.dart';
 import 'features/wishlist/domain/repositories/wishlist_repository.dart';
@@ -77,6 +81,9 @@ void setupServiceLocator() {
 
   sl.registerSingleton<SearchApiService>(SearchApiServiceImpl());
 
+  sl.registerSingleton<SlidersApiService>(SlidersApiServiceImpl());
+
+
 
 
   // Repositories
@@ -98,6 +105,8 @@ void setupServiceLocator() {
   sl.registerSingleton<ProductsByCategoryRepository>(ProductsByCategoryRepositoryImpl());
 
   sl.registerSingleton<SearchRepository>(SearchRepositoryImpl());
+
+  sl.registerSingleton<SlidersRepository>(SlidersRepositoryImpl());
 
 
 
@@ -151,6 +160,10 @@ void setupServiceLocator() {
   sl.registerSingleton<GetProductByCategoryUseCase>(GetProductByCategoryUseCase());
 
   sl.registerSingleton<SearchUseCase>(SearchUseCase());
+
+
+  sl.registerSingleton<SlidersUseCase>(SlidersUseCase());
+
 
 
   // cubit

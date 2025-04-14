@@ -15,6 +15,7 @@ class ApiUrls {
   static const  product = baseURL + 'api/products';
   static const productsByCategory = '/products';
   static const search = baseURL + 'api/products/search';
+  static const sliders = baseURL + 'api/slides';
 
 
 }
@@ -28,6 +29,8 @@ class ApiKey {
 
 
 class StaticUrls {
+
+  static const baseURL = "http://192.168.1.9:8000";
 
   static const imagePreUrl = '${ApiUrls.baseURL}storage/';
 

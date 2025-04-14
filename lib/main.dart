@@ -13,6 +13,7 @@ import 'features/orders/presentation/blocs/create_order_bloc/create_order_cubit.
 import 'features/products_by_category/presentation/blocs/get_product_by_cateogry_cubit.dart';
 import 'features/profile/presentation/bloc/user_update_cubit.dart';
 import 'features/search/presentation/blocs/search_cubit.dart';
+import 'features/sliders/presentation/blocs/sliders_cubit.dart';
 import 'features/splash/presentation/pages/splash.dart';
 import 'features/wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
 
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => UserUpdateCubit()),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => CreateOrderCubit()),
+        BlocProvider(create: (context) => SlidersCubit()..fetchSliders()),
+
 
 
 
