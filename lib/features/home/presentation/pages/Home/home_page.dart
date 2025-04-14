@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
+import 'package:smartstore/common/widgets/card/product_card_all.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/categories.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/home_slider.dart';
 import 'package:smartstore/features/home/presentation/pages/Home/widgets/search_box.dart';
@@ -14,6 +15,7 @@ import '../../../../list_products/presentation/blocs/list_products_cubit.dart';
 import '../../../../list_products/presentation/blocs/list_products_state.dart';
 import '../../../../list_products/presentation/pages/list_products_screen.dart';
 import '../../../../list_products/presentation/pages/widgets/product_card.dart';
+import '../../../../products/presentation/pages/product_screen.dart';
 import 'models/product.dart';
 
 class MainPage extends StatefulWidget {
@@ -107,13 +109,16 @@ class _MainPageState extends State<MainPage> {
                             ),
                             itemCount: products.length,
                             itemBuilder: (context, index) {
-                              return ProductCard(
+                              return ProductCardForAll(
                                 productId: products[index].id,
                                 name: products[index].name,
                                 price: products[index].price,
                                 imageUrl: products[index].image, // تأكد من الرابط الصحيح للصورة
                                 onTap: () {
-                                  // يمكنك تنفيذ أي إجراء عند النقر على المنتج
+                                  AppNavigator.push(
+                                    context,
+                                    ProductScreen(productId: products[index].id),
+                                  );
                                 },
                               );
                             },

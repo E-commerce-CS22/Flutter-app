@@ -11,20 +11,12 @@ class ProductDescription extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end, // تعديل لمحاذاة المحتوى من اليمين
       children: [
-        Container(
-          width: 110,
-          height: 38,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+        const Text(
+          ":وصف المنتج",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
             color: AppColors.primary,
-          ),
-          alignment: Alignment.center,
-          child: const Text(
-            "وصف المنتج",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
           ),
         ),
         const SizedBox(height: 20),

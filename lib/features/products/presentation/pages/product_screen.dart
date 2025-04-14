@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/add_to_cart.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/appbar.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/image_slider.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/information.dart';
 import 'package:smartstore/features/products/presentation/pages/product_widgets/product_desc.dart';
+import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../core/configs/theme/app_colors.dart';
 import '../../../cart/presentation/pages/blocs/cart_cubit.dart';
 import '../../../cart/presentation/pages/cart_screen.dart';
@@ -13,6 +13,9 @@ import '../../../home/presentation/pages/Home/models/constants.dart';
 import '../../domain/entities/product_details_entity.dart';
 import '../bloc/get_product_details_cubit.dart';
 import '../bloc/get_product_details_state.dart';
+
+import 'package:flutter/material.dart';
+import 'package:smartstore/core/configs/theme/app_colors.dart'; // Make sure to import your app colors
 
 class ProductScreen extends StatefulWidget {
   final int productId;
@@ -34,12 +37,10 @@ class _ProductScreenState extends State<ProductScreen> {
       create: (context) => ProductDetailsCubit()..fetchProductDetails(widget.productId),
       child: Scaffold(
         backgroundColor: kcontentColor,
-
         floatingActionButton: BlocConsumer<CartCubit, CartState>(
           listener: (context, state) {
             if (state is CartItemAddedState) {
-              context.read<CartCubit>().getCartItems(); // إعادة تحميل السلة بعد الإضافة
-
+              context.read<CartCubit>().getCartItems();
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
@@ -77,7 +78,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // إغلاق الحوار أولاً
+                        Navigator.of(context).pop();
                         AppNavigator.push(context, const CartScreen());
                       },
                       child: const Text(
@@ -92,7 +93,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
               );
             }
-            if (state is CartError){
+            if (state is CartError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
@@ -103,7 +104,6 @@ class _ProductScreenState extends State<ProductScreen> {
                   behavior: SnackBarBehavior.floating,
                 ),
               );
-
             }
           },
           builder: (context, state) {
@@ -156,13 +156,13 @@ class _ProductScreenState extends State<ProductScreen> {
                           });
                         },
                         currentImage: currentImage,
-                        image: product.image ?? 'gg',
+                        image: product.image ?? 'assets/images/notFound.jpg',
                       ),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
-                          5, // يفضل ربط هذا بعدد الصور مستقبلاً
+                          5,
                               (index) => AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             width: currentImage == index ? 15 : 8,
@@ -192,52 +192,101 @@ class _ProductScreenState extends State<ProductScreen> {
                           children: [
                             ProductInfo(product: product),
                             const SizedBox(height: 20),
-                            if (product.colors != null && product.colors!.isNotEmpty) ...[
-                              const Text(
-                                "اللون",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ///////////////////////////////////////
+
+                            const Text(
+                              ':الخيارات',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: AppColors.primary,
                               ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: List.generate(
-                                  product.colors!.length,
-                                      (index) => GestureDetector(
+                            ),
+                            const SizedBox(height: 10),
+                            // Use Wrap for variant buttons
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              // reverse: true,
+                              child: Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: product.variants.map((variant) {
+                                  return GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        currentColor = index;
+                                        currentColor = product.variants.indexOf(variant);
                                       });
                                     },
-                                    child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 300),
-                                      width: 35,
-                                      height: 35,
-                                      margin: const EdgeInsets.only(left: 15),
-                                      padding: currentColor == index ? const EdgeInsets.all(2) : null,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                                       decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: currentColor == index ? Colors.white : product.colors![index],
-                                        border: currentColor == index
-                                            ? Border.all(color: product.colors![index])
-                                            : null,
+                                        color: currentColor == product.variants.indexOf(variant) ? AppColors.primary : Colors.grey[200],
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                          color: currentColor == product.variants.indexOf(variant) ? AppColors.primary : Colors.transparent,
+                                          width: 2,
+                                        ),
                                       ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: product.colors![index],
-                                          shape: BoxShape.circle,
+                                      child: Text(
+                                        variant.variantTitle ?? 'غير متوفر',
+                                        style: TextStyle(
+                                          color: currentColor == product.variants.indexOf(variant) ? Colors.white : Colors.black,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  );
+                                }).toList(),
                               ),
-                              const SizedBox(height: 20),
-                            ],
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              ':المواصفات',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+
+                            // Use Card for each attribute for a modern look
+                            ...product.variants[currentColor].attributes.map((attribute) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(vertical: 3),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.grey.shade300), // Subtle border
+                                  color: Colors.white,
+                                ),
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      attribute.value.name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      attribute.attribute.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                            const SizedBox(height: 20),
                             ProductDescription(text: product.description),
                           ],
+
                         ),
                       ),
                     ],
@@ -246,7 +295,7 @@ class _ProductScreenState extends State<ProductScreen> {
               );
             }
 
-            return const SizedBox(); // Initial
+            return const SizedBox(); // Initial state
           },
         ),
       ),

@@ -7,7 +7,7 @@ class ProductDetailsInitial extends ProductDetailsState{}
 class ProductDetailsLoading extends ProductDetailsState{}
 
 class ProductDetailsLoaded extends ProductDetailsState{
-  final ProductDetailsEntity product;
+  final ProductEntity product;
 
   ProductDetailsLoaded(this.product);
 }

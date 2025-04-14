@@ -7,14 +7,14 @@ import '../../../../service_locator.dart';
 import '../models/product_details_model.dart';
 
 abstract class ProductsApiService {
-  Future<Either<Failure, ProductDetailsModel>> getProductDetails(int productId);
+  Future<Either<Failure, ProductModel>> getProductDetails(int productId);
 
 }
 
 
 class ProductsApiServiceImpl extends ProductsApiService{
   @override
-  Future<Either<Failure, ProductDetailsModel>> getProductDetails(int productId) async {
+  Future<Either<Failure, ProductModel>> getProductDetails(int productId) async {
 
     try{
       final response = await sl<DioClient>().get(
@@ -25,7 +25,7 @@ class ProductsApiServiceImpl extends ProductsApiService{
       if (data is! Map<String, dynamic>) {
         return Left(Failure(errMessage: 'بيانات غير متوقعة من السيرفر'));
       }
-      final productDetails = ProductDetailsModel.fromJson(data);
+      final productDetails = ProductModel.fromJson(data);
 
       return Right(productDetails);
 
@@ -36,11 +36,12 @@ class ProductsApiServiceImpl extends ProductsApiService{
         message = e.response?.data['message'] ?? message;
       }
       return Left(Failure(errMessage: message));
-    }catch (e) {
-      // طباعة تفاصيل الخطأ لمساعدتنا في التحليل
-      print('❌ Error: $e');
-      return Left(Failure(errMessage: 'حدث خطأ غير متوقع في API: $e'));
     }
+    // catch (e) {
+    //   // طباعة تفاصيل الخطأ لمساعدتنا في التحليل
+    //   print('❌ Error: $e');
+    //   return Left(Failure(errMessage: 'حدث خطأ غير متوقع في API: $e'));
+    // }
 
   }
 

@@ -7,7 +7,7 @@ import '../../domain/repositories/product_details_repository.dart';
 
 class ProductDetailsRepositoryImpl extends ProductDetailsRepository{
   @override
-  Future<Either<Failure, ProductDetailsEntity>> getProductDetailsRepo(int productId) async{
+  Future<Either<Failure, ProductEntity>> getProductDetailsRepo(int productId) async{
 
     return await sl<ProductsApiService>().getProductDetails(productId);
   }

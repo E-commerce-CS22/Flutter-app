@@ -5,7 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import '../../../domain/entities/product_details_entity.dart';
 
 class ProductInfo extends StatelessWidget {
-  final ProductDetailsEntity product;
+  final ProductEntity product;
   const ProductInfo({super.key, required this.product});
 
   @override

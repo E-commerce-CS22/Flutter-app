@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/features/products_by_category/presentation/pages/widgets/product_card.dart';
+import '../../../../common/helper/navigator/app_navigator.dart';
 import '../../../../common/widgets/card/product_card_all.dart';
 import '../../../products/presentation/pages/product_screen.dart';
 import '../../../wishlist/presentaion/pages/blocs/add_to_wishlist/add_to_wishlist_cubit.dart';
@@ -69,13 +70,9 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
                     price: product.price,
                     imageUrl: product.primaryImage,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProductScreen(productId: product.id),
-                        ),
-                      );
+
+                      AppNavigator.push(context, ProductScreen(productId: product.id,));
+
                     },
                   ),
                 );

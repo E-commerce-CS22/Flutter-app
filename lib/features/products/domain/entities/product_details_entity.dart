@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:smartstore/features/products/domain/entities/product_variant_entity.dart';
 
-class ProductDetailsEntity {
-    final int id;
-    final String name;
-    final String description;
-    final double price;
-    final String? image;
-    final List<String> tags;
-    final String? discountType; // مثال: "percentage" أو "fixed"
-    final double? discountValue;
-    final List<Color>? colors;
-    // final List<ProductVariantEntity> variants;
+import 'attribute_entity.dart';
 
 
-    const ProductDetailsEntity({
-      required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.tags,
-      this.discountType,
-      this.discountValue,
-      this.image,
-      this.colors,
-      // required this.variants
-    });
-  }
+class ProductEntity {
+  final int id;
+  final String name;
+  final String description;
+  final double price;
+  final String? discountType;
+  final String? discountValue;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String? image;
+  final List<String> tags;
+  final List<VariantEntity> variants;
+
+  ProductEntity({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    this.discountType,
+    this.discountValue,
+    required this.createdAt,
+    required this.updatedAt,
+    this.image,
+    required this.tags,
+    required this.variants,
+  });
+}
+
+
+
+
+
+
+

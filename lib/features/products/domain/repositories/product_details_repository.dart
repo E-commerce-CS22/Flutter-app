@@ -4,5 +4,5 @@ import '../entities/product_details_entity.dart';
 
 abstract class ProductDetailsRepository{
 
-  Future<Either<Failure,ProductDetailsEntity>> getProductDetailsRepo(int productId);
+  Future<Either<Failure,ProductEntity>> getProductDetailsRepo(int productId);
 }

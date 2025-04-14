@@ -6,9 +6,9 @@ import 'package:smartstore/features/products/domain/repositories/product_details
 
 import '../../../../service_locator.dart';
 
-class GetProductDetailsUseCase implements UseCase3<ProductDetailsEntity, ProductDetailsParams>{
+class GetProductDetailsUseCase implements UseCase3<ProductEntity, ProductDetailsParams>{
   @override
-  Future<Either<Failure, ProductDetailsEntity>> call(ProductDetailsParams params) async {
+  Future<Either<Failure, ProductEntity>> call(ProductDetailsParams params) async {
       return await sl<ProductDetailsRepository>().getProductDetailsRepo(params.productId);
   }
 
