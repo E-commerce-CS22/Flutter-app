@@ -1,16 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
-import '../../../../wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
 
-class ProductCard extends StatelessWidget {
+import '../../../features/wishlist/presentaion/pages/blocs/wishlist_cubit.dart';
+
+class ProductCardForAll extends StatelessWidget {
   final int productId;
   final String? imageUrl;
   final String name;
   final double price;
   final VoidCallback onTap;
 
-  const ProductCard({
+  const ProductCardForAll({
     super.key,
     required this.productId,
     required this.name,

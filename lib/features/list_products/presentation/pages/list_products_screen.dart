@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartstore/common/widgets/appbar/app_bar.dart';
-import 'package:smartstore/features/list_products/domain/entities/list_products_entity.dart';
-import 'package:smartstore/features/list_products/presentation/pages/widgets/product_card.dart';
+import '../../../../common/widgets/appbar/app_bar.dart';
+import '../../../../common/widgets/card/product_card_all.dart';
 import '../blocs/list_products_cubit.dart';
 import '../blocs/list_products_state.dart';
 
@@ -14,9 +13,11 @@ class ListProductsPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => ListProductsCubit()..fetchListProducts(25),
       child: Scaffold(
-        appBar: AppBar(title: const Text('كل المنتجات')),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
+        appBar: const CurvedAppBar(
+          title: Text('كل المنتجات'),
+          fontSize: 30,
+        ),        body: Padding(
+          padding: const EdgeInsets.all(13.0),
           child: Column(
             children: [
               const SizedBox(height: 16),
@@ -42,7 +43,7 @@ class ListProductsPage extends StatelessWidget {
                           itemCount: products.length,
                           itemBuilder: (context, index) {
                             final product = products[index];
-                            return ProductCard(
+                            return ProductCardForAll(
                               productId: product.id,
                               name: product.name,
                               price: product.price,

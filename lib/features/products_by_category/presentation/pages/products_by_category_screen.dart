@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/features/products_by_category/presentation/pages/widgets/product_card.dart';
+import '../../../../common/widgets/card/product_card_all.dart';
 import '../../../products/presentation/pages/product_screen.dart';
 import '../../../wishlist/presentaion/pages/blocs/add_to_wishlist/add_to_wishlist_cubit.dart';
 import '../blocs/get_product_by_category_state.dart';
@@ -62,7 +63,7 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
 
                 return BlocProvider(
                   create: (context) => ProductWishlistCubit(),
-                  child: ProductCard(
+                  child: ProductCardForAll(
                     productId: product.id,
                     name: product.name,
                     price: product.price,
@@ -84,14 +85,7 @@ class _ProductsByCategoryScreenState extends State<ProductsByCategoryScreen> {
           return const Center(child: Text('لا توجد منتجات متاحة'));
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context
-              .read<ProductsByCategoryCubit>()
-              .fetchProductsByCategory(widget.categoryId, widget.pageId);
-        },
-        child: const Icon(Icons.refresh),
-      ),
+
     );
   }
 }

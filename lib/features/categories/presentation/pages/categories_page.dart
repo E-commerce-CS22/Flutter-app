@@ -58,7 +58,7 @@ class AllCategoriesPage extends StatelessWidget {
               crossAxisCount: 2, // عدد الأعمدة
               crossAxisSpacing: 10, // المسافة الأفقية بين المربعات
               mainAxisSpacing: 10, // المسافة الرأسية بين المربعات
-              childAspectRatio: 1.2, // نسبة العرض إلى الارتفاع للمربع (يمكن تعديلها)
+              childAspectRatio: 1, // نسبة العرض إلى الارتفاع للمربع (يمكن تعديلها)
             ),
             itemCount: state.categories.length,
             itemBuilder: (context, index) {
@@ -76,36 +76,34 @@ class AllCategoriesPage extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  height: 180, // طول ثابت للكرت
+                  height: 200,
                   decoration: BoxDecoration(
                     color: AppColors.secondBackground,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 🖼️ الصورة
-                      Expanded(
-                        flex: 2,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                          child: category.image != null
-                              ? Image.network(
-                            category.image!,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          )
-                              : Container(
-                            color: Colors.grey.shade200,
-                            child: const Center(
-                              child: Icon(Icons.image_not_supported, color: Colors.grey),
-                            ),
-                          ),
+                      // 🖼️ الصورة (مع معالجة الصورة المفقودة)
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        child: category.image != null && category.image!.isNotEmpty
+                            ? Image.network(
+                          category.image!,
+                          width: double.infinity,
+                          height: 120,
+                          fit: BoxFit.fill,
+                        )
+                            : Image.asset(
+                          'assets/images/notFound.jpg',
+                          width: double.infinity,
+                          height: 120,
+                          fit: BoxFit.cover,
                         ),
                       ),
+
                       // 📝 النص
                       Expanded(
-                        flex: 1,
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(
@@ -113,7 +111,7 @@ class AllCategoriesPage extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.bold,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
