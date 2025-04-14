@@ -26,29 +26,36 @@ class WishlistScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator()); // عرض مؤشر التحميل
 
           } else if (state is WishlistLoaded){
-            return ListView.separated(
-              padding: const EdgeInsets.all(20),
-              itemBuilder: (context, index) =>
-                  WishlistTile(
-                    item: state.wishlistItems[index],
-                    onRemove: () {
-                      if (cartItems[index].quantity != 1) {
-                        (() {
-                          cartItems[index].quantity--;
-                        });
-                      }
-                    },
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ProductScreen(productId: state.wishlistItems[index].id),
-                        ),
-                      );
-                    },
-                  ),
-              separatorBuilder: (context, index) => const SizedBox(height: 20),
-              itemCount: state.wishlistItems.length,
+            return RefreshIndicator(
+              color: Colors.blue,
+              onRefresh: ()async {
+                context.read<WishlistCubit>().getWishlists();
+
+              },
+              child: ListView.separated(
+                padding: const EdgeInsets.all(20),
+                itemBuilder: (context, index) =>
+                    WishlistTile(
+                      item: state.wishlistItems[index],
+                      onRemove: () {
+                        if (cartItems[index].quantity != 1) {
+                          (() {
+                            cartItems[index].quantity--;
+                          });
+                        }
+                      },
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ProductScreen(productId: state.wishlistItems[index].id),
+                          ),
+                        );
+                      },
+                    ),
+                separatorBuilder: (context, index) => const SizedBox(height: 20),
+                itemCount: state.wishlistItems.length,
+              ),
             );
           } else if (state is WishlistError){
             return Center(child: Text('Error: ${state.message}'));

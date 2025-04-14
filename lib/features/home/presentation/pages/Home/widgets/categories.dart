@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/features/categories/presentation/blocs/category_cubit.dart';
 import 'package:smartstore/features/categories/presentation/blocs/category_state.dart';
+import 'package:smartstore/features/products_by_category/presentation/pages/products_by_category_screen.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -24,22 +25,35 @@ class Categories extends StatelessWidget {
 
                 return Column(
                   children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: category.image != null && category.image!.isNotEmpty
-                            ? DecorationImage(
-                          image: NetworkImage(category.image!),
-                          fit: BoxFit.cover,
-                        )
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductsByCategoryScreen(
+                              categoryId: category.id,
+                              categoryName: category.name,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: category.image != null && category.image!.isNotEmpty
+                              ? DecorationImage(
+                            image: NetworkImage(category.image!),
+                            fit: BoxFit.cover,
+                          )
+                              : null,
+                          color: Colors.grey[300], // لون خلفي عند غياب الصورة
+                        ),
+                        child: category.image == null || category.image!.isEmpty
+                            ? const Icon(Icons.image_not_supported)
                             : null,
-                        color: Colors.grey[300], // لون خلفي عند غياب الصورة
                       ),
-                      child: category.image == null || category.image!.isEmpty
-                          ? const Icon(Icons.image_not_supported)
-                          : null,
                     ),
                     const SizedBox(height: 5),
                     Text(

@@ -31,6 +31,10 @@ import 'features/categories/data/datasources/category_remote_data_source.dart';
 import 'features/categories/data/repositories/category_repository_impl.dart';
 import 'features/categories/domain/repositories/category_repository.dart';
 import 'features/categories/domain/usecases/get_categories_use_case.dart';
+import 'features/list_products/data/data_scources/list_products_data_scource.dart';
+import 'features/list_products/data/repositories/list_products_repo_impl.dart';
+import 'features/list_products/domain/repositories/list_products_repo.dart';
+import 'features/list_products/domain/usecases/list_products_use_case.dart';
 import 'features/orders/data/datasources/orders_remote_data_source.dart';
 import 'features/orders/domain/repositories/orders_repository.dart';
 import 'features/orders/domain/usecases/cancel_order_use_case.dart';
@@ -84,6 +88,9 @@ void setupServiceLocator() {
   sl.registerSingleton<SlidersApiService>(SlidersApiServiceImpl());
 
 
+  sl.registerSingleton<ListProductsApiService>(ListProductsApiServiceImpl());
+
+
 
 
   // Repositories
@@ -109,6 +116,7 @@ void setupServiceLocator() {
   sl.registerSingleton<SlidersRepository>(SlidersRepositoryImpl());
 
 
+  sl.registerSingleton<ListProductsRepository>(ListProductsRepositoryImpl());
 
 
 
@@ -165,6 +173,7 @@ void setupServiceLocator() {
   sl.registerSingleton<SlidersUseCase>(SlidersUseCase());
 
 
+  sl.registerSingleton<ListProductsUseCase>(ListProductsUseCase());
 
   // cubit
 
