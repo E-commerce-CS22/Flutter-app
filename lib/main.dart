@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartstore/core/configs/theme/app_theme.dart';
+import 'package:smartstore/features/profile/presentation/bloc/password_change_cubit.dart';
 import 'package:smartstore/service_locator.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'common/bloc/auth/auth_state_cubit.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CreateOrderCubit()),
         BlocProvider(create: (context) => SlidersCubit()..fetchSliders()),
         BlocProvider(create: (context) => ListProductsCubit()..fetchListProducts(3)),
+        BlocProvider(create: (context) => PasswordChangeCubit()),
 
 
 

@@ -46,6 +46,7 @@ import 'features/products_by_category/domain/repositories/products_by_category.d
 import 'features/products_by_category/domain/usecases/Get_product_by_category_use_case.dart';
 import 'features/profile/data/datasources/UserRemoteDataSource.dart';
 import 'features/profile/domain/repositories/user_info_repository.dart';
+import 'features/profile/domain/usecases/password_change_use_case.dart';
 import 'features/search/data/repositories/search_repository_impl.dart';
 import 'features/search/domain/repositories/search_repository.dart';
 import 'features/sliders/data/data_scource/sliders_data_scource.dart';
@@ -120,6 +121,9 @@ void setupServiceLocator() {
 
 
 
+
+
+
   // Usecases
   sl.registerSingleton<SignupUseCase>(SignupUseCase());
 
@@ -174,6 +178,13 @@ void setupServiceLocator() {
 
 
   sl.registerSingleton<ListProductsUseCase>(ListProductsUseCase());
+
+  sl.registerSingleton<PasswordChangeUseCase>(PasswordChangeUseCase());
+
+
+
+
+
 
   // cubit
 

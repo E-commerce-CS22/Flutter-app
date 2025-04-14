@@ -7,6 +7,7 @@ import 'package:smartstore/core/constants/api_urls.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_cubit.dart';
 import 'package:smartstore/features/authentication/presentation/blocs/user_display_state.dart';
 import 'package:smartstore/features/authentication/presentation/pages/welcome_page.dart';
+import 'package:smartstore/features/profile/presentation/password_change_screen.dart';
 import '../../../../common/widgets/appbar/app_bar.dart';
 import '../../../../common/bloc/auth/auth_state_cubit.dart';
 import '../../../../common/bloc/button/button_state.dart';
@@ -368,7 +369,10 @@ class _OrdersAndFavorites extends StatelessWidget {
         _buildOption(
           imagePath: 'assets/icons/password.png',
           label: 'تغيير كلمة المرور', // يمكن تقليل النص هنا ليكون أقصر
-          onTap: () {},
+          onTap: () {
+            AppNavigator.push(context, ChangePasswordPage());
+
+          },
         ),
       ],
     );

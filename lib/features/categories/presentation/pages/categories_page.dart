@@ -92,7 +92,7 @@ class AllCategoriesPage extends StatelessWidget {
                           category.image!,
                           width: double.infinity,
                           height: 120,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         )
                             : Image.asset(
                           'assets/images/notFound.jpg',

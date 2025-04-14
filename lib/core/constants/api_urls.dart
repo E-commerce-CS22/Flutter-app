@@ -16,6 +16,7 @@ class ApiUrls {
   static const productsByCategory = '/products';
   static const search = baseURL + 'api/products/search';
   static const sliders = baseURL + 'api/slides';
+  static const password = baseURL + 'api/customer/profile/password';
 
 
 }
