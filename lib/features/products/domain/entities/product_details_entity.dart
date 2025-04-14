@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartstore/features/products/domain/entities/product_image_entity.dart';
 import 'package:smartstore/features/products/domain/entities/product_variant_entity.dart';
 
 import 'attribute_entity.dart';
@@ -16,6 +17,8 @@ class ProductEntity {
   final String? image;
   final List<String> tags;
   final List<VariantEntity> variants;
+  final List<ProductImageEntity> imageUrls;
+
 
   ProductEntity({
     required this.id,
@@ -29,6 +32,7 @@ class ProductEntity {
     this.image,
     required this.tags,
     required this.variants,
+    required this.imageUrls,
   });
 }
 

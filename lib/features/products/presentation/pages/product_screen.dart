@@ -156,7 +156,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           });
                         },
                         currentImage: currentImage,
-                        image: product.image ?? 'assets/images/notFound.jpg',
+                        imageUrls: product.imageUrls, // تمرير الـ List من الـ ProductImageEntity
                       ),
                       const SizedBox(height: 10),
                       Row(
