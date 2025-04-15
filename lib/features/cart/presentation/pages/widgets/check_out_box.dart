@@ -52,11 +52,16 @@ class CheckOutBox extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              AppNavigator.push(context, PaymentPage(total: total, items: items,));
+            onPressed: items.isEmpty
+                ? null // يعطّل الزر إذا السلة فارغة
+                : () {
+              AppNavigator.push(
+                context,
+                PaymentPage(total: total, items: items),
+              );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent, // لون أزرق غامق لمظهر أنيق
+              backgroundColor: Colors.blueAccent,
               minimumSize: const Size(double.infinity, 55),
             ),
             child: const Text(
@@ -67,7 +72,7 @@ class CheckOutBox extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+          )
         ],
       ),
     );

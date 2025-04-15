@@ -28,12 +28,12 @@ class ImageSlider extends StatelessWidget {
             child: Image.network(
               imageUrl,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/images/notFound.jpg',
-                  fit: BoxFit.cover,
-                );
-              },
+              // errorBuilder: (context, error, stackTrace) {
+              //   return Image.asset(
+              //     'assets/images/notFound.jpg',
+              //     fit: BoxFit.cover,
+              //   );
+              // },
             ),
           );
         },

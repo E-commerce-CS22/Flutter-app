@@ -1,3 +1,5 @@
+import '../../../products/domain/entities/product_image_entity.dart';
+
 class ProductEntity {
   final int id;
   final String name;
@@ -6,6 +8,7 @@ class ProductEntity {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String? image;
+  final List<ProductImageEntity> imageUrls;
 
   const ProductEntity({
     required this.id,
@@ -15,5 +18,7 @@ class ProductEntity {
     required this.createdAt,
     required this.updatedAt,
     this.image,
+    required this.imageUrls,
+
   });
 }

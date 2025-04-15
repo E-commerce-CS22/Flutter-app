@@ -4,6 +4,8 @@ import 'package:smartstore/common/helper/navigator/app_navigator.dart';
 import 'package:smartstore/common/widgets/appbar/app_bar.dart';
 import 'package:smartstore/core/configs/theme/app_colors.dart';
 import 'package:smartstore/features/home/presentation/pages/home.dart';
+import 'package:smartstore/features/orders/presentation/blocs/orders_cubit.dart';
+import 'package:smartstore/features/orders/presentation/blocs/specific_order_cubit.dart';
 import '../../../authentication/presentation/blocs/user_display_cubit.dart';
 import '../../../authentication/presentation/blocs/user_display_state.dart';
 import '../../../cart/domain/entities/cart_entity.dart';
@@ -81,6 +83,8 @@ class _PaymentPageState extends State<PaymentPage> {
               for (final item in formattedItems) {
                 context.read<CartCubit>().deleteItemFromCart(item.productId);
               }
+
+              context.read<OrdersCubit>().fetchOrders();
 
               showDialog(
                 context: context,

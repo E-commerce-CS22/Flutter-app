@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartstore/common/widgets/card/product_card_all.dart';
 import 'package:smartstore/features/products_by_category/presentation/pages/widgets/product_card.dart';
 import 'package:smartstore/features/search/presentation/blocs/search_cubit.dart';
 import 'package:smartstore/features/search/presentation/blocs/search_state.dart';
@@ -83,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                   else if (state is SearchLoaded) {
                     final products = state.products.products;
 
+
                     if (products.isEmpty) {
                       return const Center(child: Text('لم يتم العثور على نتائج لهذا البحث.'));
                     }
@@ -90,14 +92,14 @@ class _SearchPageState extends State<SearchPage> {
                     return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                        crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.7,
                       ),
                       itemCount: products.length,
                       itemBuilder: (context, index) {
                         final product = products[index];
-                        return ProductCard(
+                        return ProductCardForAll(
                           productId: product.id,
                           name: product.name,
                           price: product.price,
@@ -116,7 +118,7 @@ class _SearchPageState extends State<SearchPage> {
                   }                  else if (state is SearchError) {
                     return Center(child: Text(state.message));
                   } else {
-                    return const Center(child: Text('اكتب كلمة للبحث...'));
+                    return const Center(child: Text('...اكتب كلمة للبحث'));
                   }
                 },
               ),

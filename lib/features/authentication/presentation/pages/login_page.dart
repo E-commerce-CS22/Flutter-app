@@ -31,8 +31,17 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    _emailCon.text = "hazim@gmail.com";       // تعيين القيمة الابتدائية
+    _passwordCon.text = "password123";        // تعيين كلمة المرور مبدئياً
+  }
+
+  @override
   void dispose() {
-    _emailFocusNode.dispose();  // تنظيف عند إلغاء التفاعل مع الصفحة
+    _emailCon.dispose();
+    _passwordCon.dispose();
+    _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
   }
@@ -50,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocListener<ButtonStateCubit, ButtonState>(
           listener: (context, state) {
             if (state is ButtonSuccessState) {
-
               context.read<AuthStateCubit>().appStarted();
               AppNavigator.pushReplacement(context, HomePage());
             }
@@ -130,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _emailCon,
         textAlign: TextAlign.right,
-        focusNode: _emailFocusNode,  // ربط الـ FocusNode
+        focusNode: _emailFocusNode,
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
           labelText: 'البريد الإلكتروني',
@@ -156,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         controller: _passwordCon,
         textAlign: TextAlign.right,
-        focusNode: _passwordFocusNode,  // ربط الـ FocusNode
+        focusNode: _passwordFocusNode,
         obscureText: true,
         decoration: const InputDecoration(
           labelText: 'كلمة السر',
@@ -179,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
     return Builder(builder: (context) {
       return BasicReactiveButton(
         onPressed: () {
-          FocusScope.of(context).requestFocus(FocusNode()); // إزالة التركيز من الحقول
+          FocusScope.of(context).requestFocus(FocusNode());
 
           if (_formKey.currentState?.validate() ?? false) {
             String email = _emailCon.text.trim();

@@ -12,6 +12,7 @@ import 'features/categories/presentation/blocs/category_cubit.dart';
 import 'features/list_products/presentation/blocs/list_products_cubit.dart';
 import 'features/orders/presentation/blocs/cancel_order_cubit.dart';
 import 'features/orders/presentation/blocs/create_order_bloc/create_order_cubit.dart';
+import 'features/orders/presentation/blocs/orders_cubit.dart';
 import 'features/products_by_category/presentation/blocs/get_product_by_cateogry_cubit.dart';
 import 'features/profile/presentation/bloc/user_update_cubit.dart';
 import 'features/search/presentation/blocs/search_cubit.dart';
@@ -49,8 +50,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => CreateOrderCubit()),
         BlocProvider(create: (context) => SlidersCubit()..fetchSliders()),
-        BlocProvider(create: (context) => ListProductsCubit()..fetchListProducts(3)),
+        BlocProvider(create: (context) => ListProductsCubit()..fetchListProducts(8)),
         BlocProvider(create: (context) => PasswordChangeCubit()),
+        BlocProvider(create: (context) => OrdersCubit()..fetchOrders()),
+
 
 
 

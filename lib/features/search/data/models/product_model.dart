@@ -1,3 +1,4 @@
+import '../../../products/data/models/product_image_model.dart';
 import '../../domain/entities/product_entity.dart';
 
 class ProductModel extends ProductEntity {
@@ -9,9 +10,14 @@ class ProductModel extends ProductEntity {
     required super.createdAt,
     required super.updatedAt,
     required super.image,
-  });
+    required List<ProductImageModel> imageUrls,
+
+  }): super(imageUrls: imageUrls);
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    final imageUrlsList = (json['image_urls'] as List)
+        .map((image) => ProductImageModel.fromJson(image))
+        .toList();
     return ProductModel(
       id: json['id'],
       name: json['name'],
@@ -20,6 +26,7 @@ class ProductModel extends ProductEntity {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       image: json['image'],
+        imageUrls: imageUrlsList
     );
   }
 

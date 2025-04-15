@@ -18,16 +18,22 @@ class AllCategoriesPage extends StatelessWidget {
           title: Text('الفئات'),
           fontSize: 30,
         ),
-        body: SingleChildScrollView( // Wrap the whole body in a SingleChildScrollView
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _shopByCategories(),
-                const SizedBox(height: 10),
-                _categoriesList(),
-              ],
+        body: RefreshIndicator(
+          onRefresh: () async {
+            context.read<CategoryCubit>().displayCategories(); // إعادة تحميل الفئات
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(), // السماح بالسحب حتى لو لم يكن هناك عناصر كافية
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _shopByCategories(),
+                  const SizedBox(height: 10),
+                  _categoriesList(),
+                ],
+              ),
             ),
           ),
         ),
@@ -55,10 +61,10 @@ class AllCategoriesPage extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // عدد الأعمدة
-              crossAxisSpacing: 10, // المسافة الأفقية بين المربعات
-              mainAxisSpacing: 10, // المسافة الرأسية بين المربعات
-              childAspectRatio: 1, // نسبة العرض إلى الارتفاع للمربع (يمكن تعديلها)
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1,
             ),
             itemCount: state.categories.length,
             itemBuilder: (context, index) {
@@ -84,7 +90,6 @@ class AllCategoriesPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 🖼️ الصورة (مع معالجة الصورة المفقودة)
                       ClipRRect(
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                         child: category.image != null && category.image!.isNotEmpty
@@ -101,8 +106,6 @@ class AllCategoriesPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-
-                      // 📝 النص
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8),
@@ -126,8 +129,11 @@ class AllCategoriesPage extends StatelessWidget {
           );
         } else if (state is LoadCategoryFailure) {
           return Center(
-              child: Text('خطأ: ${state.errorMessage}',
-                  style: const TextStyle(color: Colors.red)));
+            child: Text(
+              'خطأ: ${state.errorMessage}',
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
         } else {
           return const Center(child: Text('لا توجد بيانات متاحة'));
         }
